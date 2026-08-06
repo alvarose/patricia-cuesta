@@ -1,0 +1,1028 @@
+/* ============================================================
+   Patricia Cuesta Psicología — panel de administración
+   Adaptado del diseño Admin.dc del design system.
+   ============================================================ */
+.pc-admin {
+    display: flex;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-warm-white);
+    font-size: 14.5px;
+    line-height: 1.5;
+}
+
+.pc-admin a {
+    color: inherit;
+    text-decoration: none;
+}
+.pc-admin button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* ---------- sidebar ---------- */
+.pc-admin .sb {
+    width: 264px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fff;
+    border-right: 1px solid var(--color-sand);
+    padding: 28px 18px 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    box-sizing: border-box;
+}
+.pc-admin .sb-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px 22px;
+    border-bottom: 1px solid #f0e9dc;
+    margin-bottom: 10px;
+}
+.pc-admin .sb-logo img {
+    width: 34px;
+    height: 34px;
+}
+.pc-admin .sb-logo .n {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.15;
+}
+.pc-admin .sb-logo .r {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .sb-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-height: 0;
+}
+.pc-admin .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 11px 14px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-ink);
+    background: transparent;
+    transition: background 160ms ease;
+}
+.pc-admin .sb-item:hover {
+    background: #f7f2e8;
+}
+.pc-admin .sb-item.on {
+    font-weight: 700;
+    color: var(--color-butter-ink);
+    background: var(--color-butter-bg);
+}
+.pc-admin .sb-item .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-sand);
+    flex: none;
+}
+.pc-admin .sb-item.on .dot {
+    background: var(--color-butter-deep);
+}
+.pc-admin .sb-item .lbl {
+    flex: 1;
+}
+.pc-admin .sb-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--color-butter-ink);
+    background: var(--color-butter);
+    border-radius: 999px;
+    padding: 2px 9px;
+}
+.pc-admin .sb-web {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--color-sand);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+    justify-content: center;
+    transition:
+        background 160ms ease,
+        color 160ms ease;
+}
+.pc-admin .sb-web:hover {
+    background: var(--color-warm-white);
+    color: var(--color-ink);
+}
+.pc-admin .sb-user {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 10px 0;
+    border-top: 1px solid #f0e9dc;
+    margin-top: 10px;
+}
+.pc-admin .sb-user img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 15%;
+}
+.pc-admin .sb-user .nm {
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+.pc-admin .sb-user .em {
+    font-size: 12px;
+    color: var(--color-ink-soft);
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.pc-admin .sb-logout {
+    border: none;
+    background: transparent;
+    color: var(--color-ink-faint);
+    font-size: 12px;
+    padding: 2px 0 0;
+    text-align: left;
+}
+.pc-admin .sb-logout:hover {
+    color: var(--color-ink);
+}
+
+/* ---------- main ---------- */
+.pc-admin .main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+.pc-admin .hd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 36px;
+    border-bottom: 1px solid var(--color-sand);
+    background: rgba(250, 248, 244, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+.pc-admin .hd-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .hd-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    text-wrap: balance;
+}
+.pc-admin .hd-date {
+    font-size: 13px;
+    color: var(--color-ink-soft);
+    text-transform: capitalize;
+}
+.pc-admin .content {
+    flex: 1;
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* ---------- tarjetas ---------- */
+.pc-admin .card {
+    min-width: 0;
+    background: #fff;
+    border: 1px solid var(--color-sand);
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(79, 68, 45, 0.06);
+    padding: 26px 28px;
+}
+.pc-admin .card-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 500;
+}
+.pc-admin .card-title-sm {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+}
+.pc-admin .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.pc-admin .card-link {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-butter-ink);
+    padding: 0;
+}
+.pc-admin .banner {
+    background: var(--color-butter-bg);
+    border: 1px solid #efdfae;
+    border-radius: 22px;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.pc-admin .banner h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+}
+.pc-admin .banner p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--color-butter-ink);
+}
+.pc-admin .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+.pc-admin .stat {
+    background: #fff;
+    border: 1px solid var(--color-sand);
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 8px 24px rgba(79, 68, 45, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.pc-admin .stat .lb {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .stat .vl {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1;
+}
+.pc-admin .stat .nt {
+    font-size: 13px;
+    color: var(--color-ink-soft);
+}
+.pc-admin .grid-2 {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 18px;
+    align-items: start;
+}
+.pc-admin .col {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ---------- filas de lista ---------- */
+.pc-admin .row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 2px;
+    border-top: 1px solid #f0e9dc;
+    flex-wrap: wrap;
+}
+.pc-admin .row .tm {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    width: 52px;
+    flex: none;
+}
+.pc-admin .row .dt {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+}
+.pc-admin .row .who {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+}
+.pc-admin .row .who .nm {
+    font-size: 14.5px;
+    font-weight: 700;
+}
+.pc-admin .row .who .tp {
+    font-size: 12.5px;
+    color: var(--color-ink-soft);
+}
+.pc-admin .chip {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 4px 11px;
+    flex: none;
+    white-space: nowrap;
+}
+.pc-admin .chip--conf {
+    color: var(--color-butter-ink);
+    background: var(--color-butter-bg);
+    border-color: #efdfae;
+}
+.pc-admin .chip--pend {
+    color: var(--color-ink-soft);
+    background: #fff;
+    border-color: var(--color-sand);
+}
+.pc-admin .chip--done {
+    color: #33622f;
+    background: #eef3ec;
+    border-color: var(--color-sage-deep);
+}
+.pc-admin .chip--canc {
+    color: var(--color-ink-faint);
+    background: var(--color-sand-wash);
+    border-color: var(--color-sand);
+}
+
+/* ---------- botones ---------- */
+.pc-admin .a-btn {
+    border: none;
+    background: var(--color-butter);
+    color: var(--color-butter-ink);
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-size: 12.5px;
+    font-weight: 700;
+    transition: background 160ms ease;
+}
+.pc-admin .a-btn:hover {
+    background: var(--color-butter-deep);
+}
+.pc-admin .a-btn:disabled {
+    background: var(--color-sand);
+    color: var(--color-ink-faint);
+    cursor: default;
+}
+.pc-admin .a-btn--lg {
+    padding: 11px 20px;
+    font-size: 13.5px;
+    box-shadow: 0 4px 14px rgba(79, 68, 45, 0.12);
+}
+.pc-admin .a-btn--ghost {
+    border: 1px solid var(--color-sand);
+    background: transparent;
+    color: var(--color-ink-soft);
+    font-weight: 600;
+}
+.pc-admin .a-btn--ghost:hover {
+    background: var(--color-warm-white);
+    color: var(--color-ink);
+}
+.pc-admin .a-btn--dashed {
+    border: 1px dashed var(--color-sand);
+    background: transparent;
+    color: var(--color-ink-soft);
+    font-weight: 600;
+}
+.pc-admin .a-btn--dashed:hover {
+    background: var(--color-warm-white);
+    color: var(--color-ink);
+}
+
+/* ---------- selector de días (citas) ---------- */
+.pc-admin .week {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.pc-admin .wd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid var(--color-sand);
+    background: #fff;
+    cursor: pointer;
+    border-radius: 16px;
+    padding: 9px 13px;
+    transition: background 160ms ease;
+    min-width: 52px;
+}
+.pc-admin .wd:hover {
+    background: var(--color-warm-white);
+}
+.pc-admin .wd.on {
+    border-color: var(--color-butter-deep);
+    background: var(--color-butter-bg);
+}
+.pc-admin .wd .dw {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .wd .nu {
+    font-size: 15px;
+    font-weight: 700;
+}
+.pc-admin .wd .pt {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: transparent;
+}
+.pc-admin .wd.has .pt {
+    background: var(--color-butter-deep);
+}
+.pc-admin .week-title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    margin-right: 6px;
+}
+.pc-admin .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.pc-admin .toolbar .sp {
+    flex: 1;
+}
+
+/* ---------- estados vacíos ---------- */
+.pc-admin .empty {
+    padding: 42px 2px;
+    text-align: center;
+    border-top: 1px solid #f0e9dc;
+}
+.pc-admin .empty h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+}
+.pc-admin .empty p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--color-ink-soft);
+}
+.pc-admin .muted-note {
+    margin: 0;
+    padding: 13px 0;
+    border-top: 1px solid #f0e9dc;
+    font-size: 13px;
+    color: var(--color-ink-faint);
+    font-style: italic;
+}
+
+/* ---------- formularios ---------- */
+.pc-admin .fld {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+.pc-admin .fld label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+}
+.pc-admin .fld input,
+.pc-admin .fld textarea,
+.pc-admin .fld select {
+    border: 1px solid var(--color-sand);
+    border-radius: 14px;
+    background: var(--color-warm-white);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--color-ink);
+    min-width: 0;
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+}
+.pc-admin .fld input:focus,
+.pc-admin .fld textarea:focus,
+.pc-admin .fld select:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+.pc-admin .fld .err {
+    margin: 0;
+    font-size: 12px;
+    color: #b3452f;
+}
+.pc-admin .frm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+.pc-admin .search {
+    flex: 1;
+    min-width: 220px;
+    max-width: 360px;
+    border: 1px solid var(--color-sand);
+    border-radius: 999px;
+    background: #fff;
+    padding: 11px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--color-ink);
+}
+.pc-admin .search:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+.pc-admin .fpill {
+    border: 1px solid var(--color-sand);
+    background: transparent;
+    color: var(--color-ink-soft);
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 8px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 160ms ease;
+}
+.pc-admin .fpill:hover {
+    background: var(--color-warm-white);
+}
+.pc-admin .fpill.on {
+    background: var(--color-butter);
+    border-color: var(--color-butter);
+    color: var(--color-butter-ink);
+    font-weight: 700;
+}
+
+/* ---------- tabla pacientes ---------- */
+.pc-admin .tbl {
+    padding: 10px 28px;
+}
+.pc-admin .tbl-head,
+.pc-admin .tbl-row {
+    display: grid;
+    grid-template-columns: 2.2fr 1.6fr 0.9fr 1.3fr 1fr;
+    gap: 14px;
+    align-items: center;
+}
+.pc-admin .tbl-head {
+    padding: 14px 2px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .tbl-row {
+    padding: 13px 2px;
+    border-top: 1px solid #f0e9dc;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.pc-admin .tbl-row:hover {
+    background: var(--color-warm-white);
+}
+.pc-admin .avatar {
+    width: 36px;
+    height: 36px;
+    flex: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    background: var(--color-butter-bg);
+    color: var(--color-butter-ink);
+}
+.pc-admin .avatar--sage {
+    background: var(--color-sage);
+    color: #33622f;
+}
+
+/* ---------- toggle ---------- */
+.pc-admin .tg {
+    flex: none;
+    width: 40px;
+    height: 22px;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    background: var(--color-sand);
+    position: relative;
+    transition: background 160ms ease;
+    padding: 0;
+}
+.pc-admin .tg.on {
+    background: var(--color-butter-deep);
+}
+.pc-admin .tg .knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(79, 68, 45, 0.25);
+    transition: left 160ms ease;
+}
+.pc-admin .tg.on .knob {
+    left: 21px;
+}
+
+/* ---------- franjas horarias ---------- */
+.pc-admin .slot-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-butter-ink);
+    background: var(--color-butter-bg);
+    border: 1px solid #efdfae;
+    border-radius: 999px;
+    padding: 6px 7px;
+}
+.pc-admin .slot-chip button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-butter-ink);
+    padding: 0 0 0 6px;
+}
+.pc-admin .slot-chip .x {
+    color: #b9a15c;
+    padding: 2px 4px;
+    line-height: 1;
+}
+.pc-admin .slot-edit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid var(--color-focus);
+    border-radius: 16px;
+    padding: 6px 8px;
+}
+.pc-admin .slot-edit input {
+    border: 1px solid var(--color-sand);
+    border-radius: 8px;
+    padding: 3px 6px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--color-ink);
+    background: var(--color-warm-white);
+}
+.pc-admin .slot-edit .ok {
+    border: none;
+    background: var(--color-butter);
+    color: var(--color-butter-ink);
+    border-radius: 999px;
+    width: 24px;
+    height: 24px;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+}
+.pc-admin .slot-edit .no {
+    border: none;
+    background: transparent;
+    color: var(--color-ink-faint);
+    font-size: 14px;
+    line-height: 1;
+    padding: 2px 4px;
+}
+.pc-admin .day-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 2px;
+    border-top: 1px solid #f0e9dc;
+    min-height: 38px;
+}
+.pc-admin .day-row .dnm {
+    width: 82px;
+    flex: none;
+    font-size: 14.5px;
+    font-weight: 700;
+}
+.pc-admin .day-row .dnm.off {
+    color: var(--color-ink-faint);
+}
+.pc-admin .day-row .slots {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+.pc-admin .rest {
+    font-size: 13px;
+    color: var(--color-ink-faint);
+    font-style: italic;
+}
+
+/* ---------- bandeja mensajes ---------- */
+.pc-admin .msg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    gap: 18px;
+    align-items: start;
+}
+.pc-admin .msg-list {
+    padding: 14px 10px;
+}
+.pc-admin .msg-item {
+    display: flex;
+    gap: 11px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 14px;
+    padding: 13px 14px;
+    align-items: flex-start;
+    transition: background 160ms ease;
+}
+.pc-admin .msg-item:hover {
+    background: var(--color-warm-white);
+}
+.pc-admin .msg-item.on {
+    background: var(--color-butter-bg);
+}
+.pc-admin .msg-item .dt {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: transparent;
+    flex: none;
+    margin-top: 6px;
+}
+.pc-admin .msg-item.unread .dt {
+    background: var(--color-butter-deep);
+}
+.pc-admin .msg-item .bd {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+}
+.pc-admin .msg-item .tp-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+.pc-admin .msg-item .nm {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-ink);
+}
+.pc-admin .msg-item.unread .nm {
+    font-weight: 700;
+}
+.pc-admin .msg-item .wh {
+    font-size: 11.5px;
+    color: var(--color-ink-faint);
+    flex: none;
+}
+.pc-admin .msg-item .pv {
+    font-size: 12.5px;
+    color: var(--color-ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.pc-admin .tag {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+    border: 1px solid var(--color-sand);
+    border-radius: 999px;
+    padding: 4px 11px;
+}
+.pc-admin .tag--pref {
+    color: var(--color-butter-ink);
+    background: var(--color-butter-bg);
+    border-color: #efdfae;
+}
+.pc-admin .msg-body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-ink);
+    background: var(--color-warm-white);
+    border: 1px solid #f0e9dc;
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-wrap: pretty;
+    white-space: pre-line;
+}
+.pc-admin .sent-ok {
+    font-size: 13px;
+    font-weight: 600;
+    color: #33622f;
+}
+
+/* ---------- modal ---------- */
+.pc-admin .veil {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(47, 47, 47, 0.45);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.pc-admin .modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(560px, 100%);
+    max-height: 92vh;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--color-sand);
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(79, 68, 45, 0.22);
+    padding: 34px 34px 30px;
+    box-sizing: border-box;
+}
+.pc-admin .modal .x {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-sand);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink-soft);
+    font-size: 16px;
+    line-height: 1;
+}
+.pc-admin .modal .x:hover {
+    background: var(--color-sand-wash);
+    color: var(--color-ink);
+}
+.pc-admin .modal .eyebrow-sm {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+}
+.pc-admin .modal h3 {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+.pc-admin .modal .sub {
+    margin: 10px 0 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-ink-soft);
+}
+.pc-admin .modal .body {
+    overflow: auto;
+    min-height: 0;
+    margin: 0 -14px;
+    padding: 2px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-sand) transparent;
+}
+
+/* ---------- sesiones (pills de opciones) ---------- */
+.pc-admin .opt-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pc-admin .opt-group .lb {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+}
+.pc-admin .opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+    .pc-admin .grid-2,
+    .pc-admin .msg-grid {
+        grid-template-columns: 1fr;
+    }
+    .pc-admin .stats {
+        grid-template-columns: 1fr;
+    }
+    .pc-admin .frm-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 900px) {
+    .pc-admin {
+        flex-direction: column;
+    }
+    .pc-admin .sb {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 14px 18px;
+    }
+    .pc-admin .sb-logo {
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pc-admin .sb-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .pc-admin .sb-user,
+    .pc-admin .sb-web {
+        display: none;
+    }
+    .pc-admin .hd,
+    .pc-admin .content {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    .pc-admin .tbl-head {
+        display: none;
+    }
+    .pc-admin .tbl-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}

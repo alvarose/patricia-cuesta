@@ -1,0 +1,249 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+/* Fuentes auto-hospedadas (RGPD: sin CDN de Google) */
+@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/newsreader/wght-italic.css';
+@import '@fontsource-variable/mulish';
+
+@import './landing.css';
+@import './admin.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Patricia Cuesta Psicología — Design System
+   Concepto: "Deshaciendo el nudo, paso a paso"
+   Mood: sobrio · minimal · calmado · cálido · personal
+   ============================================================ */
+@theme {
+    /* ---------- Paleta de marca ---------- */
+    --color-warm-white: #faf8f4; /* lienzo principal */
+    --color-ink: #2f2f2f; /* texto principal */
+    --color-ink-soft: #6f6a63; /* texto secundario */
+    --color-ink-faint: #9b948a; /* placeholder / deshabilitado */
+    --color-butter: #f4d77a; /* acento — botones, detalles */
+    --color-butter-deep: #e9c24f; /* hover / pressed */
+    --color-butter-ink: #6b5410; /* texto legible SOBRE butter */
+    --color-butter-bg: #fff6d8; /* lavado amarillo muy suave */
+    --color-sand: #e8ddcc; /* bordes, divisores */
+    --color-sand-deep: #d8c9b2; /* borde más fuerte */
+    --color-sand-wash: #f3ece0; /* superficie tintada arena */
+    --color-sage: #dde5d8; /* acento secundario suave */
+    --color-sage-deep: #c3d2bc; /* borde sage */
+    --color-focus: #d9b84a; /* anillo de foco */
+
+    /* ---------- Tipografías ---------- */
+    --font-display: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+    --font-sans:
+        'Mulish Variable', -apple-system, 'Segoe UI', system-ui, sans-serif;
+
+    /* ---------- Escala tipográfica (calmada) ---------- */
+    --text-xs: 0.8125rem; /* 13px */
+    --text-sm: 0.9375rem; /* 15px */
+    --text-base: 1.0625rem; /* 17px — cuerpo por defecto */
+    --text-md: 1.25rem; /* 20px */
+    --text-lg: 1.5rem; /* 24px */
+    --text-xl: 2rem; /* 32px */
+    --text-2xl: 2.75rem; /* 44px */
+    --text-3xl: 3.75rem; /* 60px */
+    --text-4xl: 4.75rem; /* 76px — hero */
+
+    /* ---------- Radios (suaves, orgánicos) ---------- */
+    --radius-input: 14px;
+    --radius-card: 22px;
+    --radius-hero: 32px;
+    --radius-pill: 999px;
+
+    /* ---------- Sombras (bajas, cálidas) ---------- */
+    --shadow-warm-xs: 0 1px 2px rgba(79, 68, 45, 0.05);
+    --shadow-warm-sm: 0 2px 8px rgba(79, 68, 45, 0.06);
+    --shadow-warm-md: 0 8px 24px rgba(79, 68, 45, 0.08);
+    --shadow-warm-lg: 0 18px 48px rgba(79, 68, 45, 0.1);
+
+    /* ---------- Motion (suave y calmado) ---------- */
+    --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --duration-fast: 140ms;
+    --duration-base: 240ms;
+    --duration-slow: 420ms;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-sand, currentColor);
+    }
+}
+
+@theme inline {
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar-background);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Variables semánticas shadcn-vue mapeadas al DS (la marca es solo-claro:
+   .dark replica los mismos valores para que un toggle no rompa la estética) */
+:root,
+.dark {
+    --background: #faf8f4;
+    --foreground: #2f2f2f;
+    --card: #ffffff;
+    --card-foreground: #2f2f2f;
+    --popover: #ffffff;
+    --popover-foreground: #2f2f2f;
+    --primary: #f4d77a;
+    --primary-foreground: #6b5410;
+    --secondary: #f3ece0;
+    --secondary-foreground: #2f2f2f;
+    --muted: #f3ece0;
+    --muted-foreground: #6f6a63;
+    --accent: #fff6d8;
+    --accent-foreground: #6b5410;
+    --destructive: #b3452f;
+    --destructive-foreground: #ffffff;
+    --border: #e8ddcc;
+    --input: #e8ddcc;
+    --ring: #d9b84a;
+    --chart-1: #f4d77a;
+    --chart-2: #dde5d8;
+    --chart-3: #e8ddcc;
+    --chart-4: #e9c24f;
+    --chart-5: #c3d2bc;
+    --radius: 14px;
+    --sidebar-background: #ffffff;
+    --sidebar-foreground: #2f2f2f;
+    --sidebar-primary: #f4d77a;
+    --sidebar-primary-foreground: #6b5410;
+    --sidebar-accent: #fff6d8;
+    --sidebar-accent-foreground: #6b5410;
+    --sidebar-border: #e8ddcc;
+    --sidebar-ring: #d9b84a;
+    --sidebar: #ffffff;
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        @apply bg-background font-sans text-foreground;
+        font-size: var(--text-base);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+    }
+    ::selection {
+        background: var(--color-butter-bg);
+        color: var(--color-ink);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+}
+
+/* ============================================================
+   Clases firma del DS
+   ============================================================ */
+@layer components {
+    /* Subrayado "hilo" — deshaciendo el nudo */
+    .thread {
+        background: linear-gradient(var(--color-butter), var(--color-butter))
+            no-repeat 0 92% / 100% 0.32em;
+        padding: 0 0.04em;
+    }
+
+    /* Énfasis emocional — itálica serif en titulares */
+    .emph {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    /* Eyebrow — único uso de mayúsculas del sistema */
+    .eyebrow {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-ink-soft);
+    }
+
+    /* Titulares editoriales */
+    .h-display {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(2.6rem, 5.4vw, 4.75rem);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--color-ink);
+        text-wrap: balance;
+    }
+    .h-sec {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(2rem, 3.6vw, 2.75rem);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: var(--color-ink);
+        text-wrap: balance;
+    }
+}
