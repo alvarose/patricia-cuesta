@@ -12,7 +12,6 @@ final readonly class UpdateClinicProfileData
         public string $email,
         public string $phone,
         public string $whatsapp,
-        public ?string $calcomUrl = null,
         public ?UploadedFile $photo = null,
     ) {}
 
@@ -25,7 +24,6 @@ final readonly class UpdateClinicProfileData
             'profile.email' => $this->email,
             'profile.phone' => $this->phone,
             'profile.whatsapp' => $this->whatsapp,
-            'booking.calcom_url' => $this->calcomUrl,
         ];
     }
 }

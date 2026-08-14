@@ -12,8 +12,6 @@ interface SettingsServiceInterface
 
     public function booking(): BookingSettings;
 
-    public function calcomUrl(): ?string;
-
     public function updateProfile(UpdateClinicProfileData $data, ?string $photoPath = null): void;
 
     public function updateBooking(BookingSettings $settings): void;

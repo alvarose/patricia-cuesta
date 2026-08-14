@@ -29,7 +29,6 @@ final class SettingsRepository implements SettingsRepositoryInterface
             'profile.whatsapp' => '',
             'profile.photo_path' => null,
             ...$booking,
-            'booking.calcom_url' => null,
         ];
     }
 

@@ -24,7 +24,6 @@ class UpdateClinicSettingsRequest extends FormRequest
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:40'],
             'whatsapp' => ['nullable', 'string', 'max:40'],
-            'calcom_url' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'max:2048'],
         ];
     }
@@ -39,7 +38,6 @@ class UpdateClinicSettingsRequest extends FormRequest
             email: $this->string('email')->toString(),
             phone: $this->string('phone')->toString(),
             whatsapp: $this->string('whatsapp')->toString(),
-            calcomUrl: $this->filled('calcom_url') ? $this->string('calcom_url')->toString() : null,
             photo: $photo instanceof UploadedFile ? $photo : null,
         );
     }

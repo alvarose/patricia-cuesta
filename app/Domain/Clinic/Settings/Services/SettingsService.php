@@ -36,11 +36,6 @@ final class SettingsService implements SettingsServiceInterface
         );
     }
 
-    public function calcomUrl(): ?string
-    {
-        return $this->settings->get('booking.calcom_url');
-    }
-
     public function updateProfile(UpdateClinicProfileData $data, ?string $photoPath = null): void
     {
         $values = $data->toArray();

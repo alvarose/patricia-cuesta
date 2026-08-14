@@ -6,9 +6,6 @@ import type { ClinicProfile } from '@/types';
 
 const props = defineProps<{
     profile: ClinicProfile;
-    booking: {
-        calcom_url: string | null;
-    };
 }>();
 
 const form = useForm({
@@ -17,7 +14,6 @@ const form = useForm({
     email: props.profile.email,
     phone: props.profile.phone,
     whatsapp: props.profile.whatsapp,
-    calcom_url: props.booking.calcom_url ?? '',
     photo: null as File | null,
 });
 
@@ -34,10 +30,7 @@ const onPhoto = (event: Event) => {
 };
 
 const save = () => {
-    form.transform((data) => ({
-        ...data,
-        calcom_url: data.calcom_url || null,
-    })).post(updateSettings.url(), {
+    form.post(updateSettings.url(), {
         preserveScroll: true,
         forceFormData: true,
         onSuccess: () => {
@@ -163,20 +156,6 @@ const save = () => {
                     >
                         Las solicitudes de cita y los mensajes de la web llegan
                         a este email.
-                    </span>
-                </div>
-                <div class="fld">
-                    <label>Enlace de cal.com (opcional)</label>
-                    <input
-                        v-model="form.calcom_url"
-                        type="text"
-                        placeholder="usuario/evento — déjalo vacío para usar el calendario propio"
-                    />
-                    <span
-                        style="font-size: 12px; color: var(--color-ink-faint)"
-                    >
-                        Si lo rellenas, la web puede incrustar tu calendario de
-                        cal.com en lugar del sistema de reservas propio.
                     </span>
                 </div>
                 <div

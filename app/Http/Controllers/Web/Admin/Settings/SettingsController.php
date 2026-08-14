@@ -25,7 +25,6 @@ class SettingsController extends WebController
 
         return Inertia::render('admin/Settings', [
             'profile' => new ClinicProfileResource($this->settings->profile()),
-            'booking' => ['calcom_url' => $this->settings->calcomUrl()],
         ]);
     }
 
