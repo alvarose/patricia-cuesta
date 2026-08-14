@@ -34,19 +34,28 @@ const editing = reactive<{
     index: number | null;
     start: string;
     end: string;
+    isNew: boolean;
 }>({
     day: null,
     index: null,
     start: '',
     end: '',
+    isNew: false,
 });
 
-const startEdit = (dayIndex: number, windowIndex: number) => {
+const startEdit = (dayIndex: number, windowIndex: number, isNew = false) => {
     const window = form.days[dayIndex].windows[windowIndex];
     editing.day = dayIndex;
     editing.index = windowIndex;
     editing.start = window.start;
     editing.end = window.end;
+    editing.isNew = isNew;
+};
+
+const closeEdit = () => {
+    editing.day = null;
+    editing.index = null;
+    editing.isNew = false;
 };
 
 const saveEdit = () => {
@@ -59,15 +68,20 @@ const saveEdit = () => {
             start: editing.start,
             end: editing.end,
         };
+    } else if (editing.isNew) {
+        removeWindow(editing.day, editing.index);
     }
 
-    editing.day = null;
-    editing.index = null;
+    closeEdit();
 };
 
+/** Una franja recién añadida solo existe mientras se edita: cancelar la descarta. */
 const cancelEdit = () => {
-    editing.day = null;
-    editing.index = null;
+    if (editing.day !== null && editing.index !== null && editing.isNew) {
+        removeWindow(editing.day, editing.index);
+    }
+
+    closeEdit();
 };
 
 const addWindow = (dayIndex: number) => {
@@ -77,7 +91,7 @@ const addWindow = (dayIndex: number) => {
             ? { start: '10:00', end: '14:00' }
             : { start: '16:00', end: '20:00' },
     );
-    startEdit(dayIndex, windows.length - 1);
+    startEdit(dayIndex, windows.length - 1, true);
 };
 
 const removeWindow = (dayIndex: number, windowIndex: number) => {
