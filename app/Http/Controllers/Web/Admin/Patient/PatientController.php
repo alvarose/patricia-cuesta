@@ -29,6 +29,8 @@ class PatientController extends WebController
 
     public function index(IndexPatientRequest $request): Response
     {
+        $this->authorize('viewAny', Patient::class);
+
         $filters = $request->toData();
 
         return Inertia::render('admin/Patients', [
@@ -41,6 +43,8 @@ class PatientController extends WebController
 
     public function store(StorePatientRequest $request): RedirectResponse
     {
+        $this->authorize('create', Patient::class);
+
         $this->createPatient->execute($request->toData());
 
         return back();
@@ -48,6 +52,8 @@ class PatientController extends WebController
 
     public function update(UpdatePatientRequest $request, Patient $patient): RedirectResponse
     {
+        $this->authorize('update', $patient);
+
         $this->updatePatient->execute($patient, $request->toData());
 
         return back();
@@ -55,6 +61,8 @@ class PatientController extends WebController
 
     public function destroy(Patient $patient): RedirectResponse
     {
+        $this->authorize('delete', $patient);
+
         $this->deletePatient->execute($patient);
 
         return back();

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Booking\Absence;
 
 use App\Domain\Booking\Absence\DTO\CreateAbsenceData;
+use App\Models\Booking\Absence;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,7 +12,7 @@ class StoreAbsenceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('create', Absence::class) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

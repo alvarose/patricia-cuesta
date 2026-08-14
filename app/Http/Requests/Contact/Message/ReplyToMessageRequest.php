@@ -9,7 +9,7 @@ class ReplyToMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('update', $this->route('message')) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

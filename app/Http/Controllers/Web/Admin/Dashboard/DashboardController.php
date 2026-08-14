@@ -24,6 +24,8 @@ class DashboardController extends WebController
 
     public function index(): Response
     {
+        $this->authorize('viewAny', Appointment::class);
+
         $today = $this->appointments->blockingForDay(CarbonImmutable::today());
         $pending = $this->appointments->countAwaitingConfirmation();
         $unread = $this->messages->countUnread();

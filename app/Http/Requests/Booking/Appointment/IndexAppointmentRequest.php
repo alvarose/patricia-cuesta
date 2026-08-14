@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Booking\Appointment;
 
+use App\Models\Booking\Appointment;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -10,7 +11,7 @@ class IndexAppointmentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('viewAny', Appointment::class) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

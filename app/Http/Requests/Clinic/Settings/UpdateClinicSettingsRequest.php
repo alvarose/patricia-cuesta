@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Clinic\Settings;
 
 use App\Domain\Clinic\Settings\DTO\UpdateClinicProfileData;
+use App\Models\Clinic\Setting;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -11,7 +12,7 @@ class UpdateClinicSettingsRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('update', Setting::class) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

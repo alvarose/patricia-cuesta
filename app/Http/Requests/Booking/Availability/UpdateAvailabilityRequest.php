@@ -17,7 +17,7 @@ class UpdateAvailabilityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('update', AvailabilityDay::class) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

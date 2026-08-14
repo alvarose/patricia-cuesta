@@ -14,7 +14,7 @@ class UpdatePatientRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('update', $this->route('patient')) ?? false;
     }
 
     /** @return array<string, ValidationRule|array<mixed>|string> */

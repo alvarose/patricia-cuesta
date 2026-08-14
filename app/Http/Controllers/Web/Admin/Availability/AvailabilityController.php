@@ -26,6 +26,8 @@ class AvailabilityController extends WebController
 
     public function index(): Response
     {
+        $this->authorize('viewAny', AvailabilityDay::class);
+
         $days = $this->availability->weeklySchedule();
         $booking = $this->settings->booking();
         $weeklyMinutes = $this->availability->weeklyMinutes();
@@ -61,6 +63,8 @@ class AvailabilityController extends WebController
 
     public function update(UpdateAvailabilityRequest $request): RedirectResponse
     {
+        $this->authorize('update', AvailabilityDay::class);
+
         $this->updateSchedule->execute($request->toData());
 
         return back();

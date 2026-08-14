@@ -7,6 +7,7 @@ use App\Domain\Clinic\Settings\UseCases\UpdateClinicProfile;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Clinic\Settings\UpdateClinicSettingsRequest;
 use App\Http\Resources\Clinic\Settings\ClinicProfileResource;
+use App\Models\Clinic\Setting;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,6 +21,8 @@ class SettingsController extends WebController
 
     public function edit(): Response
     {
+        $this->authorize('viewAny', Setting::class);
+
         return Inertia::render('admin/Settings', [
             'profile' => new ClinicProfileResource($this->settings->profile()),
             'booking' => ['calcom_url' => $this->settings->calcomUrl()],
@@ -28,6 +31,8 @@ class SettingsController extends WebController
 
     public function update(UpdateClinicSettingsRequest $request): RedirectResponse
     {
+        $this->authorize('update', Setting::class);
+
         $this->updateProfile->execute($request->toData());
 
         return back();

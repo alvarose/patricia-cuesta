@@ -18,6 +18,8 @@ class AbsenceController extends WebController
 
     public function store(StoreAbsenceRequest $request): RedirectResponse
     {
+        $this->authorize('create', Absence::class);
+
         $this->createAbsence->execute($request->toData());
 
         return back();
@@ -25,6 +27,8 @@ class AbsenceController extends WebController
 
     public function destroy(Absence $absence): RedirectResponse
     {
+        $this->authorize('delete', $absence);
+
         $this->deleteAbsence->execute($absence);
 
         return back();

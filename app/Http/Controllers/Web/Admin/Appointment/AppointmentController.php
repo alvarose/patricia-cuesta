@@ -12,6 +12,7 @@ use App\Http\Requests\Booking\Appointment\UpdateAppointmentStatusRequest;
 use App\Http\Resources\Booking\Appointment\AppointmentWithContactResource;
 use App\Http\Resources\Booking\Appointment\PendingAppointmentResource;
 use App\Models\Booking\Appointment;
+use App\Models\Patients\Patient;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -28,6 +29,8 @@ class AppointmentController extends WebController
 
     public function index(IndexAppointmentRequest $request): Response
     {
+        $this->authorize('viewAny', Appointment::class);
+
         $date = $request->selectedDate();
 
         return Inertia::render('admin/Appointments', [
@@ -40,6 +43,8 @@ class AppointmentController extends WebController
 
     public function update(UpdateAppointmentStatusRequest $request, Appointment $appointment): RedirectResponse
     {
+        $this->authorize('update', $appointment);
+
         $this->changeStatus->execute($appointment, $request->target());
 
         return back();
@@ -47,6 +52,8 @@ class AppointmentController extends WebController
 
     public function destroy(Appointment $appointment): RedirectResponse
     {
+        $this->authorize('delete', $appointment);
+
         $this->deleteAppointment->execute($appointment);
 
         return back();
@@ -54,6 +61,8 @@ class AppointmentController extends WebController
 
     public function patient(Appointment $appointment): RedirectResponse
     {
+        $this->authorize('create', Patient::class);
+
         $this->linkPatient->execute($appointment);
 
         return back();
