@@ -23,6 +23,21 @@ enum AppointmentStatus: string
         };
     }
 
+    public function badge(): string
+    {
+        return match ($this) {
+            self::Pending => 'chip--pend',
+            self::Confirmed => 'chip--conf',
+            self::Cancelled => 'chip--canc',
+            self::Completed => 'chip--done',
+        };
+    }
+
+    public function dot(): string
+    {
+        return $this === self::Confirmed ? 'dt--live' : 'dt--idle';
+    }
+
     /** @return list<self> */
     public static function blocking(): array
     {

@@ -20,6 +20,8 @@ class AppointmentResource extends JsonResource
             'topic' => ConsultationTopic::labelOrDefault($this->topic),
             'status' => $this->status->value,
             'statusLabel' => $this->status->label(),
+            'statusBadge' => $this->status->badge(),
+            'statusDot' => $this->status->dot(),
         ];
     }
 }

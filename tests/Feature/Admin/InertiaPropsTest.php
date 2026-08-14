@@ -23,9 +23,13 @@ it('sirve las citas del día con todos sus campos y sin envolver', function () {
         fn (AssertableInertia $page) => $page
             ->component('admin/Appointments')
             ->has('appointments', 1)
-            ->has('appointments.0', fn (AssertableInertia $item) => $item->hasAll([
-                'id', 'time', 'name', 'topic', 'status', 'statusLabel', 'hasPatient', 'email', 'phone',
-            ]))
+            ->has('appointments.0', fn (AssertableInertia $item) => $item
+                ->hasAll([
+                    'id', 'time', 'name', 'topic', 'status', 'statusLabel', 'statusBadge',
+                    'statusDot', 'hasPatient', 'email', 'phone',
+                ])
+                ->where('statusBadge', 'chip--conf')
+                ->where('statusDot', 'dt--live'))
             ->has('week', 7),
     );
 });
@@ -43,7 +47,7 @@ it('sirve el resumen con sus tarjetas y listas', function () {
             ->has('weekSummary')
             ->has('stats', 3)
             ->has('todayAppointments.0', fn (AssertableInertia $item) => $item->hasAll([
-                'id', 'time', 'name', 'topic', 'status', 'statusLabel',
+                'id', 'time', 'name', 'topic', 'status', 'statusLabel', 'statusBadge', 'statusDot',
             ]))
             ->has('recentMessages.0', fn (AssertableInertia $item) => $item->hasAll([
                 'id', 'name', 'preview', 'when', 'unread', 'preference',
@@ -64,7 +68,8 @@ it('sirve los pacientes con su próxima cita', function () {
             ->has('patients.0', fn (AssertableInertia $item) => $item
                 ->hasAll([
                     'id', 'name', 'initials', 'since', 'topic', 'topicValue',
-                    'sessions', 'next', 'status', 'statusLabel', 'email', 'phone', 'notes',
+                    'sessions', 'next', 'status', 'statusLabel', 'statusBadge',
+                    'email', 'phone', 'notes',
                 ])
                 ->where('sessions', 1)
                 ->whereNot('next', null)),

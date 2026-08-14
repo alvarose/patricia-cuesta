@@ -24,6 +24,7 @@ class PatientResource extends JsonResource
             'next' => $this->nextAppointment?->starts_at->translatedFormat('D j M · H:i'),
             'status' => $this->status->value,
             'statusLabel' => $this->status->label(),
+            'statusBadge' => $this->status->badge(),
             'email' => $this->email,
             'phone' => $this->phone,
             'notes' => $this->notes,

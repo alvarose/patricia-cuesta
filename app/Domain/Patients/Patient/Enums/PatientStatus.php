@@ -21,6 +21,15 @@ enum PatientStatus: string
         };
     }
 
+    public function badge(): string
+    {
+        return match ($this) {
+            self::Active => 'chip--conf',
+            self::Paused => 'chip--pend',
+            self::Discharged => 'chip--done',
+        };
+    }
+
     /** @return array<array{value: string, label: string}> */
     public static function options(): array
     {
