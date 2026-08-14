@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { appointmentChipClass } from '@/lib/chips';
 import {
     index as appointmentsIndex,
     status as appointmentStatus,
@@ -93,23 +92,12 @@ const setStatus = (id: number, status: string) => {
                     class="row"
                 >
                     <span class="tm">{{ appointment.time }}</span>
-                    <span
-                        class="dt"
-                        :style="{
-                            background:
-                                appointment.status === 'confirmed'
-                                    ? 'var(--color-butter-deep)'
-                                    : 'var(--color-sand)',
-                        }"
-                    ></span>
+                    <span class="dt" :class="appointment.statusDot"></span>
                     <span class="who">
                         <span class="nm">{{ appointment.name }}</span>
                         <span class="tp">{{ appointment.topic }}</span>
                     </span>
-                    <span
-                        class="chip"
-                        :class="appointmentChipClass(appointment.status)"
-                    >
+                    <span class="chip" :class="appointment.statusBadge">
                         {{ appointment.statusLabel }}
                     </span>
                     <button

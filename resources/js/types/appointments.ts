@@ -9,6 +9,8 @@ export interface Appointment {
     topic: string;
     status: AppointmentStatusValue;
     statusLabel: string;
+    statusBadge: string;
+    statusDot: string;
 }
 
 /** Cita con los datos de contacto, para la agenda del panel. */

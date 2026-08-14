@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-import { patientChipClass } from '@/lib/chips';
 import {
     index as patientsIndex,
     store as storePatient,
@@ -219,7 +218,7 @@ const submit = () => {
                 {{ patient.next ?? 'Sin programar' }}
             </span>
             <span>
-                <span class="chip" :class="patientChipClass(patient.status)">
+                <span class="chip" :class="patient.statusBadge">
                     {{ patient.statusLabel }}
                 </span>
             </span>

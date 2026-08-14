@@ -12,6 +12,7 @@ export interface Patient {
     next: string | null;
     status: PatientStatusValue;
     statusLabel: string;
+    statusBadge: string;
     email: string | null;
     phone: string | null;
     notes: string | null;

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { appointmentChipClass } from '@/lib/chips';
 import { index as appointmentsIndex } from '@/routes/admin/appointments';
 import { index as availabilityIndex } from '@/routes/admin/availability';
 import { index as messagesIndex } from '@/routes/admin/messages';
@@ -54,23 +53,12 @@ defineProps<{
                     class="row"
                 >
                     <span class="tm">{{ appointment.time }}</span>
-                    <span
-                        class="dt"
-                        :style="{
-                            background:
-                                appointment.status === 'confirmed'
-                                    ? 'var(--color-butter-deep)'
-                                    : 'var(--color-sand)',
-                        }"
-                    ></span>
+                    <span class="dt" :class="appointment.statusDot"></span>
                     <span class="who">
                         <span class="nm">{{ appointment.name }}</span>
                         <span class="tp">{{ appointment.topic }}</span>
                     </span>
-                    <span
-                        class="chip"
-                        :class="appointmentChipClass(appointment.status)"
-                    >
+                    <span class="chip" :class="appointment.statusBadge">
                         {{ appointment.statusLabel }}
                     </span>
                 </div>
@@ -100,12 +88,8 @@ defineProps<{
                     >
                         <span
                             class="dt"
+                            :class="message.unread ? 'dt--live' : 'dt--idle'"
                             style="margin-top: 6px"
-                            :style="{
-                                background: message.unread
-                                    ? 'var(--color-butter-deep)'
-                                    : 'var(--color-sand)',
-                            }"
                         ></span>
                         <span class="who">
                             <span
