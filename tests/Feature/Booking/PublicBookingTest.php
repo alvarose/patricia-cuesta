@@ -57,16 +57,12 @@ it('rechaza un hueco ya ocupado', function () {
 it('rechaza una reserva que no respeta la antelación mínima', function () {
     Mail::fake();
 
-    $tomorrow = CarbonImmutable::tomorrow();
-
-    while ($tomorrow->isWeekend()) {
-        $tomorrow = $tomorrow->addDay();
-    }
+    $this->travelTo($this->monday->subDay()->setTime(12, 0));
 
     $this->post('/reservas', [
         'name' => 'Lucía Gómez',
         'email' => 'lucia@example.com',
-        'start' => $tomorrow->setTime(10, 0)->format('Y-m-d H:i'),
+        'start' => $this->monday->setTime(10, 0)->format('Y-m-d H:i'),
         'privacy' => true,
     ])->assertSessionHasErrors('start');
 
