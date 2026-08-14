@@ -2,8 +2,12 @@
 
 namespace App\Domain\Patients\Patient\Enums;
 
+use App\Domain\Shared\Concerns\EnumHelpers;
+
 enum PatientStatus: string
 {
+    use EnumHelpers;
+
     case Active = 'active';
     case Paused = 'paused';
     case Discharged = 'discharged';

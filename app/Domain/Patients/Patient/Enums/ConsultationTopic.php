@@ -2,8 +2,12 @@
 
 namespace App\Domain\Patients\Patient\Enums;
 
+use App\Domain\Shared\Concerns\EnumHelpers;
+
 enum ConsultationTopic: string
 {
+    use EnumHelpers;
+
     case Duelo = 'duelo';
     case Ansiedad = 'ansiedad';
     case Depresion = 'depresion';

@@ -2,8 +2,12 @@
 
 namespace App\Domain\Booking\Appointment\Enums;
 
+use App\Domain\Shared\Concerns\EnumHelpers;
+
 enum AppointmentSource: string
 {
+    use EnumHelpers;
+
     case Web = 'web';
     case Admin = 'admin';
 

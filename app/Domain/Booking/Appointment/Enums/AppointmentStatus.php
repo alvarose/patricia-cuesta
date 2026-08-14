@@ -2,8 +2,12 @@
 
 namespace App\Domain\Booking\Appointment\Enums;
 
+use App\Domain\Shared\Concerns\EnumHelpers;
+
 enum AppointmentStatus: string
 {
+    use EnumHelpers;
+
     case Pending = 'pending';
     case Confirmed = 'confirmed';
     case Cancelled = 'cancelled';
@@ -19,13 +23,13 @@ enum AppointmentStatus: string
         };
     }
 
-    /** @return array<self> */
+    /** @return list<self> */
     public static function blocking(): array
     {
         return [self::Pending, self::Confirmed];
     }
 
-    /** @return array<self> */
+    /** @return list<self> */
     public function allowedTransitions(): array
     {
         return match ($this) {
@@ -37,6 +41,6 @@ enum AppointmentStatus: string
 
     public function canTransitionTo(self $target): bool
     {
-        return in_array($target, $this->allowedTransitions(), true);
+        return $target->isA($this->allowedTransitions());
     }
 }

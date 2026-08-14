@@ -2,8 +2,12 @@
 
 namespace App\Domain\Contact\Message\Enums;
 
+use App\Domain\Shared\Concerns\EnumHelpers;
+
 enum ContactPreference: string
 {
+    use EnumHelpers;
+
     case Whatsapp = 'whatsapp';
     case Call = 'call';
     case Email = 'email';
