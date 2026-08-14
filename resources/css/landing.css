@@ -263,10 +263,17 @@
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform var(--dur-slow) var(--ease);
+    visibility: hidden;
+    transition:
+        transform var(--dur-slow) var(--ease),
+        visibility 0s linear var(--dur-slow);
 }
 .pc-public .msheet.open {
     transform: translateX(0);
+    visibility: visible;
+    transition:
+        transform var(--dur-slow) var(--ease),
+        visibility 0s;
 }
 .pc-public .msheet .top {
     display: flex;

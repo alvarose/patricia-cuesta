@@ -75,49 +75,53 @@ watch(open, (value) => {
             </div>
         </div>
 
-        <div class="msheet" :class="{ open }">
-            <div class="top">
-                <a
-                    class="logo"
-                    :href="homeSection('inicio')"
-                    aria-label="Patricia Cuesta Psicología"
-                >
-                    <img src="/images/logo-mark.svg" alt="" />
-                    <span
-                        style="
-                            display: flex;
-                            flex-direction: column;
-                            line-height: 1;
-                        "
+        <Teleport to="body">
+            <div class="pc-public">
+                <div class="msheet" :class="{ open }">
+                    <div class="top">
+                        <a
+                            class="logo"
+                            :href="homeSection('inicio')"
+                            aria-label="Patricia Cuesta Psicología"
+                        >
+                            <img src="/images/logo-mark.svg" alt="" />
+                            <span
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    line-height: 1;
+                                "
+                            >
+                                <span class="n">Patricia Cuesta</span>
+                                <span class="r">Psicología</span>
+                            </span>
+                        </a>
+                        <button
+                            class="burger"
+                            aria-label="Cerrar menú"
+                            @click="open = false"
+                        >
+                            <Icon name="x" :size="26" />
+                        </button>
+                    </div>
+                    <nav>
+                        <a
+                            v-for="item in NAV"
+                            :key="item.anchor"
+                            :href="homeSection(item.anchor)"
+                            @click="open = false"
+                        >
+                            {{ item.label }}
+                        </a>
+                    </nav>
+                    <a
+                        class="btn btn--primary"
+                        :href="homeSection('contacto')"
+                        @click="open = false"
+                        >Pedir cita</a
                     >
-                        <span class="n">Patricia Cuesta</span>
-                        <span class="r">Psicología</span>
-                    </span>
-                </a>
-                <button
-                    class="burger"
-                    aria-label="Cerrar menú"
-                    @click="open = false"
-                >
-                    <Icon name="x" :size="26" />
-                </button>
+                </div>
             </div>
-            <nav>
-                <a
-                    v-for="item in NAV"
-                    :key="item.anchor"
-                    :href="homeSection(item.anchor)"
-                    @click="open = false"
-                >
-                    {{ item.label }}
-                </a>
-            </nav>
-            <a
-                class="btn btn--primary"
-                :href="homeSection('contacto')"
-                @click="open = false"
-                >Pedir cita</a
-            >
-        </div>
+        </Teleport>
     </header>
 </template>
