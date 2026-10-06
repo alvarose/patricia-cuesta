@@ -84,7 +84,7 @@ const STEPS = [
                         >Empezar terapia online</a
                     >
                     <a class="btn btn--secondary" href="#ayuda"
-                        >Conoce cómo puedo ayudarte</a
+                        >Cómo puedo ayudarte</a
                     >
                 </div>
             </div>
@@ -101,10 +101,7 @@ const STEPS = [
                 </div>
                 <div class="hero-badge">
                     <span class="ic"><Icon name="heart" :size="18" /></span>
-                    <p>
-                        <b>Acompañamiento</b> a tu ritmo, sin prisa y con
-                        respeto.
-                    </p>
+                    <p><b>Acompañándote</b> tal y como tú lo necesites</p>
                 </div>
             </div>
         </div>

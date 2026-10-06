@@ -63,7 +63,7 @@ watch(open, (value) => {
             </nav>
             <div class="hdr-cta">
                 <a class="btn btn--primary" :href="homeSection('contacto')"
-                    >Pedir cita</a
+                    >Pide cita</a
                 >
                 <button
                     class="burger"
@@ -118,7 +118,7 @@ watch(open, (value) => {
                         class="btn btn--primary"
                         :href="homeSection('contacto')"
                         @click="open = false"
-                        >Pedir cita</a
+                        >Pide cita</a
                     >
                 </div>
             </div>
