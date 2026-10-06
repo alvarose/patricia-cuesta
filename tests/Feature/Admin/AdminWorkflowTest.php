@@ -50,18 +50,18 @@ it('crea la ficha de paciente desde la cita y la vincula', function () {
         ->and($patient->first_name)->toBe('Lucía');
 });
 
-it('marca el día con agenda aunque las sesiones estén completadas', function () {
-    $monday = CarbonImmutable::today()->startOfWeek();
+it('cuenta el día con agenda aunque las sesiones estén completadas', function () {
+    $day = CarbonImmutable::today();
 
     Appointment::factory()->create([
         Appointment::STATUS => AppointmentStatus::Completed,
-        Appointment::STARTS_AT => $monday->setTime(10, 0),
-        Appointment::ENDS_AT => $monday->setTime(10, 50),
+        Appointment::STARTS_AT => $day->setTime(10, 0),
+        Appointment::ENDS_AT => $day->setTime(10, 50),
     ]);
 
-    $week = $this->get('/admin/citas')->viewData('page')['props']['week'];
+    $days = $this->get('/admin/citas')->viewData('page')['props']['month']['days'];
 
-    expect(collect($week)->firstWhere('date', $monday->toDateString())['hasAppointments'])->toBeTrue();
+    expect(collect($days)->firstWhere('date', $day->toDateString())['sessions'])->toBe(1);
 });
 
 it('crea y actualiza un paciente por HTTP', function () {

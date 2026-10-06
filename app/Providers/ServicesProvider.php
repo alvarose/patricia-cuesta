@@ -8,6 +8,8 @@ use App\Domain\Booking\Appointment\Contracts\AppointmentServiceInterface;
 use App\Domain\Booking\Appointment\Services\AppointmentService;
 use App\Domain\Booking\Availability\Contracts\AvailabilityServiceInterface;
 use App\Domain\Booking\Availability\Services\AvailabilityService;
+use App\Domain\Booking\Calendar\Contracts\MonthCalendarServiceInterface;
+use App\Domain\Booking\Calendar\Services\MonthCalendarService;
 use App\Domain\Booking\Slot\Contracts\SlotServiceInterface;
 use App\Domain\Booking\Slot\Services\SlotService;
 use App\Domain\Clinic\Settings\Contracts\SettingsServiceInterface;
@@ -26,6 +28,7 @@ final class ServicesProvider extends ServiceProvider
         AvailabilityServiceInterface::class => AvailabilityService::class,
         AbsenceServiceInterface::class => AbsenceService::class,
         SlotServiceInterface::class => SlotService::class,
+        MonthCalendarServiceInterface::class => MonthCalendarService::class,
     ];
 
     /** @var array<class-string, class-string> */

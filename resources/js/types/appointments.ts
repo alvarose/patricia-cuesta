@@ -28,10 +28,23 @@ export interface PendingAppointment {
     topic: string;
 }
 
-/** Celda del selector de días de la semana. */
-export interface WeekDayCell {
+/** Celda de la rejilla de mes de la agenda. */
+export interface MonthDayCell {
     date: string;
-    dow: string;
     num: number;
-    hasAppointments: boolean;
+    sessions: number;
+    closed: boolean;
+    absent: boolean;
+    today: boolean;
+    inMonth: boolean;
+}
+
+/** Rejilla de mes de la agenda: siempre 42 celdas, empezando en lunes. */
+export interface MonthCalendar {
+    label: string;
+    prev: string;
+    next: string;
+    today: string;
+    isCurrentMonth: boolean;
+    days: MonthDayCell[];
 }

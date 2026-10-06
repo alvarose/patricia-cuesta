@@ -7,6 +7,7 @@ use App\Domain\Booking\Appointment\UseCases\ChangeAppointmentStatus;
 use App\Domain\Booking\Appointment\UseCases\DeleteAppointment;
 use App\Domain\Booking\Appointment\UseCases\LinkPatientToAppointment;
 use App\Domain\Booking\Appointment\UseCases\ScheduleAppointment;
+use App\Domain\Booking\Calendar\Contracts\MonthCalendarServiceInterface;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Appointment\IndexAppointmentRequest;
 use App\Http\Requests\Booking\Appointment\StoreAppointmentRequest;
@@ -15,7 +16,6 @@ use App\Http\Resources\Booking\Appointment\AppointmentWithContactResource;
 use App\Http\Resources\Booking\Appointment\PendingAppointmentResource;
 use App\Models\Booking\Appointment;
 use App\Models\Patients\Patient;
-use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -28,6 +28,7 @@ class AppointmentController extends WebController
         private readonly LinkPatientToAppointment $linkPatient,
         private readonly DeleteAppointment $deleteAppointment,
         private readonly ScheduleAppointment $scheduleAppointment,
+        private readonly MonthCalendarServiceInterface $calendar,
     ) {}
 
     public function index(IndexAppointmentRequest $request): Response
@@ -38,7 +39,7 @@ class AppointmentController extends WebController
 
         return Inertia::render('admin/Appointments', [
             'date' => $date->toDateString(),
-            'week' => $this->weekStrip($date->startOfWeek()),
+            'month' => $this->calendar->monthFor($date)->toArray(),
             'appointments' => AppointmentWithContactResource::collection($this->appointments->forDay($date)),
             'pending' => PendingAppointmentResource::collection($this->appointments->awaitingConfirmation()),
         ]);
@@ -78,22 +79,5 @@ class AppointmentController extends WebController
         $this->linkPatient->execute($appointment);
 
         return back();
-    }
-
-    /** @return array<int, array{date: string, dow: string, num: int, hasAppointments: bool}> */
-    private function weekStrip(CarbonImmutable $weekStart): array
-    {
-        $busy = $this->appointments->busyDatesBetween($weekStart, $weekStart->addDays(6)->endOfDay());
-
-        return array_map(function (int $offset) use ($weekStart, $busy): array {
-            $day = $weekStart->addDays($offset);
-
-            return [
-                'date' => $day->toDateString(),
-                'dow' => $day->translatedFormat('D'),
-                'num' => $day->day,
-                'hasAppointments' => isset($busy[$day->toDateString()]),
-            ];
-        }, range(0, 6));
     }
 }

@@ -7,13 +7,16 @@ import {
 } from '@/routes/admin/appointments';
 import type {
     AppointmentWithContact,
+    MonthCalendar,
+    MonthDayCell,
     PendingAppointment,
-    WeekDayCell,
 } from '@/types';
+
+const DOW = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
 const props = defineProps<{
     date: string;
-    week: WeekDayCell[];
+    month: MonthCalendar;
     appointments: AppointmentWithContact[];
     pending: PendingAppointment[];
 }>();
@@ -28,20 +31,32 @@ const dayTitle = computed(() => {
     });
 });
 
-const weekTitle = computed(() => {
-    const first = new Date(`${props.week[0].date}T00:00:00`);
-    const last = new Date(`${props.week[6].date}T00:00:00`);
-    const month = last.toLocaleDateString('es-ES', { month: 'long' });
-
-    return `Semana del ${first.getDate()} al ${last.getDate()} de ${month}`;
-});
-
 const pickDay = (date: string) => {
     router.get(
         appointmentsIndex.url({ query: { date } }),
         {},
-        { preserveScroll: true },
+        {
+            preserveScroll: true,
+            only: ['date', 'month', 'appointments'],
+        },
     );
+};
+
+const cellLabel = (day: MonthDayCell) => {
+    const when = new Date(`${day.date}T00:00:00`).toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+    });
+
+    if (day.absent) {
+        return `${when}, ausencia`;
+    }
+
+    if (day.sessions > 0) {
+        return `${when}, ${day.sessions} ${day.sessions === 1 ? 'sesión' : 'sesiones'}`;
+    }
+
+    return day.closed ? `${when}, cerrado` : when;
 };
 
 const setStatus = (id: number, status: string) => {
@@ -55,24 +70,6 @@ const setStatus = (id: number, status: string) => {
 
 <template>
     <Head title="Citas" />
-
-    <div class="toolbar">
-        <span class="week-title">{{ weekTitle }}</span>
-        <span class="sp"></span>
-        <div class="week">
-            <button
-                v-for="day in week"
-                :key="day.date"
-                class="wd"
-                :class="{ on: day.date === date, has: day.hasAppointments }"
-                @click="pickDay(day.date)"
-            >
-                <span class="dw">{{ day.dow }}</span>
-                <span class="nu">{{ day.num }}</span>
-                <span class="pt"></span>
-            </button>
-        </div>
-    </div>
 
     <div class="grid-2">
         <div class="card">
@@ -125,6 +122,63 @@ const setStatus = (id: number, status: string) => {
         </div>
 
         <div class="col">
+            <div class="card mcal">
+                <div class="mcal-head">
+                    <span class="mcal-label">{{ month.label }}</span>
+                    <div class="mcal-nav">
+                        <button
+                            class="mcal-btn mcal-btn--today"
+                            :disabled="month.isCurrentMonth"
+                            @click="pickDay(month.today)"
+                        >
+                            Hoy
+                        </button>
+                        <button
+                            class="mcal-btn"
+                            aria-label="Mes anterior"
+                            @click="pickDay(month.prev)"
+                        >
+                            ‹
+                        </button>
+                        <button
+                            class="mcal-btn"
+                            aria-label="Mes siguiente"
+                            @click="pickDay(month.next)"
+                        >
+                            ›
+                        </button>
+                    </div>
+                </div>
+                <div class="mcal-dow">
+                    <span v-for="(name, index) in DOW" :key="index">{{
+                        name
+                    }}</span>
+                </div>
+                <div class="mcal-grid">
+                    <button
+                        v-for="day in month.days"
+                        :key="day.date"
+                        class="mcal-cell"
+                        :class="{
+                            'mcal-cell--out': !day.inMonth,
+                            'mcal-cell--closed': day.closed,
+                            'mcal-cell--absent': day.absent,
+                            'mcal-cell--today': day.today,
+                            'mcal-cell--on': day.date === date,
+                        }"
+                        :aria-label="cellLabel(day)"
+                        :aria-current="day.today ? 'date' : undefined"
+                        :aria-pressed="day.date === date"
+                        @click="pickDay(day.date)"
+                    >
+                        <span class="nu">{{ day.num }}</span>
+                        <span class="ct">{{
+                            day.sessions > 0 ? day.sessions : ' '
+                        }}</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="card" style="padding: 24px 26px">
                 <h2 class="card-title-sm" style="margin-bottom: 4px">
                     Por confirmar

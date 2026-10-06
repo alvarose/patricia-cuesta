@@ -81,11 +81,16 @@ final class AppointmentService implements AppointmentServiceInterface
         return $this->appointments->matching($filters);
     }
 
-    /** @return array<string, bool> */
-    public function busyDatesBetween(CarbonImmutable $from, CarbonImmutable $to): array
+    /** @return array<string, int> */
+    public function sessionCountsBetween(CarbonImmutable $from, CarbonImmutable $to): array
     {
-        return $this->appointments->startDatesBetween($from, $to)
-            ->mapWithKeys(fn (CarbonImmutable $startsAt): array => [$startsAt->toDateString() => true])
-            ->all();
+        $counts = [];
+
+        foreach ($this->appointments->startDatesBetween($from, $to) as $startsAt) {
+            $date = $startsAt->toDateString();
+            $counts[$date] = ($counts[$date] ?? 0) + 1;
+        }
+
+        return $counts;
     }
 }

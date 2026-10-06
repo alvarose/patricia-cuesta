@@ -36,6 +36,6 @@ interface AppointmentServiceInterface
     /** @return Collection<int, Appointment> */
     public function matching(AppointmentFilterParams $filters): Collection;
 
-    /** @return array<string, bool> */
-    public function busyDatesBetween(CarbonImmutable $from, CarbonImmutable $to): array;
+    /** @return array<string, int> */
+    public function sessionCountsBetween(CarbonImmutable $from, CarbonImmutable $to): array;
 }

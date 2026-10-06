@@ -441,58 +441,133 @@
     color: var(--color-ink);
 }
 
-/* ---------- selector de días (citas) ---------- */
-.pc-admin .week {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+/* ---------- calendario de mes (citas) ---------- */
+.pc-admin .mcal {
+    padding: 20px 18px;
 }
-.pc-admin .wd {
+.pc-admin .mcal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.pc-admin .mcal-label {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.pc-admin .mcal-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.pc-admin .mcal-btn {
+    border: 1px solid var(--color-sand);
+    background: #fff;
+    color: var(--color-ink-soft);
+    cursor: pointer;
+    border-radius: 999px;
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+    line-height: 1;
+    transition: background 160ms ease;
+}
+.pc-admin .mcal-btn--today {
+    width: auto;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.pc-admin .mcal-btn:hover:not(:disabled) {
+    background: var(--color-warm-white);
+    color: var(--color-ink);
+}
+.pc-admin .mcal-btn:disabled {
+    color: var(--color-ink-faint);
+    cursor: default;
+}
+.pc-admin .mcal-dow {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+    margin-bottom: 6px;
+}
+.pc-admin .mcal-dow span {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-faint);
+}
+.pc-admin .mcal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+}
+.pc-admin .mcal-cell {
+    min-width: 0;
+    min-height: 46px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    border: 1px solid var(--color-sand);
-    background: #fff;
+    justify-content: center;
+    gap: 1px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 13px;
+    padding: 4px 2px;
     cursor: pointer;
-    border-radius: 16px;
-    padding: 9px 13px;
     transition: background 160ms ease;
-    min-width: 52px;
 }
-.pc-admin .wd:hover {
+.pc-admin .mcal-cell .nu {
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+.pc-admin .mcal-cell .ct {
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-butter-ink);
+}
+.pc-admin .mcal-cell:hover {
     background: var(--color-warm-white);
 }
-.pc-admin .wd.on {
+.pc-admin .mcal-cell:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+.pc-admin .mcal-cell--out .nu {
+    color: var(--color-ink-faint);
+}
+.pc-admin .mcal-cell--closed {
+    background: var(--color-sand-wash);
+}
+.pc-admin .mcal-cell--closed .nu {
+    color: var(--color-ink-faint);
+}
+.pc-admin .mcal-cell--absent {
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--color-sand-wash),
+        var(--color-sand-wash) 4px,
+        var(--color-sand) 4px,
+        var(--color-sand) 5px
+    );
+}
+.pc-admin .mcal-cell--today .nu {
+    color: var(--color-butter-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.pc-admin .mcal-cell--on {
     border-color: var(--color-butter-deep);
     background: var(--color-butter-bg);
 }
-.pc-admin .wd .dw {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-ink-soft);
-}
-.pc-admin .wd .nu {
-    font-size: 15px;
-    font-weight: 700;
-}
-.pc-admin .wd .pt {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: transparent;
-}
-.pc-admin .wd.has .pt {
-    background: var(--color-butter-deep);
-}
-.pc-admin .week-title {
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 500;
-    margin-right: 6px;
-}
+
 .pc-admin .toolbar {
     display: flex;
     align-items: center;
@@ -983,6 +1058,9 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 1100px) {
+    .pc-admin .mcal {
+        max-width: 520px;
+    }
     .pc-admin .grid-2,
     .pc-admin .msg-grid {
         grid-template-columns: 1fr;
@@ -995,6 +1073,13 @@
     }
 }
 @media (max-width: 900px) {
+    .pc-admin .mcal {
+        padding: 14px;
+    }
+    .pc-admin .mcal-grid,
+    .pc-admin .mcal-dow {
+        gap: 3px;
+    }
     .pc-admin {
         flex-direction: column;
     }

@@ -30,7 +30,12 @@ it('sirve las citas del día con todos sus campos y sin envolver', function () {
                 ])
                 ->where('statusBadge', 'chip--conf')
                 ->where('statusDot', 'dt--live'))
-            ->has('week', 7),
+            ->has('month', fn (AssertableInertia $month) => $month
+                ->hasAll(['label', 'prev', 'next', 'today', 'isCurrentMonth'])
+                ->has('days', 42)
+                ->has('days.0', fn (AssertableInertia $cell) => $cell->hasAll([
+                    'date', 'num', 'sessions', 'closed', 'absent', 'today', 'inMonth',
+                ]))),
     );
 });
 
