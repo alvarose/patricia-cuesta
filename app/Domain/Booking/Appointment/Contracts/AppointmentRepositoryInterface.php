@@ -32,6 +32,9 @@ interface AppointmentRepositoryInterface
     /** @return Collection<int, Appointment> */
     public function lockBlockingOn(CarbonImmutable $day): Collection;
 
+    /** @return Collection<int, Appointment> */
+    public function lockBlockingOverlapping(CarbonImmutable $start, CarbonImmutable $end): Collection;
+
     /** @return SupportCollection<int, CarbonImmutable> */
     public function startDatesBetween(CarbonImmutable $from, CarbonImmutable $to): SupportCollection;
 }

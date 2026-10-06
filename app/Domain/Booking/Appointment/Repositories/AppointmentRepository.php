@@ -65,6 +65,17 @@ final class AppointmentRepository implements AppointmentRepositoryInterface
             ->get();
     }
 
+    /** @return Collection<int, Appointment> */
+    public function lockBlockingOverlapping(CarbonImmutable $start, CarbonImmutable $end): Collection
+    {
+        return Appointment::query()
+            ->whereIn(Appointment::STATUS, AppointmentStatus::blocking())
+            ->where(Appointment::STARTS_AT, '<', $end)
+            ->where(Appointment::ENDS_AT, '>', $start)
+            ->lockForUpdate()
+            ->get();
+    }
+
     /** @return SupportCollection<int, CarbonImmutable> */
     public function startDatesBetween(CarbonImmutable $from, CarbonImmutable $to): SupportCollection
     {
