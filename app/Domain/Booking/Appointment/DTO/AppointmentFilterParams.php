@@ -20,11 +20,6 @@ final readonly class AppointmentFilterParams
         return new self(onDate: $day, excludeCancelled: true);
     }
 
-    public static function forWeek(CarbonImmutable $start): self
-    {
-        return new self(from: $start, to: $start->addDays(6)->endOfDay(), excludeCancelled: true);
-    }
-
     public static function blockingBetween(CarbonImmutable $from, CarbonImmutable $to): self
     {
         return new self(from: $from, to: $to, onlyBlocking: true);
