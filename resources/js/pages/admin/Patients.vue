@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import { store as storeAppointment } from '@/routes/admin/appointments';
 import {
     index as patientsIndex,
     store as storePatient,
@@ -64,8 +65,18 @@ const form = useForm({
     status: 'active',
 });
 
+const scheduling = ref(false);
+
+const appointmentForm = useForm({
+    date: '',
+    time: '',
+    email: '',
+    notes: '',
+});
+
 const openNew = () => {
     editing.value = null;
+    scheduling.value = false;
     form.reset();
     form.clearErrors();
     modalOpen.value = true;
@@ -73,6 +84,7 @@ const openNew = () => {
 
 const openEdit = (patient: Patient) => {
     editing.value = patient;
+    scheduling.value = false;
     form.clearErrors();
     const [first, ...rest] = patient.name.split(' ');
     form.first_name = first;
@@ -83,6 +95,36 @@ const openEdit = (patient: Patient) => {
     form.notes = patient.notes ?? '';
     form.status = patient.status;
     modalOpen.value = true;
+};
+
+const openScheduling = () => {
+    if (!editing.value) {
+        return;
+    }
+
+    appointmentForm.reset();
+    appointmentForm.clearErrors();
+    appointmentForm.email = editing.value.email ?? '';
+    scheduling.value = true;
+};
+
+const submitAppointment = () => {
+    if (!editing.value) {
+        return;
+    }
+
+    appointmentForm
+        .transform((data: Record<string, unknown>) => ({
+            ...data,
+            notes: data.notes || null,
+        }))
+        .post(storeAppointment.url(editing.value.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                scheduling.value = false;
+                modalOpen.value = false;
+            },
+        });
 };
 
 const submit = () => {
@@ -351,11 +393,87 @@ const submit = () => {
                         {{ editing ? 'Guardar cambios' : 'Crear paciente' }}
                     </button>
                     <button
+                        v-if="editing && !scheduling"
+                        class="a-btn a-btn--ghost a-btn--lg"
+                        @click="openScheduling"
+                    >
+                        + Citar
+                    </button>
+                    <button
                         class="a-btn a-btn--ghost a-btn--lg"
                         @click="modalOpen = false"
                     >
                         Cancelar
                     </button>
+                </div>
+                <div
+                    v-if="scheduling"
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        gap: 14px;
+                        border-top: 1px solid var(--color-sand);
+                        padding-top: 18px;
+                    "
+                >
+                    <span class="eyebrow-sm">Nueva cita</span>
+                    <div class="frm-grid">
+                        <div class="fld">
+                            <label>Día</label>
+                            <input v-model="appointmentForm.date" type="date" />
+                            <p v-if="appointmentForm.errors.date" class="err">
+                                {{ appointmentForm.errors.date }}
+                            </p>
+                        </div>
+                        <div class="fld">
+                            <label>Hora</label>
+                            <input v-model="appointmentForm.time" type="time" />
+                            <p v-if="appointmentForm.errors.time" class="err">
+                                {{ appointmentForm.errors.time }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fld">
+                        <label>Email para avisar</label>
+                        <input v-model="appointmentForm.email" type="email" />
+                        <p v-if="appointmentForm.errors.email" class="err">
+                            {{ appointmentForm.errors.email }}
+                        </p>
+                    </div>
+                    <div class="fld">
+                        <label>Notas de la cita</label>
+                        <textarea
+                            v-model="appointmentForm.notes"
+                            rows="2"
+                            placeholder="Qué trabajar, material a preparar…"
+                        ></textarea>
+                    </div>
+                    <div
+                        style="
+                            display: flex;
+                            align-items: center;
+                            gap: 14px;
+                            flex-wrap: wrap;
+                        "
+                    >
+                        <button
+                            class="a-btn a-btn--lg"
+                            :disabled="
+                                appointmentForm.processing ||
+                                !appointmentForm.date ||
+                                !appointmentForm.time
+                            "
+                            @click="submitAppointment"
+                        >
+                            Crear cita
+                        </button>
+                        <button
+                            class="a-btn a-btn--ghost a-btn--lg"
+                            @click="scheduling = false"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
