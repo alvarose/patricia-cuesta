@@ -14,6 +14,11 @@ final class AppointmentPolicy extends BasePolicy
         return $this->allowClinicStaff($user, 'Solo la consulta puede ver la agenda.');
     }
 
+    public function create(User $user): Response
+    {
+        return $this->allowClinicStaff($user, 'Solo la consulta puede crear una cita.');
+    }
+
     public function update(User $user, Appointment $appointment): Response
     {
         return $this->allowClinicStaff($user, 'Solo la consulta puede cambiar el estado de una cita.');

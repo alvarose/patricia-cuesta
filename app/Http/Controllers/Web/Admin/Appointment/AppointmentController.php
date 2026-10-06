@@ -6,8 +6,10 @@ use App\Domain\Booking\Appointment\Contracts\AppointmentServiceInterface;
 use App\Domain\Booking\Appointment\UseCases\ChangeAppointmentStatus;
 use App\Domain\Booking\Appointment\UseCases\DeleteAppointment;
 use App\Domain\Booking\Appointment\UseCases\LinkPatientToAppointment;
+use App\Domain\Booking\Appointment\UseCases\ScheduleAppointment;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Appointment\IndexAppointmentRequest;
+use App\Http\Requests\Booking\Appointment\StoreAppointmentRequest;
 use App\Http\Requests\Booking\Appointment\UpdateAppointmentStatusRequest;
 use App\Http\Resources\Booking\Appointment\AppointmentWithContactResource;
 use App\Http\Resources\Booking\Appointment\PendingAppointmentResource;
@@ -25,6 +27,7 @@ class AppointmentController extends WebController
         private readonly ChangeAppointmentStatus $changeStatus,
         private readonly LinkPatientToAppointment $linkPatient,
         private readonly DeleteAppointment $deleteAppointment,
+        private readonly ScheduleAppointment $scheduleAppointment,
     ) {}
 
     public function index(IndexAppointmentRequest $request): Response
@@ -39,6 +42,15 @@ class AppointmentController extends WebController
             'appointments' => AppointmentWithContactResource::collection($this->appointments->forDay($date)),
             'pending' => PendingAppointmentResource::collection($this->appointments->awaitingConfirmation()),
         ]);
+    }
+
+    public function store(StoreAppointmentRequest $request, Patient $patient): RedirectResponse
+    {
+        $this->authorize('create', Appointment::class);
+
+        $this->scheduleAppointment->execute($patient, $request->toData());
+
+        return back();
     }
 
     public function update(UpdateAppointmentStatusRequest $request, Appointment $appointment): RedirectResponse
