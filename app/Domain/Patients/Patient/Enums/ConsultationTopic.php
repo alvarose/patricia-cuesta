@@ -13,19 +13,19 @@ enum ConsultationTopic: string
     case Depresion = 'depresion';
     case ConductasAdictivas = 'conductas_adictivas';
     case MediacionFamiliar = 'mediacion_familiar';
-    case RelacionesToxicas = 'relaciones_toxicas';
+    case VinculosDisfuncionales = 'vinculos_disfuncionales';
     case Maltrato = 'maltrato';
     case Autoconocimiento = 'autoconocimiento';
 
     public function label(): string
     {
         return match ($this) {
-            self::Duelo => 'Duelo complicado',
+            self::Duelo => 'Duelo',
             self::Ansiedad => 'Ansiedad y estrés',
             self::Depresion => 'Depresión',
             self::ConductasAdictivas => 'Conductas adictivas',
             self::MediacionFamiliar => 'Mediación familiar',
-            self::RelacionesToxicas => 'Relaciones tóxicas',
+            self::VinculosDisfuncionales => 'Vínculos afectivos disfuncionales',
             self::Maltrato => 'Maltrato',
             self::Autoconocimiento => 'Autoconocimiento',
         };
@@ -34,14 +34,14 @@ enum ConsultationTopic: string
     public function description(): string
     {
         return match ($this) {
-            self::Duelo => 'Acompañamiento en pérdidas difíciles, a tu ritmo y sin prisa.',
-            self::Ansiedad => 'Recuperar la calma y herramientas para sostenerla cada día.',
+            self::Duelo => 'Te acompaño en tu pérdida, a tu ritmo, en un espacio seguro y sin juicios.',
+            self::Ansiedad => 'Reconducir y dotar de herramientas para regular las prioridades.',
             self::Depresion => 'Volver a conectar contigo y con lo que te importa, poco a poco.',
             self::ConductasAdictivas => 'Comprender el origen y construir nuevas formas de cuidarte.',
-            self::MediacionFamiliar => 'Espacios de diálogo para relaciones y conflictos familiares.',
-            self::RelacionesToxicas => 'Identificar patrones y recuperar tu bienestar y tus límites.',
-            self::Maltrato => 'Un lugar seguro para elaborar lo vivido y reconstruirte.',
-            self::Autoconocimiento => 'Conocerte mejor y gestionar tus emociones con más libertad.',
+            self::MediacionFamiliar => 'Espacios de diálogo para dinámicas y conflictos familiares.',
+            self::VinculosDisfuncionales => 'Identificar patrones y recuperar tu bienestar y tus límites.',
+            self::Maltrato => 'Un lugar seguro para abordar lo vivido.',
+            self::Autoconocimiento => 'Conocerte mejor y regular tus emociones con más libertad.',
         };
     }
 
