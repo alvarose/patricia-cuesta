@@ -41,9 +41,8 @@ const year = new Date().getFullYear();
                     </span>
                 </a>
                 <p class="fblurb">
-                    Psicóloga sanitaria y forense. Terapia online para
-                    acompañarte en duelo, ansiedad, depresión y dificultades
-                    emocionales.
+                    Psicóloga sanitaria. Terapia online para acompañarte en
+                    duelo, ansiedad, depresión y dificultades emocionales.
                 </p>
             </div>
             <div class="fcol">

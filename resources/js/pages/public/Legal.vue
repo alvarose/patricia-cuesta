@@ -30,7 +30,7 @@ const title = computed(
                 <h2>Titular del sitio web</h2>
                 <p>
                     Este sitio web pertenece a Patricia Cuesta, psicóloga
-                    sanitaria y forense. Puedes contactar en {{ contactEmail }}.
+                    sanitaria. Puedes contactar en {{ contactEmail }}.
                 </p>
                 <h2>Objeto</h2>
                 <p>

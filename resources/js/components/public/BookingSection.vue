@@ -166,9 +166,7 @@ const resetBooking = () => {
                     <img src="/images/logo-mark.svg" alt="" />
                     <div>
                         <p class="cal-host-name">Patricia Cuesta</p>
-                        <p class="cal-host-role">
-                            Psicóloga sanitaria y forense
-                        </p>
+                        <p class="cal-host-role">Psicóloga sanitaria</p>
                     </div>
                 </div>
                 <h4 class="cal-event">Sesión online</h4>

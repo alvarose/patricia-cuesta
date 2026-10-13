@@ -23,7 +23,7 @@ const waHref = computed(() => whatsappHref(page.props.clinic.whatsapp));
 const CREDS = [
     'Duelo complicado',
     'Mediación familiar',
-    'Relaciones tóxicas',
+    'Vínculos afectivos disfuncionales',
     'Maltrato',
     'Ansiedad y depresión',
     'Conductas adictivas',
@@ -38,27 +38,27 @@ const FEATURES = [
 const STEPS = [
     {
         n: '1',
-        title: 'Me escribes',
-        text: 'Cuéntame qué te ocurre por WhatsApp o email, sin compromiso.',
+        title: 'Me escribes o te llamo',
+        text: 'Cuéntame por WhatsApp o email, o cita una llamada más abajo, sin compromiso.',
     },
     {
         n: '2',
         title: 'Valoramos tu situación',
-        text: 'Vemos juntas cómo puedo acompañarte y resolvemos tus dudas.',
+        text: 'Vemos cómo acompañarte y resolvemos tus dudas.',
     },
     {
         n: '3',
         title: 'Iniciamos el proceso',
-        text: 'Empezamos la terapia online y avanzamos a tu propio ritmo.',
+        text: 'Empezamos y avanzamos tus objetivos a tu propio ritmo.',
     },
 ];
 </script>
 
 <template>
-    <Head title="Psicóloga sanitaria y forense · Terapia online">
+    <Head title="Psicóloga sanitaria · Terapia online">
         <meta
             name="description"
-            content="Soy Patricia Cuesta, psicóloga sanitaria y forense. Terapia online para acompañarte en duelo, ansiedad, depresión y dificultades emocionales. Deshaciendo el nudo, paso a paso."
+            content="Soy Patricia Cuesta, psicóloga sanitaria. Terapia online para acompañarte en duelo, ansiedad, depresión y dificultades emocionales. Deshaciendo el nudo, paso a paso."
         />
     </Head>
 
@@ -67,17 +67,17 @@ const STEPS = [
         <div class="wrap hero-grid">
             <div class="hero-copy reveal stagger">
                 <p class="eyebrow" style="--i: 0">
-                    Psicóloga sanitaria y forense · Terapia online
+                    Psicóloga sanitaria · Terapia online
                 </p>
                 <h1 class="h-display" style="--i: 1">
                     Deshaciendo <em class="emph">el nudo</em>,<br />
                     <span class="thread">paso a paso</span>
                 </h1>
                 <p class="lead hero-sub" style="--i: 2">
-                    Soy Patricia Cuesta, psicóloga sanitaria y forense. Te
-                    acompaño en procesos de duelo, ansiedad, depresión, estrés y
-                    dificultades emocionales desde un espacio seguro, cercano y
-                    profesional.
+                    Soy Patricia Cuesta, psicóloga sanitaria, realizo terapia
+                    online. Te acompaño en procesos de duelo, ansiedad,
+                    depresión, estrés y dificultades emocionales desde un
+                    espacio seguro, cercano y profesional.
                 </p>
                 <div class="hero-cta" style="--i: 3">
                     <a class="btn btn--primary" href="#contacto"
@@ -124,18 +124,18 @@ const STEPS = [
                 <h2 class="h-sec">Soy <em class="emph">Patricia Cuesta</em></h2>
                 <div class="prose" style="margin-top: 24px">
                     <p class="body">
-                        Soy psicóloga sanitaria y forense, especializada en el
-                        acompañamiento de personas que atraviesan momentos
-                        difíciles.
+                        Mi forma de trabajar parte de la escucha, la comprensión
+                        y el respeto por el ritmo de cada persona. Le doy mucha
+                        importancia al momento actual, a la situación que estás
+                        viviendo, dándole más protagonismo que a un diagnóstico.
+                        Trabajo desde un enfoque contextual y funcional,
+                        atendiendo a las consecuencias de un trauma.
                     </p>
                     <p class="body" style="margin-top: 18px">
                         Cuento con formación específica en duelo complicado,
-                        mediación familiar, relaciones tóxicas, maltrato,
-                        ansiedad, depresión, estrés y conductas adictivas.
-                    </p>
-                    <p class="body" style="margin-top: 18px">
-                        Mi forma de trabajar parte de la escucha, la comprensión
-                        y el respeto por el ritmo de cada persona.
+                        mediación familiar, vínculos afectivos disfuncionales,
+                        maltrato, ansiedad, depresión, estrés y conductas
+                        adictivas.
                     </p>
                 </div>
                 <div class="creds reveal stagger">
@@ -218,12 +218,11 @@ const STEPS = [
                 </h2>
                 <div class="prose" style="margin-top: 22px">
                     <p class="body">
-                        Realizo terapia online para que puedas iniciar tu
-                        proceso desde un entorno cómodo, seguro y familiar para
-                        ti.
+                        Realizo terapia online para que tu proceso sea en un
+                        entorno cómodo y seguro para ti.
                     </p>
                     <p class="body" style="margin-top: 16px">
-                        Solo necesitas un espacio tranquilo, conexión a internet
+                        Solo necesitas tu espacio tranquilo, conexión a internet
                         y un momento para ti.
                     </p>
                 </div>
@@ -277,8 +276,9 @@ const STEPS = [
                     <span class="thread">momento</span>
                 </h2>
                 <p class="lead">
-                    Reserva una primera sesión online cuando mejor te venga. Sin
-                    compromiso, a tu ritmo y desde el primer paso.
+                    Reserva una primera toma de contacto cuando mejor te venga.
+                    Sin compromiso, a tu ritmo y desde el primer paso. Te llamo
+                    y nos conocemos.
                 </p>
             </div>
             <div class="booking-frame reveal">

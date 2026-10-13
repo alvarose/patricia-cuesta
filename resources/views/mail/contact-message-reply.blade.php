@@ -5,5 +5,5 @@ Hola {{ $message->name }},
 
 Un abrazo,<br>
 Patricia Cuesta<br>
-<span style="color:#6F6A63; font-size:13px;">Psicóloga sanitaria y forense</span>
+<span style="color:#6F6A63; font-size:13px;">Psicóloga sanitaria</span>
 </x-mail::message>
