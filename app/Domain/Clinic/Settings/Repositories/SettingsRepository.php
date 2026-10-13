@@ -23,8 +23,8 @@ final class SettingsRepository implements SettingsRepositoryInterface
 
         return [
             'profile.name' => 'Patricia Cuesta',
-            'profile.license_number' => 'M-XXXXX',
-            'profile.email' => config('clinic.admin_email'),
+            'profile.license_number' => 'M-33233',
+            'profile.email' => 'patriciacuestapsicologia@gmail.com',
             'profile.phone' => '',
             'profile.whatsapp' => '',
             'profile.photo_path' => null,
