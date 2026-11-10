@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
 
-        URL::forceScheme(app()->isProduction() ? 'https' : 'http');
+        URL::forceScheme(app()->environment(['production', 'staging']) ? 'https' : 'http');
 
         JsonResource::withoutWrapping();
 
@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
             app()->isProduction(),
         );
 
-        Password::defaults(fn (): ?Password => app()->isProduction()
+        Password::defaults(fn (): ?Password => app()->environment(['production', 'staging'])
             ? Password::min(12)
                 ->mixedCase()
                 ->letters()

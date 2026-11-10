@@ -25,7 +25,7 @@ class AddSecurityHeaders
             $response->headers->set($header, $value);
         }
 
-        if (app()->isProduction()) {
+        if (app()->environment(['production', 'staging'])) {
             $response->headers->set('Strict-Transport-Security', self::HSTS);
         }
 
