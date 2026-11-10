@@ -1,10 +1,15 @@
 <?php
 
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
+use App\Domain\Booking\AppointmentHistory\Enums\AppointmentHistoryField;
+use App\Domain\Core\Shared\Enums\ActionSource;
+use App\Domain\Patients\PatientHistory\Enums\PatientHistoryField;
 use App\Mail\AppointmentConfirmed;
 use App\Models\Booking\Appointment;
+use App\Models\Booking\AppointmentHistory;
 use App\Models\Contact\ContactMessage;
 use App\Models\Patients\Patient;
+use App\Models\Patients\PatientHistory;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Seeders\AvailabilitySeeder;
@@ -117,4 +122,48 @@ it('rechaza franjas de disponibilidad solapadas', function () {
             'max_advance_days' => 60,
         ],
     ])->assertSessionHasErrors('days');
+});
+
+it('anota en el historial de la cita quien cambio el estado desde el panel', function () {
+    Mail::fake();
+
+    $user = User::factory()->create();
+    $appointment = Appointment::factory()->pending()->create();
+
+    $this->actingAs($user)
+        ->patch("/admin/citas/{$appointment->id}/estado", ['status' => 'cancelled'])
+        ->assertRedirect();
+
+    $row = AppointmentHistory::query()->sole();
+
+    expect($row->field)->toBe(AppointmentHistoryField::Status->value)
+        ->and($row->value)->toBe('cancelled')
+        ->and($row->source)->toBe(ActionSource::Admin)
+        ->and($row->actor_type)->toBe('user')
+        ->and($row->actor_id)->toBe($user->id);
+});
+
+it('anota en el historial del paciente quien edito la ficha desde el panel', function () {
+    $user = User::factory()->create();
+    $patient = Patient::factory()->create([Patient::NOTES => 'Primera sesión hecha.']);
+
+    $this->actingAs($user)
+        ->patch("/admin/pacientes/{$patient->id}", [
+            'first_name' => $patient->first_name,
+            'last_name' => $patient->last_name,
+            'email' => $patient->email,
+            'phone' => $patient->phone,
+            'topic' => $patient->topic?->value,
+            'notes' => 'Deriva a terapia de pareja.',
+            'status' => $patient->status->value,
+        ])
+        ->assertRedirect();
+
+    $row = PatientHistory::query()->sole();
+
+    expect($row->field)->toBe(PatientHistoryField::Notes->value)
+        ->and($row->old_value)->toBe('Primera sesión hecha.')
+        ->and($row->value)->toBe('Deriva a terapia de pareja.')
+        ->and($row->source)->toBe(ActionSource::Admin)
+        ->and($row->actor_id)->toBe($user->id);
 });
