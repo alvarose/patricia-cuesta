@@ -68,8 +68,8 @@ class Patient extends Model
     protected function casts(): array
     {
         return [
-            self::TOPIC => ConsultationTopic::class,
-            self::STATUS => PatientStatus::class,
+            Patient::TOPIC => ConsultationTopic::class,
+            Patient::STATUS => PatientStatus::class,
         ];
     }
 

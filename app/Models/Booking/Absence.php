@@ -42,8 +42,8 @@ class Absence extends Model
     protected function casts(): array
     {
         return [
-            self::STARTS_ON => 'immutable_date',
-            self::ENDS_ON => 'immutable_date',
+            Absence::STARTS_ON => 'immutable_date',
+            Absence::ENDS_ON => 'immutable_date',
         ];
     }
 

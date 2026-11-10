@@ -68,9 +68,9 @@ class ContactMessage extends Model
     protected function casts(): array
     {
         return [
-            self::CONTACT_PREFERENCE => ContactPreference::class,
-            self::READ_AT => 'immutable_datetime',
-            self::REPLIED_AT => 'immutable_datetime',
+            ContactMessage::CONTACT_PREFERENCE => ContactPreference::class,
+            ContactMessage::READ_AT => 'immutable_datetime',
+            ContactMessage::REPLIED_AT => 'immutable_datetime',
         ];
     }
 

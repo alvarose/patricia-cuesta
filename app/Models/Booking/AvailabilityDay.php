@@ -38,8 +38,8 @@ class AvailabilityDay extends Model
     protected function casts(): array
     {
         return [
-            self::WEEKDAY => 'integer',
-            self::IS_ENABLED => 'boolean',
+            AvailabilityDay::WEEKDAY => 'integer',
+            AvailabilityDay::IS_ENABLED => 'boolean',
         ];
     }
 

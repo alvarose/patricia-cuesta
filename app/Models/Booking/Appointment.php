@@ -69,11 +69,11 @@ class Appointment extends Model
     protected function casts(): array
     {
         return [
-            self::STARTS_AT => 'immutable_datetime',
-            self::ENDS_AT => 'immutable_datetime',
-            self::STATUS => AppointmentStatus::class,
-            self::SOURCE => AppointmentSource::class,
-            self::TOPIC => ConsultationTopic::class,
+            Appointment::STARTS_AT => 'immutable_datetime',
+            Appointment::ENDS_AT => 'immutable_datetime',
+            Appointment::STATUS => AppointmentStatus::class,
+            Appointment::SOURCE => AppointmentSource::class,
+            Appointment::TOPIC => ConsultationTopic::class,
         ];
     }
 

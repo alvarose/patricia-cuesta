@@ -26,7 +26,7 @@ class Setting extends Model
     protected function casts(): array
     {
         return [
-            self::VALUE => 'json',
+            Setting::VALUE => 'json',
         ];
     }
 }
