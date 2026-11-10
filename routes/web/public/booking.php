@@ -6,13 +6,13 @@ use App\Http\Controllers\Web\Public\Contact\ContactController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('reservas/slots', [SlotController::class, 'index'])
-    ->middleware('throttle:60,1')
+    ->middleware('throttle:public-read')
     ->name('booking.slots');
 
 Route::post('reservas', [BookingController::class, 'store'])
-    ->middleware('throttle:10,1')
+    ->middleware('throttle:public-write')
     ->name('booking.store');
 
 Route::post('contacto', [ContactController::class, 'store'])
-    ->middleware('throttle:10,1')
+    ->middleware('throttle:public-write')
     ->name('contact.store');
