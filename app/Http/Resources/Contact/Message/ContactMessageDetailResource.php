@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin ContactMessage */
-class ContactMessageDetailResource extends JsonResource
+final class ContactMessageDetailResource extends JsonResource
 {
     /** @return array<string, mixed> */
     public function toArray(Request $request): array

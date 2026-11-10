@@ -16,7 +16,7 @@ final class ReplyToContactMessage
         private readonly ContactMessageServiceInterface $messages,
     ) {}
 
-    public function execute(ContactMessage $message, string $body): ContactMessage
+    public function handle(ContactMessage $message, string $body): ContactMessage
     {
         $message = DB::transaction(fn (): ContactMessage => $this->messages->update(
             $message,

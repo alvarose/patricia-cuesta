@@ -2,7 +2,7 @@
 
 namespace App\Domain\Patients\Patient\Policies;
 
-use App\Domain\Shared\Policies\BasePolicy;
+use App\Domain\Core\Shared\Policies\BasePolicy;
 use App\Models\Patients\Patient;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;

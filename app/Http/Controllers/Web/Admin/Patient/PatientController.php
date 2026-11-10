@@ -45,7 +45,7 @@ class PatientController extends WebController
     {
         $this->authorize('create', Patient::class);
 
-        $this->createPatient->execute($request->toData());
+        $this->createPatient->handle($request->toData());
 
         return back();
     }
@@ -54,7 +54,7 @@ class PatientController extends WebController
     {
         $this->authorize('update', $patient);
 
-        $this->updatePatient->execute($patient, $request->toData());
+        $this->updatePatient->handle($patient, $request->toData());
 
         return back();
     }
@@ -63,7 +63,7 @@ class PatientController extends WebController
     {
         $this->authorize('delete', $patient);
 
-        $this->deletePatient->execute($patient);
+        $this->deletePatient->handle($patient);
 
         return back();
     }

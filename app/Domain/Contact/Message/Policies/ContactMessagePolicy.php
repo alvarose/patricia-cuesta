@@ -2,7 +2,7 @@
 
 namespace App\Domain\Contact\Message\Policies;
 
-use App\Domain\Shared\Policies\BasePolicy;
+use App\Domain\Core\Shared\Policies\BasePolicy;
 use App\Models\Contact\ContactMessage;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;

@@ -5,13 +5,12 @@ namespace App\Models\Contact;
 use App\Domain\Contact\Message\Enums\ContactPreference;
 use App\Http\Resources\Contact\Message\ContactMessageResource;
 use App\Models\Patients\Patient;
-use App\Traits\HasResource;
 use Carbon\CarbonImmutable;
 use Database\Factories\Contact\ContactMessageFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
@@ -27,10 +26,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int|null $patient_id
  * @property CarbonImmutable $created_at
  */
+#[UseResource(ContactMessageResource::class)]
 class ContactMessage extends Model
 {
     /** @use HasFactory<ContactMessageFactory> */
-    use HasFactory, HasResource;
+    use HasFactory;
 
     const TABLE = 'contact_messages';
 
@@ -61,9 +61,6 @@ class ContactMessage extends Model
     protected $table = self::TABLE;
 
     protected $guarded = [self::ID];
-
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = ContactMessageResource::class;
 
     protected function casts(): array
     {

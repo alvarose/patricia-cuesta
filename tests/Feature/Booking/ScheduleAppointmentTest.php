@@ -21,7 +21,7 @@ beforeEach(function () {
         Patient::LAST_NAME => 'Gómez',
         Patient::EMAIL => 'lucia@example.com',
         Patient::PHONE => '600111222',
-        Patient::TOPIC => ConsultationTopic::Ansiedad,
+        Patient::TOPIC => ConsultationTopic::Anxiety,
     ]);
 });
 
@@ -50,7 +50,7 @@ it('crea la cita confirmada con los datos de la ficha', function () {
         ->and($appointment->patient_id)->toBe($this->patient->id)
         ->and($appointment->contact_name)->toBe('Lucía Gómez')
         ->and($appointment->contact_phone)->toBe('600111222')
-        ->and($appointment->topic)->toBe(ConsultationTopic::Ansiedad)
+        ->and($appointment->topic)->toBe(ConsultationTopic::Anxiety)
         ->and($appointment->notes)->toBe('Primera sesión de seguimiento.')
         ->and($appointment->starts_at->format('Y-m-d H:i'))->toBe($start->format('Y-m-d H:i'))
         ->and($appointment->ends_at->format('H:i'))->toBe('10:50');

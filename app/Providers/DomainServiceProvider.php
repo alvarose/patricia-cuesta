@@ -20,10 +20,10 @@ use App\Domain\Patients\Patient\Contracts\PatientServiceInterface;
 use App\Domain\Patients\Patient\Services\PatientService;
 use Illuminate\Support\ServiceProvider;
 
-final class ServicesProvider extends ServiceProvider
+final class DomainServiceProvider extends ServiceProvider
 {
     /** @var array<class-string, class-string> */
-    private array $booking = [
+    private const BOOKING = [
         AppointmentServiceInterface::class => AppointmentService::class,
         AvailabilityServiceInterface::class => AvailabilityService::class,
         AbsenceServiceInterface::class => AbsenceService::class,
@@ -32,23 +32,23 @@ final class ServicesProvider extends ServiceProvider
     ];
 
     /** @var array<class-string, class-string> */
-    private array $patients = [
+    private const PATIENTS = [
         PatientServiceInterface::class => PatientService::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $contact = [
+    private const CONTACT = [
         ContactMessageServiceInterface::class => ContactMessageService::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $clinic = [
+    private const CLINIC = [
         SettingsServiceInterface::class => SettingsService::class,
     ];
 
     public function register(): void
     {
-        $maps = [$this->booking, $this->patients, $this->contact, $this->clinic];
+        $maps = [self::BOOKING, self::PATIENTS, self::CONTACT, self::CLINIC];
 
         foreach ($maps as $map) {
             foreach ($map as $interface => $implementation) {

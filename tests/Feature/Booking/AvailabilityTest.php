@@ -38,7 +38,7 @@ function schedule(array $overrides = [], ?BookingSettings $settings = null): Upd
 }
 
 it('reemplaza las franjas de un día', function () {
-    app(UpdateWeeklySchedule::class)->execute(schedule([
+    app(UpdateWeeklySchedule::class)->handle(schedule([
         1 => new WeekdayScheduleData(1, true, [new TimeWindowData('09:00', '13:00')]),
     ]));
 
@@ -49,7 +49,7 @@ it('reemplaza las franjas de un día', function () {
 });
 
 it('guarda los ajustes de sesión y la caché queda al día', function () {
-    app(UpdateWeeklySchedule::class)->execute(schedule(settings: new BookingSettings(60, 0, 24, 60)));
+    app(UpdateWeeklySchedule::class)->handle(schedule(settings: new BookingSettings(60, 0, 24, 60)));
 
     $booking = app(SettingsServiceInterface::class)->booking();
 
@@ -58,7 +58,7 @@ it('guarda los ajustes de sesión y la caché queda al día', function () {
 });
 
 it('deja los cambios visibles de inmediato en el calendario público', function () {
-    app(UpdateWeeklySchedule::class)->execute(schedule([
+    app(UpdateWeeklySchedule::class)->handle(schedule([
         1 => new WeekdayScheduleData(1, false, []),
     ]));
 
@@ -70,7 +70,7 @@ it('calcula las horas semanales ofrecidas', function () {
 });
 
 it('las ausencias bloquean el calendario y se pueden eliminar', function () {
-    $absence = app(CreateAbsence::class)->execute(new CreateAbsenceData(
+    $absence = app(CreateAbsence::class)->handle(new CreateAbsenceData(
         startsOn: $this->monday,
         endsOn: $this->monday,
         note: 'Vacaciones',
@@ -78,7 +78,7 @@ it('las ausencias bloquean el calendario y se pueden eliminar', function () {
 
     expect(app(SlotServiceInterface::class)->slotsForDay($this->monday))->toBe([]);
 
-    app(DeleteAbsence::class)->execute($absence);
+    app(DeleteAbsence::class)->handle($absence);
 
     expect(Absence::query()->count())->toBe(0)
         ->and(app(SlotServiceInterface::class)->slotsForDay($this->monday))->not->toBe([]);

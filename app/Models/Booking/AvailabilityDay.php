@@ -3,11 +3,10 @@
 namespace App\Models\Booking;
 
 use App\Http\Resources\Booking\Availability\AvailabilityDayResource;
-use App\Traits\HasResource;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\Resources\Json\JsonResource;
 use UnexpectedValueException;
 
 /**
@@ -16,10 +15,9 @@ use UnexpectedValueException;
  * @property bool $is_enabled
  * @property-read Collection<int, AvailabilityWindow> $windows
  */
+#[UseResource(AvailabilityDayResource::class)]
 class AvailabilityDay extends Model
 {
-    use HasResource;
-
     const TABLE = 'availability_days';
 
     const ID = 'id';
@@ -31,9 +29,6 @@ class AvailabilityDay extends Model
     protected $table = self::TABLE;
 
     protected $guarded = [self::ID];
-
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = AvailabilityDayResource::class;
 
     protected function casts(): array
     {

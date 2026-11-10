@@ -25,7 +25,7 @@ function profileData(?UploadedFile $photo = null): UpdateClinicProfileData
 }
 
 it('guarda los datos del perfil', function () {
-    app(UpdateClinicProfile::class)->execute(profileData());
+    app(UpdateClinicProfile::class)->handle(profileData());
 
     $profile = $this->settings->profile();
 
@@ -34,12 +34,12 @@ it('guarda los datos del perfil', function () {
 });
 
 it('sustituye la foto y borra la anterior solo tras guardar', function () {
-    app(UpdateClinicProfile::class)->execute(profileData(UploadedFile::fake()->image('antigua.jpg')));
+    app(UpdateClinicProfile::class)->handle(profileData(UploadedFile::fake()->image('antigua.jpg')));
     $previous = $this->settings->profile()->photoPath;
 
     Storage::disk('public')->assertExists($previous);
 
-    app(UpdateClinicProfile::class)->execute(profileData(UploadedFile::fake()->image('nueva.jpg')));
+    app(UpdateClinicProfile::class)->handle(profileData(UploadedFile::fake()->image('nueva.jpg')));
     $current = $this->settings->profile()->photoPath;
 
     expect($current)->not->toBe($previous);
@@ -48,10 +48,10 @@ it('sustituye la foto y borra la anterior solo tras guardar', function () {
 });
 
 it('conserva la foto anterior si no se sube ninguna nueva', function () {
-    app(UpdateClinicProfile::class)->execute(profileData(UploadedFile::fake()->image('foto.jpg')));
+    app(UpdateClinicProfile::class)->handle(profileData(UploadedFile::fake()->image('foto.jpg')));
     $photo = $this->settings->profile()->photoPath;
 
-    app(UpdateClinicProfile::class)->execute(profileData());
+    app(UpdateClinicProfile::class)->handle(profileData());
 
     expect($this->settings->profile()->photoPath)->toBe($photo);
     Storage::disk('public')->assertExists($photo);

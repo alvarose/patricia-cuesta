@@ -16,33 +16,33 @@ use App\Domain\Patients\Patient\Contracts\PatientRepositoryInterface;
 use App\Domain\Patients\Patient\Repositories\PatientRepository;
 use Illuminate\Support\ServiceProvider;
 
-final class RepositoryProvider extends ServiceProvider
+final class RepositoryServiceProvider extends ServiceProvider
 {
     /** @var array<class-string, class-string> */
-    private array $booking = [
+    private const BOOKING = [
         AppointmentRepositoryInterface::class => AppointmentRepository::class,
         AvailabilityRepositoryInterface::class => AvailabilityRepository::class,
         AbsenceRepositoryInterface::class => AbsenceRepository::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $patients = [
+    private const PATIENTS = [
         PatientRepositoryInterface::class => PatientRepository::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $contact = [
+    private const CONTACT = [
         ContactMessageRepositoryInterface::class => ContactMessageRepository::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $clinic = [
+    private const CLINIC = [
         SettingsRepositoryInterface::class => SettingsRepository::class,
     ];
 
     public function register(): void
     {
-        $maps = [$this->booking, $this->patients, $this->contact, $this->clinic];
+        $maps = [self::BOOKING, self::PATIENTS, self::CONTACT, self::CLINIC];
 
         foreach ($maps as $map) {
             foreach ($map as $interface => $implementation) {

@@ -15,7 +15,7 @@ class BookingController extends WebController
 
     public function store(StoreBookingRequest $request): RedirectResponse
     {
-        $appointment = $this->bookAppointment->execute(
+        $appointment = $this->bookAppointment->handle(
             $request->contact(),
             $request->start(),
             $request->topic(),

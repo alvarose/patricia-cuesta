@@ -65,7 +65,7 @@ class AvailabilityController extends WebController
     {
         $this->authorize('update', AvailabilityDay::class);
 
-        $this->updateSchedule->execute($request->toData());
+        $this->updateSchedule->handle($request->toData());
 
         return back();
     }

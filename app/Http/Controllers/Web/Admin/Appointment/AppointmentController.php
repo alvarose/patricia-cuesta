@@ -49,7 +49,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('create', Appointment::class);
 
-        $this->scheduleAppointment->execute($patient, $request->toData());
+        $this->scheduleAppointment->handle($patient, $request->toData());
 
         return back();
     }
@@ -58,7 +58,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('update', $appointment);
 
-        $this->changeStatus->execute($appointment, $request->target());
+        $this->changeStatus->handle($appointment, $request->target());
 
         return back();
     }
@@ -67,7 +67,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('delete', $appointment);
 
-        $this->deleteAppointment->execute($appointment);
+        $this->deleteAppointment->handle($appointment);
 
         return back();
     }
@@ -76,7 +76,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('create', Patient::class);
 
-        $this->linkPatient->execute($appointment);
+        $this->linkPatient->handle($appointment);
 
         return back();
     }

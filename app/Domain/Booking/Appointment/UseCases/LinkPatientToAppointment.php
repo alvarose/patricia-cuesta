@@ -15,7 +15,7 @@ final class LinkPatientToAppointment
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function execute(Appointment $appointment): Appointment
+    public function handle(Appointment $appointment): Appointment
     {
         if ($appointment->patient_id !== null) {
             return $appointment;

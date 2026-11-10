@@ -17,33 +17,33 @@ use App\Models\Patients\Patient;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
-final class PoliciesProvider extends ServiceProvider
+final class PolicyServiceProvider extends ServiceProvider
 {
     /** @var array<class-string, class-string> */
-    private array $booking = [
+    private const BOOKING = [
         Appointment::class => AppointmentPolicy::class,
         AvailabilityDay::class => AvailabilityPolicy::class,
         Absence::class => AbsencePolicy::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $patients = [
+    private const PATIENTS = [
         Patient::class => PatientPolicy::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $contact = [
+    private const CONTACT = [
         ContactMessage::class => ContactMessagePolicy::class,
     ];
 
     /** @var array<class-string, class-string> */
-    private array $clinic = [
+    private const CLINIC = [
         Setting::class => SettingsPolicy::class,
     ];
 
     public function boot(): void
     {
-        $maps = [$this->booking, $this->patients, $this->contact, $this->clinic];
+        $maps = [self::BOOKING, self::PATIENTS, self::CONTACT, self::CLINIC];
 
         foreach ($maps as $map) {
             foreach ($map as $model => $policy) {

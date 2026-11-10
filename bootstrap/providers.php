@@ -1,15 +1,15 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use App\Providers\DomainServiceProvider;
 use App\Providers\FortifyServiceProvider;
-use App\Providers\PoliciesProvider;
-use App\Providers\RepositoryProvider;
-use App\Providers\ServicesProvider;
+use App\Providers\PolicyServiceProvider;
+use App\Providers\RepositoryServiceProvider;
 
 return [
     AppServiceProvider::class,
-    RepositoryProvider::class,
-    ServicesProvider::class,
-    PoliciesProvider::class,
+    RepositoryServiceProvider::class,
+    DomainServiceProvider::class,
+    PolicyServiceProvider::class,
     FortifyServiceProvider::class,
 ];

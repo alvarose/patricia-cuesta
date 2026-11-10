@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Shared\Concerns;
+namespace App\Domain\Core\Shared\Concerns;
 
 use BackedEnum;
 

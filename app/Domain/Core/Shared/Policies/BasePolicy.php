@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Shared\Policies;
+namespace App\Domain\Core\Shared\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\Response;

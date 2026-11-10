@@ -44,7 +44,7 @@ class MessageController extends WebController
     {
         $this->authorize('update', $message);
 
-        $this->markAsRead->execute($message);
+        $this->markAsRead->handle($message);
 
         return to_route('admin.messages.index', ['message' => $message->id]);
     }
@@ -53,7 +53,7 @@ class MessageController extends WebController
     {
         $this->authorize('update', $message);
 
-        $this->replyToMessage->execute($message, $request->body());
+        $this->replyToMessage->handle($message, $request->body());
 
         return back();
     }
@@ -62,7 +62,7 @@ class MessageController extends WebController
     {
         $this->authorize('create', Patient::class);
 
-        $this->linkPatient->execute($message);
+        $this->linkPatient->handle($message);
 
         return back();
     }

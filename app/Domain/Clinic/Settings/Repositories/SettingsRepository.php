@@ -55,7 +55,7 @@ final class SettingsRepository implements SettingsRepositoryInterface
 
     private static function fingerprint(): string
     {
-        return md5(serialize(self::defaults()));
+        return hash('xxh128', serialize(self::defaults()));
     }
 
     public function get(string $key, mixed $default = null): mixed

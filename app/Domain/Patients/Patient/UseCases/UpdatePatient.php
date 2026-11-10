@@ -13,7 +13,7 @@ final class UpdatePatient
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function execute(Patient $patient, UpdatePatientData $data): Patient
+    public function handle(Patient $patient, UpdatePatientData $data): Patient
     {
         return DB::transaction(fn (): Patient => $this->patients->update($patient, $data));
     }

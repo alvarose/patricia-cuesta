@@ -12,7 +12,7 @@ final class DeleteAbsence
         private readonly AbsenceServiceInterface $absences,
     ) {}
 
-    public function execute(Absence $absence): bool
+    public function handle(Absence $absence): bool
     {
         return DB::transaction(fn (): bool => $this->absences->delete($absence));
     }

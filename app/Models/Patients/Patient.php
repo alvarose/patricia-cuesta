@@ -8,9 +8,9 @@ use App\Domain\Patients\Patient\Enums\PatientStatus;
 use App\Http\Resources\Patients\Patient\PatientResource;
 use App\Models\Booking\Appointment;
 use App\Models\Contact\ContactMessage;
-use App\Traits\HasResource;
 use Carbon\CarbonImmutable;
 use Database\Factories\Patients\PatientFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
 /**
@@ -33,10 +32,11 @@ use Illuminate\Support\Str;
  * @property CarbonImmutable $created_at
  * @property-read Appointment|null $nextAppointment
  */
+#[UseResource(PatientResource::class)]
 class Patient extends Model
 {
     /** @use HasFactory<PatientFactory> */
-    use HasFactory, HasResource, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     const TABLE = 'patients';
 
@@ -61,9 +61,6 @@ class Patient extends Model
     protected $table = self::TABLE;
 
     protected $guarded = [self::ID];
-
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = PatientResource::class;
 
     protected function casts(): array
     {

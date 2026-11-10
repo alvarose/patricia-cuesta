@@ -25,7 +25,7 @@ final class ScheduleAppointment
     ) {}
 
     /** @throws ValidationException */
-    public function execute(Patient $patient, ScheduleAppointmentData $data): Appointment
+    public function handle(Patient $patient, ScheduleAppointmentData $data): Appointment
     {
         $endsAt = $this->settings->booking()->sessionEndFor($data->startsAt);
 

@@ -12,7 +12,7 @@ final class DeletePatient
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function execute(Patient $patient): bool
+    public function handle(Patient $patient): bool
     {
         return DB::transaction(fn (): bool => $this->patients->delete($patient));
     }

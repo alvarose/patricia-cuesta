@@ -15,7 +15,7 @@ final class ChangeAppointmentStatus
         private readonly AppointmentServiceInterface $appointments,
     ) {}
 
-    public function execute(Appointment $appointment, AppointmentStatus $target): Appointment
+    public function handle(Appointment $appointment, AppointmentStatus $target): Appointment
     {
         $appointment = DB::transaction(
             fn (): Appointment => $this->appointments->transitionTo($appointment, $target),

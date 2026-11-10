@@ -6,7 +6,7 @@ use App\Models\Booking\Appointment;
 use Illuminate\Http\Request;
 
 /** @mixin Appointment */
-class AppointmentWithContactResource extends AppointmentResource
+final class AppointmentWithContactResource extends AppointmentResource
 {
     /** @return array<string, mixed> */
     public function toArray(Request $request): array

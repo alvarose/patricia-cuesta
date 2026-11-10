@@ -15,7 +15,7 @@ class ContactController extends WebController
 
     public function store(StoreContactMessageRequest $request): RedirectResponse
     {
-        $this->submitMessage->execute($request->toData());
+        $this->submitMessage->handle($request->toData());
 
         return back()->with('contact', ['sent' => true]);
     }

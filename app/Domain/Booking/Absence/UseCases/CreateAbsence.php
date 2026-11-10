@@ -13,7 +13,7 @@ final class CreateAbsence
         private readonly AbsenceServiceInterface $absences,
     ) {}
 
-    public function execute(CreateAbsenceData $data): Absence
+    public function handle(CreateAbsenceData $data): Absence
     {
         return DB::transaction(fn (): Absence => $this->absences->create($data));
     }

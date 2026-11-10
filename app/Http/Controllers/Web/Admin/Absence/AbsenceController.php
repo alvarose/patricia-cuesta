@@ -20,7 +20,7 @@ class AbsenceController extends WebController
     {
         $this->authorize('create', Absence::class);
 
-        $this->createAbsence->execute($request->toData());
+        $this->createAbsence->handle($request->toData());
 
         return back();
     }
@@ -29,7 +29,7 @@ class AbsenceController extends WebController
     {
         $this->authorize('delete', $absence);
 
-        $this->deleteAbsence->execute($absence);
+        $this->deleteAbsence->handle($absence);
 
         return back();
     }

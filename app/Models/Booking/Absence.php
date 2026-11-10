@@ -3,13 +3,12 @@
 namespace App\Models\Booking;
 
 use App\Http\Resources\Booking\Absence\AbsenceResource;
-use App\Traits\HasResource;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Database\Factories\Booking\AbsenceFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
@@ -17,10 +16,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property CarbonImmutable $ends_on
  * @property string|null $note
  */
+#[UseResource(AbsenceResource::class)]
 class Absence extends Model
 {
     /** @use HasFactory<AbsenceFactory> */
-    use HasFactory, HasResource;
+    use HasFactory;
 
     const TABLE = 'absences';
 
@@ -35,9 +35,6 @@ class Absence extends Model
     protected $table = self::TABLE;
 
     protected $guarded = [self::ID];
-
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = AbsenceResource::class;
 
     protected function casts(): array
     {
