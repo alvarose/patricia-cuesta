@@ -6,6 +6,8 @@ use App\Domain\Booking\Absence\Contracts\AbsenceRepositoryInterface;
 use App\Domain\Booking\Absence\Repositories\AbsenceRepository;
 use App\Domain\Booking\Appointment\Contracts\AppointmentRepositoryInterface;
 use App\Domain\Booking\Appointment\Repositories\AppointmentRepository;
+use App\Domain\Booking\AppointmentHistory\Contracts\AppointmentHistoryRepositoryInterface;
+use App\Domain\Booking\AppointmentHistory\Repositories\AppointmentHistoryRepository;
 use App\Domain\Booking\Availability\Contracts\AvailabilityRepositoryInterface;
 use App\Domain\Booking\Availability\Repositories\AvailabilityRepository;
 use App\Domain\Clinic\Settings\Contracts\SettingsRepositoryInterface;
@@ -14,6 +16,8 @@ use App\Domain\Contact\Message\Contracts\ContactMessageRepositoryInterface;
 use App\Domain\Contact\Message\Repositories\ContactMessageRepository;
 use App\Domain\Patients\Patient\Contracts\PatientRepositoryInterface;
 use App\Domain\Patients\Patient\Repositories\PatientRepository;
+use App\Domain\Patients\PatientHistory\Contracts\PatientHistoryRepositoryInterface;
+use App\Domain\Patients\PatientHistory\Repositories\PatientHistoryRepository;
 use Illuminate\Support\ServiceProvider;
 
 final class RepositoryServiceProvider extends ServiceProvider
@@ -23,11 +27,13 @@ final class RepositoryServiceProvider extends ServiceProvider
         AppointmentRepositoryInterface::class => AppointmentRepository::class,
         AvailabilityRepositoryInterface::class => AvailabilityRepository::class,
         AbsenceRepositoryInterface::class => AbsenceRepository::class,
+        AppointmentHistoryRepositoryInterface::class => AppointmentHistoryRepository::class,
     ];
 
     /** @var array<class-string, class-string> */
     private const PATIENTS = [
         PatientRepositoryInterface::class => PatientRepository::class,
+        PatientHistoryRepositoryInterface::class => PatientHistoryRepository::class,
     ];
 
     /** @var array<class-string, class-string> */

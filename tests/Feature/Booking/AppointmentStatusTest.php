@@ -3,6 +3,7 @@
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
 use App\Domain\Booking\Appointment\Exceptions\InvalidAppointmentTransition;
 use App\Domain\Booking\Appointment\UseCases\ChangeAppointmentStatus;
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Mail\AppointmentConfirmed;
 use App\Models\Booking\Appointment;
 use Illuminate\Support\Facades\Mail;
@@ -35,7 +36,7 @@ it('confirma una cita pendiente y avisa a quien la pidió', function () {
         Appointment::CONTACT_EMAIL => 'cliente@example.com',
     ]);
 
-    $this->changeStatus->handle($appointment, AppointmentStatus::Confirmed);
+    $this->changeStatus->handle($appointment, AppointmentStatus::Confirmed, ActionSource::System);
 
     expect($appointment->refresh()->status)->toBe(AppointmentStatus::Confirmed);
     Mail::assertQueued(
@@ -49,7 +50,7 @@ it('no envía correo automático al rechazar', function () {
 
     $appointment = Appointment::factory()->web()->pending()->create();
 
-    $this->changeStatus->handle($appointment, AppointmentStatus::Cancelled);
+    $this->changeStatus->handle($appointment, AppointmentStatus::Cancelled, ActionSource::System);
 
     expect($appointment->refresh()->status)->toBe(AppointmentStatus::Cancelled);
     Mail::assertNothingQueued();
@@ -60,7 +61,7 @@ it('completa una cita confirmada sin avisar de nuevo', function () {
 
     $appointment = Appointment::factory()->confirmed()->create();
 
-    $this->changeStatus->handle($appointment, AppointmentStatus::Completed);
+    $this->changeStatus->handle($appointment, AppointmentStatus::Completed, ActionSource::System);
 
     expect($appointment->refresh()->status)->toBe(AppointmentStatus::Completed);
     Mail::assertNothingQueued();
@@ -71,7 +72,7 @@ it('rechaza una transición imposible sin tocar la cita', function () {
 
     $appointment = Appointment::factory()->completed()->create();
 
-    expect(fn () => $this->changeStatus->handle($appointment, AppointmentStatus::Confirmed))
+    expect(fn () => $this->changeStatus->handle($appointment, AppointmentStatus::Confirmed, ActionSource::System))
         ->toThrow(InvalidAppointmentTransition::class);
 
     expect($appointment->refresh()->status)->toBe(AppointmentStatus::Completed);

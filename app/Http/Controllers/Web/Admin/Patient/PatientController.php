@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin\Patient;
 
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\Patient\Contracts\PatientServiceInterface;
 use App\Domain\Patients\Patient\Enums\ConsultationTopic;
 use App\Domain\Patients\Patient\Enums\PatientStatus;
@@ -54,7 +55,12 @@ class PatientController extends WebController
     {
         $this->authorize('update', $patient);
 
-        $this->updatePatient->handle($patient, $request->toData());
+        $this->updatePatient->handle(
+            $patient,
+            $request->toData(),
+            ActionSource::Admin,
+            $request->user(),
+        );
 
         return back();
     }

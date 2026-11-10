@@ -4,8 +4,10 @@ namespace App\Domain\Booking\Appointment\UseCases;
 
 use App\Domain\Booking\Appointment\Contracts\AppointmentServiceInterface;
 use App\Domain\Booking\Appointment\DTO\UpdateAppointmentData;
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\Patient\Contracts\PatientServiceInterface;
 use App\Models\Booking\Appointment;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 final class LinkPatientToAppointment
@@ -15,13 +17,16 @@ final class LinkPatientToAppointment
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function handle(Appointment $appointment): Appointment
-    {
+    public function handle(
+        Appointment $appointment,
+        ActionSource $source,
+        ?Model $actor = null,
+    ): Appointment {
         if ($appointment->patient_id !== null) {
             return $appointment;
         }
 
-        return DB::transaction(function () use ($appointment): Appointment {
+        return DB::transaction(function () use ($appointment, $source, $actor): Appointment {
             $patient = $this->patients->findOrCreateFromContact(
                 $appointment->contact_name,
                 $appointment->contact_email,
@@ -29,7 +34,12 @@ final class LinkPatientToAppointment
                 $appointment->topic,
             );
 
-            return $this->appointments->update($appointment, UpdateAppointmentData::patient($patient->id));
+            return $this->appointments->update(
+                $appointment,
+                UpdateAppointmentData::patient($patient->id),
+                $source,
+                $actor,
+            );
         });
     }
 }

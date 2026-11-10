@@ -8,6 +8,7 @@ use App\Domain\Booking\Appointment\UseCases\DeleteAppointment;
 use App\Domain\Booking\Appointment\UseCases\LinkPatientToAppointment;
 use App\Domain\Booking\Appointment\UseCases\ScheduleAppointment;
 use App\Domain\Booking\Calendar\Contracts\MonthCalendarServiceInterface;
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Appointment\IndexAppointmentRequest;
 use App\Http\Requests\Booking\Appointment\StoreAppointmentRequest;
@@ -17,6 +18,7 @@ use App\Http\Resources\Booking\Appointment\PendingAppointmentResource;
 use App\Models\Booking\Appointment;
 use App\Models\Patients\Patient;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -58,7 +60,12 @@ class AppointmentController extends WebController
     {
         $this->authorize('update', $appointment);
 
-        $this->changeStatus->handle($appointment, $request->target());
+        $this->changeStatus->handle(
+            $appointment,
+            $request->target(),
+            ActionSource::Admin,
+            $request->user(),
+        );
 
         return back();
     }
@@ -72,11 +79,11 @@ class AppointmentController extends WebController
         return back();
     }
 
-    public function patient(Appointment $appointment): RedirectResponse
+    public function patient(Request $request, Appointment $appointment): RedirectResponse
     {
         $this->authorize('create', Patient::class);
 
-        $this->linkPatient->handle($appointment);
+        $this->linkPatient->handle($appointment, ActionSource::Admin, $request->user());
 
         return back();
     }

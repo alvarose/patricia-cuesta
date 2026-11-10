@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\Patient\Contracts\PatientServiceInterface;
 use App\Domain\Patients\Patient\DTO\CreatePatientData;
 use App\Domain\Patients\Patient\DTO\PatientFilterParams;
@@ -32,10 +33,14 @@ it('crea un paciente desde su DTO', function () {
 it('actualiza y borra un paciente', function () {
     $patient = Patient::factory()->create();
 
-    $updated = app(UpdatePatient::class)->handle($patient, new UpdatePatientData(
-        firstName: 'Marta',
-        status: PatientStatus::Discharged,
-    ));
+    $updated = app(UpdatePatient::class)->handle(
+        $patient,
+        new UpdatePatientData(
+            firstName: 'Marta',
+            status: PatientStatus::Discharged,
+        ),
+        ActionSource::System,
+    );
 
     expect($updated->first_name)->toBe('Marta')
         ->and($updated->status)->toBe(PatientStatus::Discharged);

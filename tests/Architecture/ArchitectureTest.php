@@ -7,9 +7,12 @@ arch()->preset()->security();
 arch()->preset()->laravel()
     ->ignoring([
         'App\Domain\Booking\Appointment\Enums',
+        'App\Domain\Booking\AppointmentHistory\Enums',
         'App\Domain\Booking\Appointment\Exceptions',
         'App\Domain\Contact\Message\Enums',
+        'App\Domain\Core\Shared\Enums',
         'App\Domain\Patients\Patient\Enums',
+        'App\Domain\Patients\PatientHistory\Enums',
         'App\Http\Controllers\Settings\ProfileController',
         'App\Http\Controllers\Settings\SecurityController',
         'App\Http\Controllers\Web\Admin\Appointment\AppointmentController',
@@ -70,3 +73,11 @@ arch('los modelos no invocan UseCases')
         'App\Domain\Contact\Message\UseCases',
         'App\Domain\Patients\Patient\UseCases',
     ]);
+
+arch('el historial de pacientes solo se usa desde su dominio')
+    ->expect('App\Models\Patients\PatientHistory')
+    ->toOnlyBeUsedIn('App\Domain\Patients\PatientHistory');
+
+arch('el historial de citas solo se usa desde su dominio')
+    ->expect('App\Models\Booking\AppointmentHistory')
+    ->toOnlyBeUsedIn('App\Domain\Booking\AppointmentHistory');
