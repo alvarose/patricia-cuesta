@@ -107,7 +107,7 @@ it('sirve la disponibilidad con los 7 días y sus franjas', function () {
                 ->has('windows.0', fn (AssertableInertia $window) => $window->hasAll(['start', 'end'])))
             ->has('stats', 3)
             ->has('settings', fn (AssertableInertia $settings) => $settings->hasAll([
-                'session_minutes', 'buffer_minutes', 'min_notice_hours', 'max_advance_days',
+                'sessionMinutes', 'bufferMinutes', 'minNoticeHours', 'maxAdvanceDays',
             ])),
     );
 });
@@ -133,3 +133,48 @@ it('muestra el mismo extracto de un mensaje en el resumen y en la bandeja', func
 
     expect($fromDashboard)->toBe($fromInbox);
 });
+
+/**
+ * @param  mixed  $value
+ * @return list<string>
+ */
+function snakeCaseKeys($value, string $path = ''): array
+{
+    if (! is_array($value)) {
+        return [];
+    }
+
+    $found = [];
+
+    foreach ($value as $key => $child) {
+        $here = is_string($key) ? trim($path.'.'.$key, '.') : $path;
+
+        if (is_string($key) && str_contains($key, '_')) {
+            $found[] = $here;
+        }
+
+        $found = [...$found, ...snakeCaseKeys($child, $here)];
+    }
+
+    return $found;
+}
+
+it('no manda al panel ninguna clave en snake_case', function (string $path) {
+    Appointment::factory()->create();
+    Patient::factory()->create();
+    ContactMessage::factory()->create();
+
+    $page = $this->get($path)->viewData('page');
+    $props = json_decode((string) json_encode($page['props']), true);
+
+    unset($props['auth'], $props['errors']);
+
+    expect(snakeCaseKeys($props))->toBe([]);
+})->with([
+    '/admin',
+    '/admin/citas',
+    '/admin/pacientes',
+    '/admin/mensajes',
+    '/admin/disponibilidad',
+    '/admin/ajustes',
+]);

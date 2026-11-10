@@ -2,6 +2,7 @@
 
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
 use App\Domain\Booking\AppointmentHistory\Enums\AppointmentHistoryField;
+use App\Domain\Clinic\Settings\Contracts\SettingsServiceInterface;
 use App\Domain\Contact\Message\Enums\ContactPreference;
 use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\PatientHistory\Enums\PatientHistoryField;
@@ -16,6 +17,7 @@ use App\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Seeders\AvailabilitySeeder;
 use Illuminate\Support\Facades\Mail;
+use Inertia\Testing\AssertableInertia;
 
 beforeEach(function () {
     $this->seed(AvailabilitySeeder::class);
@@ -151,12 +153,45 @@ it('rechaza franjas de disponibilidad solapadas', function () {
     $this->put('/admin/disponibilidad', [
         'days' => $days,
         'settings' => [
-            'session_minutes' => 50,
-            'buffer_minutes' => 10,
-            'min_notice_hours' => 24,
-            'max_advance_days' => 60,
+            'sessionMinutes' => 50,
+            'bufferMinutes' => 10,
+            'minNoticeHours' => 24,
+            'maxAdvanceDays' => 60,
         ],
     ])->assertSessionHasErrors('days');
+});
+
+it('guarda los ajustes de sesión desde el formulario del panel', function () {
+    $days = collect(range(1, 7))->map(fn (int $weekday) => [
+        'weekday' => $weekday,
+        'enabled' => $weekday <= 5,
+        'windows' => $weekday <= 5 ? [['start' => '10:00', 'end' => '14:00']] : [],
+    ])->all();
+
+    $this->put('/admin/disponibilidad', [
+        'days' => $days,
+        'settings' => [
+            'sessionMinutes' => 60,
+            'bufferMinutes' => 0,
+            'minNoticeHours' => 12,
+            'maxAdvanceDays' => 90,
+        ],
+    ])->assertRedirect()->assertSessionHasNoErrors();
+
+    $booking = app(SettingsServiceInterface::class)->booking();
+
+    expect($booking->sessionMinutes)->toBe(60)
+        ->and($booking->bufferMinutes)->toBe(0)
+        ->and($booking->minNoticeHours)->toBe(12)
+        ->and($booking->maxAdvanceDays)->toBe(90);
+});
+
+it('devuelve los ajustes de sesión al frontend en camelCase', function () {
+    $this->get('/admin/disponibilidad')->assertInertia(fn (AssertableInertia $page) => $page
+        ->has('settings', fn (AssertableInertia $settings) => $settings
+            ->hasAll(['sessionMinutes', 'bufferMinutes', 'minNoticeHours', 'maxAdvanceDays'])
+            ->missing('session_minutes'))
+        ->etc());
 });
 
 it('anota en el historial de la cita quien cambio el estado desde el panel', function () {

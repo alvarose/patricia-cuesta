@@ -13,10 +13,10 @@ export interface AvailabilityDay {
 
 /** Parámetros de reserva editables en Disponibilidad. */
 export interface BookingSettingsPayload {
-    session_minutes: number;
-    buffer_minutes: number;
-    min_notice_hours: number;
-    max_advance_days: number;
+    sessionMinutes: number;
+    bufferMinutes: number;
+    minNoticeHours: number;
+    maxAdvanceDays: number;
 }
 
 export interface AbsenceItem {

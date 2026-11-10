@@ -30,10 +30,10 @@ class UpdateAvailabilityRequest extends FormRequest
             'days.*.windows' => ['array'],
             'days.*.windows.*.start' => ['required', 'date_format:H:i'],
             'days.*.windows.*.end' => ['required', 'date_format:H:i', 'after:days.*.windows.*.start'],
-            'settings.session_minutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['session_minutes'])],
-            'settings.buffer_minutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['buffer_minutes'])],
-            'settings.min_notice_hours' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['min_notice_hours'])],
-            'settings.max_advance_days' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['max_advance_days'])],
+            'settings.sessionMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['session_minutes'])],
+            'settings.bufferMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['buffer_minutes'])],
+            'settings.minNoticeHours' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['min_notice_hours'])],
+            'settings.maxAdvanceDays' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['max_advance_days'])],
         ];
     }
 
@@ -60,10 +60,10 @@ class UpdateAvailabilityRequest extends FormRequest
                 $this->validated('days'),
             ),
             settings: new BookingSettings(
-                sessionMinutes: (int) $settings['session_minutes'],
-                bufferMinutes: (int) $settings['buffer_minutes'],
-                minNoticeHours: (int) $settings['min_notice_hours'],
-                maxAdvanceDays: (int) $settings['max_advance_days'],
+                sessionMinutes: (int) $settings['sessionMinutes'],
+                bufferMinutes: (int) $settings['bufferMinutes'],
+                minNoticeHours: (int) $settings['minNoticeHours'],
+                maxAdvanceDays: (int) $settings['maxAdvanceDays'],
             ),
         );
     }

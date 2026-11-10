@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Availability\UpdateAvailabilityRequest;
 use App\Http\Resources\Booking\Absence\AbsenceResource;
 use App\Http\Resources\Booking\Availability\AvailabilityDayResource;
+use App\Http\Resources\Clinic\Settings\BookingSettingsResource;
 use App\Models\Booking\AvailabilityDay;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -35,7 +36,7 @@ class AvailabilityController extends WebController
 
         return Inertia::render('admin/Availability', [
             'days' => AvailabilityDayResource::collection($days),
-            'settings' => $booking->toArray(),
+            'settings' => new BookingSettingsResource($booking),
             'absences' => AbsenceResource::collection($this->absences->currentOrUpcoming()),
             'stats' => [
                 [
