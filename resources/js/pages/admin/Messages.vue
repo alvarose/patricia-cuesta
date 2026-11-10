@@ -13,8 +13,7 @@ const props = defineProps<{
     selected: ContactMessageDetail | null;
 }>();
 
-// Abrir un mensaje lo marca como leído, así que es un POST, no una lectura.
-const pick = (id: number) => {
+const openAndMarkRead = (id: number) => {
     router.post(markRead.url(id), {}, { preserveScroll: true });
 };
 
@@ -70,7 +69,7 @@ const createPatient = () => {
                     unread: message.unread,
                     on: selected?.id === message.id,
                 }"
-                @click="pick(message.id)"
+                @click="openAndMarkRead(message.id)"
             >
                 <span class="dt"></span>
                 <span class="bd">
