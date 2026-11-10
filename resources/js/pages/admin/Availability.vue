@@ -405,10 +405,7 @@ const removeAbsence = (id: number) => {
                     <div class="frm-grid">
                         <div class="fld">
                             <label>Desde</label>
-                            <input
-                                v-model="absenceForm.startsOn"
-                                type="date"
-                            />
+                            <input v-model="absenceForm.startsOn" type="date" />
                         </div>
                         <div class="fld">
                             <label>Hasta</label>
