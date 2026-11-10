@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const form = useForm({
     name: props.profile.name,
-    license_number: props.profile.license_number,
+    licenseNumber: props.profile.licenseNumber,
     email: props.profile.email,
     phone: props.profile.phone,
     whatsapp: props.profile.whatsapp,
@@ -56,7 +56,7 @@ const save = () => {
                     <img
                         :src="
                             photoPreview ??
-                            profile.photo_url ??
+                            profile.photoUrl ??
                             '/images/patricia.png'
                         "
                         alt=""
@@ -121,7 +121,7 @@ const save = () => {
                     </div>
                     <div class="fld">
                         <label>Nº de colegiada</label>
-                        <input v-model="form.license_number" type="text" />
+                        <input v-model="form.licenseNumber" type="text" />
                     </div>
                     <div class="fld">
                         <label>Email</label>

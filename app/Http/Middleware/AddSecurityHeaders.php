@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class AddSecurityHeaders
+{
+    private const HEADERS = [
+        'X-Content-Type-Options' => 'nosniff',
+        'X-Frame-Options' => 'SAMEORIGIN',
+        'Referrer-Policy' => 'strict-origin-when-cross-origin',
+        'Permissions-Policy' => 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    ];
+
+    private const HSTS = 'max-age=31536000; includeSubDomains';
+
+    public function handle(Request $request, Closure $next): Response
+    {
+        $response = $next($request);
+
+        foreach (self::HEADERS as $header => $value) {
+            $response->headers->set($header, $value);
+        }
+
+        if (app()->environment(['production', 'staging'])) {
+            $response->headers->set('Strict-Transport-Security', self::HSTS);
+        }
+
+        return $response;
+    }
+}

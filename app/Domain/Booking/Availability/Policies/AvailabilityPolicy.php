@@ -2,7 +2,7 @@
 
 namespace App\Domain\Booking\Availability\Policies;
 
-use App\Domain\Shared\Policies\BasePolicy;
+use App\Domain\Core\Shared\Policies\BasePolicy;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 

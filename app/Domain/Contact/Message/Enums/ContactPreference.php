@@ -2,7 +2,7 @@
 
 namespace App\Domain\Contact\Message\Enums;
 
-use App\Domain\Shared\Concerns\EnumHelpers;
+use App\Domain\Core\Shared\Concerns\EnumHelpers;
 
 enum ContactPreference: string
 {

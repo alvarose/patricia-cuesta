@@ -31,7 +31,7 @@ final class BookAppointment
      *
      * @throws ValidationException
      */
-    public function execute(
+    public function handle(
         array $contact,
         CarbonImmutable $start,
         ?ConsultationTopic $topic = null,

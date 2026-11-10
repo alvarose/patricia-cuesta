@@ -13,7 +13,7 @@ final class CreatePatient
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function execute(CreatePatientData $data): Patient
+    public function handle(CreatePatientData $data): Patient
     {
         return DB::transaction(fn (): Patient => $this->patients->create($data));
     }

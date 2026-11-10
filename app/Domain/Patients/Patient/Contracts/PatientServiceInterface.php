@@ -2,6 +2,7 @@
 
 namespace App\Domain\Patients\Patient\Contracts;
 
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\Patient\DTO\CreatePatientData;
 use App\Domain\Patients\Patient\DTO\PatientFilterParams;
 use App\Domain\Patients\Patient\DTO\UpdatePatientData;
@@ -9,12 +10,18 @@ use App\Domain\Patients\Patient\Enums\ConsultationTopic;
 use App\Models\Patients\Patient;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 interface PatientServiceInterface
 {
     public function create(CreatePatientData $data): Patient;
 
-    public function update(Patient $patient, UpdatePatientData $data): Patient;
+    public function update(
+        Patient $patient,
+        UpdatePatientData $data,
+        ActionSource $source,
+        ?Model $actor = null,
+    ): Patient;
 
     public function delete(Patient $patient): bool;
 

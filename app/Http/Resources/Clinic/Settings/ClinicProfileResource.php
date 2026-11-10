@@ -8,18 +8,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
 /** @mixin ClinicProfile */
-class ClinicProfileResource extends JsonResource
+final class ClinicProfileResource extends JsonResource
 {
     /** @return array<string, mixed> */
     public function toArray(Request $request): array
     {
         return [
             'name' => $this->name,
-            'license_number' => $this->licenseNumber,
+            'licenseNumber' => $this->licenseNumber,
             'email' => $this->email,
             'phone' => $this->phone,
             'whatsapp' => $this->whatsapp,
-            'photo_url' => $this->photoPath !== null
+            'photoUrl' => $this->photoPath !== null
                 ? Storage::disk('public')->url($this->photoPath)
                 : null,
         ];

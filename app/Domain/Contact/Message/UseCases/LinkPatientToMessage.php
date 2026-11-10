@@ -15,7 +15,7 @@ final class LinkPatientToMessage
         private readonly PatientServiceInterface $patients,
     ) {}
 
-    public function execute(ContactMessage $message): ContactMessage
+    public function handle(ContactMessage $message): ContactMessage
     {
         if ($message->patient_id !== null) {
             return $message;

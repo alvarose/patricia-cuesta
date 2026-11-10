@@ -2,7 +2,7 @@
 
 namespace App\Domain\Patients\Patient\Enums;
 
-use App\Domain\Shared\Concerns\EnumHelpers;
+use App\Domain\Core\Shared\Concerns\EnumHelpers;
 
 enum PatientStatus: string
 {

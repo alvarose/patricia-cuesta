@@ -12,7 +12,7 @@ final class MarkMessageAsRead
         private readonly ContactMessageServiceInterface $messages,
     ) {}
 
-    public function execute(ContactMessage $message): ContactMessage
+    public function handle(ContactMessage $message): ContactMessage
     {
         return DB::transaction(fn (): ContactMessage => $this->messages->markAsRead($message));
     }

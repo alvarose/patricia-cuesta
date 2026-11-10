@@ -93,7 +93,7 @@ it('guarda el mensaje de contacto y avisa a Patricia', function () {
     $this->post('/contacto', [
         'name' => 'Marta Ruiz',
         'email' => 'marta@example.com',
-        'contact_preference' => 'whatsapp',
+        'contactPreference' => 'whatsapp',
         'body' => 'Me gustaría empezar terapia.',
         'privacy' => true,
     ])->assertRedirect();
@@ -104,5 +104,5 @@ it('guarda el mensaje de contacto y avisa a Patricia', function () {
 
 it('valida los campos obligatorios del contacto', function () {
     $this->post('/contacto', [])
-        ->assertSessionHasErrors(['name', 'email', 'body', 'privacy', 'contact_preference']);
+        ->assertSessionHasErrors(['name', 'email', 'body', 'privacy', 'contactPreference']);
 });

@@ -32,7 +32,7 @@ class SettingsController extends WebController
     {
         $this->authorize('update', Setting::class);
 
-        $this->updateProfile->execute($request->toData());
+        $this->updateProfile->handle($request->toData());
 
         return back();
     }

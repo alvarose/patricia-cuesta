@@ -2,46 +2,46 @@
 
 namespace App\Domain\Patients\Patient\Enums;
 
-use App\Domain\Shared\Concerns\EnumHelpers;
+use App\Domain\Core\Shared\Concerns\EnumHelpers;
 
 enum ConsultationTopic: string
 {
     use EnumHelpers;
 
-    case Duelo = 'duelo';
-    case Ansiedad = 'ansiedad';
-    case Depresion = 'depresion';
-    case ConductasAdictivas = 'conductas_adictivas';
-    case MediacionFamiliar = 'mediacion_familiar';
-    case VinculosDisfuncionales = 'vinculos_disfuncionales';
-    case Maltrato = 'maltrato';
-    case Autoconocimiento = 'autoconocimiento';
+    case Grief = 'duelo';
+    case Anxiety = 'ansiedad';
+    case Depression = 'depresion';
+    case AddictiveBehaviour = 'conductas_adictivas';
+    case FamilyMediation = 'mediacion_familiar';
+    case DysfunctionalBonds = 'vinculos_disfuncionales';
+    case Abuse = 'maltrato';
+    case SelfKnowledge = 'autoconocimiento';
 
     public function label(): string
     {
         return match ($this) {
-            self::Duelo => 'Duelo',
-            self::Ansiedad => 'Ansiedad y estrés',
-            self::Depresion => 'Depresión',
-            self::ConductasAdictivas => 'Conductas adictivas',
-            self::MediacionFamiliar => 'Mediación familiar',
-            self::VinculosDisfuncionales => 'Vínculos afectivos disfuncionales',
-            self::Maltrato => 'Maltrato',
-            self::Autoconocimiento => 'Autoconocimiento',
+            self::Grief => 'Duelo',
+            self::Anxiety => 'Ansiedad y estrés',
+            self::Depression => 'Depresión',
+            self::AddictiveBehaviour => 'Conductas adictivas',
+            self::FamilyMediation => 'Mediación familiar',
+            self::DysfunctionalBonds => 'Vínculos afectivos disfuncionales',
+            self::Abuse => 'Maltrato',
+            self::SelfKnowledge => 'Autoconocimiento',
         };
     }
 
     public function description(): string
     {
         return match ($this) {
-            self::Duelo => 'Te acompaño en tu pérdida, a tu ritmo, en un espacio seguro y sin juicios.',
-            self::Ansiedad => 'Reconducir y dotar de herramientas para regular las prioridades.',
-            self::Depresion => 'Volver a conectar contigo y con lo que te importa, poco a poco.',
-            self::ConductasAdictivas => 'Comprender el origen y construir nuevas formas de cuidarte.',
-            self::MediacionFamiliar => 'Espacios de diálogo para dinámicas y conflictos familiares.',
-            self::VinculosDisfuncionales => 'Identificar patrones y recuperar tu bienestar y tus límites.',
-            self::Maltrato => 'Un lugar seguro para abordar lo vivido.',
-            self::Autoconocimiento => 'Conocerte mejor y regular tus emociones con más libertad.',
+            self::Grief => 'Te acompaño en tu pérdida, a tu ritmo, en un espacio seguro y sin juicios.',
+            self::Anxiety => 'Reconducir y dotar de herramientas para regular las prioridades.',
+            self::Depression => 'Volver a conectar contigo y con lo que te importa, poco a poco.',
+            self::AddictiveBehaviour => 'Comprender el origen y construir nuevas formas de cuidarte.',
+            self::FamilyMediation => 'Espacios de diálogo para dinámicas y conflictos familiares.',
+            self::DysfunctionalBonds => 'Identificar patrones y recuperar tu bienestar y tus límites.',
+            self::Abuse => 'Un lugar seguro para abordar lo vivido.',
+            self::SelfKnowledge => 'Conocerte mejor y regular tus emociones con más libertad.',
         };
     }
 

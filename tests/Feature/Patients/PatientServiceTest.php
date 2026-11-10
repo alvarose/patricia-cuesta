@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\Patient\Contracts\PatientServiceInterface;
 use App\Domain\Patients\Patient\DTO\CreatePatientData;
 use App\Domain\Patients\Patient\DTO\PatientFilterParams;
@@ -17,30 +18,34 @@ beforeEach(function () {
 });
 
 it('crea un paciente desde su DTO', function () {
-    $patient = app(CreatePatient::class)->execute(new CreatePatientData(
+    $patient = app(CreatePatient::class)->handle(new CreatePatientData(
         firstName: 'Lucía',
         lastName: 'Gómez',
         email: 'lucia@example.com',
-        topic: ConsultationTopic::Duelo,
+        topic: ConsultationTopic::Grief,
     ));
 
     expect($patient->fullName())->toBe('Lucía Gómez')
-        ->and($patient->topic)->toBe(ConsultationTopic::Duelo)
+        ->and($patient->topic)->toBe(ConsultationTopic::Grief)
         ->and($patient->status)->toBe(PatientStatus::Active);
 });
 
 it('actualiza y borra un paciente', function () {
     $patient = Patient::factory()->create();
 
-    $updated = app(UpdatePatient::class)->execute($patient, new UpdatePatientData(
-        firstName: 'Marta',
-        status: PatientStatus::Discharged,
-    ));
+    $updated = app(UpdatePatient::class)->handle(
+        $patient,
+        new UpdatePatientData(
+            firstName: 'Marta',
+            status: PatientStatus::Discharged,
+        ),
+        ActionSource::System,
+    );
 
     expect($updated->first_name)->toBe('Marta')
         ->and($updated->status)->toBe(PatientStatus::Discharged);
 
-    app(DeletePatient::class)->execute($patient);
+    app(DeletePatient::class)->handle($patient);
 
     expect(Patient::query()->count())->toBe(0);
 });
@@ -69,8 +74,8 @@ it('crea fichas distintas para quienes no dejan email', function () {
 });
 
 it('busca por nombre y por la etiqueta del motivo', function () {
-    Patient::factory()->create([Patient::FIRST_NAME => 'Lucía', Patient::TOPIC => ConsultationTopic::Duelo]);
-    Patient::factory()->create([Patient::FIRST_NAME => 'Marta', Patient::TOPIC => ConsultationTopic::Ansiedad]);
+    Patient::factory()->create([Patient::FIRST_NAME => 'Lucía', Patient::TOPIC => ConsultationTopic::Grief]);
+    Patient::factory()->create([Patient::FIRST_NAME => 'Marta', Patient::TOPIC => ConsultationTopic::Anxiety]);
 
     expect($this->patients->matching(new PatientFilterParams(search: 'Lucía')))->toHaveCount(1)
         ->and($this->patients->matching(new PatientFilterParams(search: 'ansiedad')))->toHaveCount(1);

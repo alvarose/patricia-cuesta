@@ -20,7 +20,7 @@ class UpdateClinicSettingsRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'license_number' => ['nullable', 'string', 'max:60'],
+            'licenseNumber' => ['nullable', 'string', 'max:60'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:40'],
             'whatsapp' => ['nullable', 'string', 'max:40'],
@@ -34,7 +34,7 @@ class UpdateClinicSettingsRequest extends FormRequest
 
         return new UpdateClinicProfileData(
             name: $this->string('name')->toString(),
-            licenseNumber: $this->string('license_number')->toString(),
+            licenseNumber: $this->string('licenseNumber')->toString(),
             email: $this->string('email')->toString(),
             phone: $this->string('phone')->toString(),
             whatsapp: $this->string('whatsapp')->toString(),

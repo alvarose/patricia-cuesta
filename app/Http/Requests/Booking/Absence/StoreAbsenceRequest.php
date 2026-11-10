@@ -19,8 +19,8 @@ class StoreAbsenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'starts_on' => ['required', 'date_format:Y-m-d'],
-            'ends_on' => ['required', 'date_format:Y-m-d', 'after_or_equal:starts_on'],
+            'startsOn' => ['required', 'date_format:Y-m-d'],
+            'endsOn' => ['required', 'date_format:Y-m-d', 'after_or_equal:startsOn'],
             'note' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -29,15 +29,15 @@ class StoreAbsenceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'ends_on.after_or_equal' => 'La ausencia no puede acabar antes de empezar.',
+            'endsOn.after_or_equal' => 'La ausencia no puede acabar antes de empezar.',
         ];
     }
 
     public function toData(): CreateAbsenceData
     {
         return new CreateAbsenceData(
-            startsOn: CarbonImmutable::createFromFormat('!Y-m-d', $this->string('starts_on')->toString()),
-            endsOn: CarbonImmutable::createFromFormat('!Y-m-d', $this->string('ends_on')->toString()),
+            startsOn: CarbonImmutable::createFromFormat('!Y-m-d', $this->string('startsOn')->toString()),
+            endsOn: CarbonImmutable::createFromFormat('!Y-m-d', $this->string('endsOn')->toString()),
             note: $this->filled('note') ? $this->string('note')->toString() : null,
         );
     }

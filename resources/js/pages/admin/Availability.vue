@@ -132,12 +132,12 @@ const save = () => {
     });
 };
 
-const absenceForm = useForm({ starts_on: '', ends_on: '', note: '' });
+const absenceForm = useForm({ startsOn: '', endsOn: '', note: '' });
 const addingAbsence = ref(false);
 
 const submitAbsence = () => {
-    if (!absenceForm.ends_on) {
-        absenceForm.ends_on = absenceForm.starts_on;
+    if (!absenceForm.endsOn) {
+        absenceForm.endsOn = absenceForm.startsOn;
     }
 
     absenceForm.post(storeAbsence.url(), {
@@ -406,13 +406,13 @@ const removeAbsence = (id: number) => {
                         <div class="fld">
                             <label>Desde</label>
                             <input
-                                v-model="absenceForm.starts_on"
+                                v-model="absenceForm.startsOn"
                                 type="date"
                             />
                         </div>
                         <div class="fld">
                             <label>Hasta</label>
-                            <input v-model="absenceForm.ends_on" type="date" />
+                            <input v-model="absenceForm.endsOn" type="date" />
                         </div>
                     </div>
                     <div class="fld">
@@ -427,7 +427,7 @@ const removeAbsence = (id: number) => {
                         <button
                             class="a-btn"
                             :disabled="
-                                absenceForm.processing || !absenceForm.starts_on
+                                absenceForm.processing || !absenceForm.startsOn
                             "
                             @click="submitAbsence"
                         >

@@ -1,0 +1,27 @@
+name: patricia-cuesta
+
+services:
+  mariadb:
+    image: mariadb:11.8.9
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Madrid
+      MARIADB_ROOT_PASSWORD: ${PATRICIA_CUESTA_DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: patricia_cuesta
+      MARIADB_USER: ${PATRICIA_CUESTA_DB_USERNAME:-homestead}
+      MARIADB_PASSWORD: ${PATRICIA_CUESTA_DB_PASSWORD:-secret}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-name-resolve
+    ports:
+      - "127.0.0.1:${PATRICIA_CUESTA_DB_PORT:-3315}:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      retries: 20
+
+volumes:
+  mariadb:

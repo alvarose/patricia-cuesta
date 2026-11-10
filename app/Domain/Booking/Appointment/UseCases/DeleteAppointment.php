@@ -12,7 +12,7 @@ final class DeleteAppointment
         private readonly AppointmentServiceInterface $appointments,
     ) {}
 
-    public function execute(Appointment $appointment): bool
+    public function handle(Appointment $appointment): bool
     {
         return DB::transaction(fn (): bool => $this->appointments->delete($appointment));
     }

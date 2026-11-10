@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin AvailabilityDay */
-class AvailabilityDayResource extends JsonResource
+final class AvailabilityDayResource extends JsonResource
 {
     /** @return array<string, mixed> */
     public function toArray(Request $request): array

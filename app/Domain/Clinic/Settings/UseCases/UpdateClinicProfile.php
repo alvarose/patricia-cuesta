@@ -13,7 +13,7 @@ final class UpdateClinicProfile
         private readonly SettingsServiceInterface $settings,
     ) {}
 
-    public function execute(UpdateClinicProfileData $data): void
+    public function handle(UpdateClinicProfileData $data): void
     {
         $previousPhoto = $this->settings->profile()->photoPath;
         $photoPath = $data->photo?->store('profile', 'public') ?: null;

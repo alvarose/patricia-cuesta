@@ -8,13 +8,12 @@ use App\Domain\Booking\Slot\Support\TimeRange;
 use App\Domain\Patients\Patient\Enums\ConsultationTopic;
 use App\Http\Resources\Booking\Appointment\AppointmentResource;
 use App\Models\Patients\Patient;
-use App\Traits\HasResource;
 use Carbon\CarbonImmutable;
 use Database\Factories\Booking\AppointmentFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
@@ -30,10 +29,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string|null $notes
  * @property-read Patient|null $patient
  */
+#[UseResource(AppointmentResource::class)]
 class Appointment extends Model
 {
     /** @use HasFactory<AppointmentFactory> */
-    use HasFactory, HasResource;
+    use HasFactory;
 
     const TABLE = 'appointments';
 
@@ -63,17 +63,14 @@ class Appointment extends Model
 
     protected $guarded = [self::ID];
 
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = AppointmentResource::class;
-
     protected function casts(): array
     {
         return [
-            self::STARTS_AT => 'immutable_datetime',
-            self::ENDS_AT => 'immutable_datetime',
-            self::STATUS => AppointmentStatus::class,
-            self::SOURCE => AppointmentSource::class,
-            self::TOPIC => ConsultationTopic::class,
+            Appointment::STARTS_AT => 'immutable_datetime',
+            Appointment::ENDS_AT => 'immutable_datetime',
+            Appointment::STATUS => AppointmentStatus::class,
+            Appointment::SOURCE => AppointmentSource::class,
+            Appointment::TOPIC => ConsultationTopic::class,
         ];
     }
 

@@ -35,12 +35,27 @@ final class SettingsRepository implements SettingsRepositoryInterface
     /** @return array<string, mixed> */
     public function all(): array
     {
-        return Cache::rememberForever(self::CACHE_KEY, function (): array {
-            return array_merge(
-                self::defaults(),
-                Setting::query()->pluck(Setting::VALUE, Setting::KEY)->all(),
-            );
-        });
+        $fingerprint = self::fingerprint();
+        $cached = Cache::get(self::CACHE_KEY);
+
+        if (is_array($cached) && ($cached['fingerprint'] ?? null) === $fingerprint) {
+            /** @var array<string, mixed> */
+            return $cached['values'];
+        }
+
+        $values = array_merge(
+            self::defaults(),
+            Setting::query()->pluck(Setting::VALUE, Setting::KEY)->all(),
+        );
+
+        Cache::forever(self::CACHE_KEY, ['fingerprint' => $fingerprint, 'values' => $values]);
+
+        return $values;
+    }
+
+    private static function fingerprint(): string
+    {
+        return hash('xxh128', serialize(self::defaults()));
     }
 
     public function get(string $key, mixed $default = null): mixed

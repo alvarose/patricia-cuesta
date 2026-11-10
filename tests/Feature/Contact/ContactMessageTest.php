@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 it('registra el mensaje y avisa a Patricia', function () {
     Mail::fake();
 
-    $message = app(SubmitContactMessage::class)->execute(new CreateContactMessageData(
+    $message = app(SubmitContactMessage::class)->handle(new CreateContactMessageData(
         name: 'Marta Ruiz',
         email: 'marta@example.com',
         phone: '600333444',
@@ -38,7 +38,7 @@ it('envía la respuesta por correo a quien prefiere el email', function () {
         ContactMessage::EMAIL => 'marta@example.com',
     ]);
 
-    app(ReplyToContactMessage::class)->execute($message, 'Hablamos pronto.');
+    app(ReplyToContactMessage::class)->handle($message, 'Hablamos pronto.');
 
     Mail::assertQueued(
         ContactMessageReply::class,
@@ -51,7 +51,7 @@ it('no envía correo a quien prefiere WhatsApp o llamada', function (ContactPref
 
     $message = ContactMessage::factory()->create([ContactMessage::CONTACT_PREFERENCE => $preference]);
 
-    app(ReplyToContactMessage::class)->execute($message, 'Te llamo esta tarde.');
+    app(ReplyToContactMessage::class)->handle($message, 'Te llamo esta tarde.');
 
     Mail::assertNothingQueued();
 })->with([ContactPreference::Whatsapp, ContactPreference::Call]);
@@ -61,7 +61,7 @@ it('deja constancia del medio por el que se respondió', function (ContactPrefer
 
     $message = ContactMessage::factory()->create([ContactMessage::CONTACT_PREFERENCE => $preference]);
 
-    app(ReplyToContactMessage::class)->execute($message, 'Respondido.');
+    app(ReplyToContactMessage::class)->handle($message, 'Respondido.');
 
     expect($message->refresh()->replied_at)->not->toBeNull()
         ->and($message->replied_via)->toBe($preference->value);
@@ -71,7 +71,7 @@ it('marca como leído sin reescribir la fecha si ya lo estaba', function () {
     $message = ContactMessage::factory()->create([ContactMessage::READ_AT => now()->subWeek()]);
     $original = $message->read_at;
 
-    app(MarkMessageAsRead::class)->execute($message);
+    app(MarkMessageAsRead::class)->handle($message);
 
     expect($message->refresh()->read_at->toDateTimeString())->toBe($original->toDateTimeString());
 });
@@ -82,7 +82,7 @@ it('crea la ficha de paciente desde un mensaje', function () {
         ContactMessage::EMAIL => 'marta@example.com',
     ]);
 
-    app(LinkPatientToMessage::class)->execute($message);
+    app(LinkPatientToMessage::class)->handle($message);
 
     $patient = Patient::sole();
 

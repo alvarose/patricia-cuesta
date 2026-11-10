@@ -4,11 +4,10 @@ namespace App\Models\Booking;
 
 use App\Domain\Booking\Slot\Support\TimeRange;
 use App\Http\Resources\Booking\Availability\AvailabilityWindowResource;
-use App\Traits\HasResource;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
@@ -17,10 +16,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $end_time
  * @property int $position
  */
+#[UseResource(AvailabilityWindowResource::class)]
 class AvailabilityWindow extends Model
 {
-    use HasResource;
-
     const TABLE = 'availability_windows';
 
     const ID = 'id';
@@ -36,9 +34,6 @@ class AvailabilityWindow extends Model
     protected $table = self::TABLE;
 
     protected $guarded = [self::ID];
-
-    /** @var class-string<JsonResource> */
-    protected static string $resourceClass = AvailabilityWindowResource::class;
 
     /** @return BelongsTo<AvailabilityDay, $this> */
     public function day(): BelongsTo

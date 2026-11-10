@@ -14,8 +14,8 @@ const form = useForm({
     name: '',
     email: '',
     phone: '',
-    contact_preference: 'whatsapp',
-    preferred_time: 'Indiferente',
+    contactPreference: 'whatsapp',
+    preferredTime: 'Indiferente',
     body: '',
     privacy: false,
 });
@@ -157,13 +157,13 @@ onBeforeUnmount(() => {
                                 type="button"
                                 role="radio"
                                 :aria-checked="
-                                    form.contact_preference === pref.value
+                                    form.contactPreference === pref.value
                                 "
                                 class="seg-opt"
                                 :class="{
-                                    on: form.contact_preference === pref.value,
+                                    on: form.contactPreference === pref.value,
                                 }"
-                                @click="form.contact_preference = pref.value"
+                                @click="form.contactPreference = pref.value"
                             >
                                 {{ pref.label }}
                             </button>
@@ -181,10 +181,10 @@ onBeforeUnmount(() => {
                                 :key="time"
                                 type="button"
                                 role="radio"
-                                :aria-checked="form.preferred_time === time"
+                                :aria-checked="form.preferredTime === time"
                                 class="seg-opt"
-                                :class="{ on: form.preferred_time === time }"
-                                @click="form.preferred_time = time"
+                                :class="{ on: form.preferredTime === time }"
+                                @click="form.preferredTime = time"
                             >
                                 {{ time }}
                             </button>

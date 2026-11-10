@@ -3,9 +3,9 @@
 use App\Domain\Booking\Appointment\Enums\AppointmentSource;
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
 use App\Domain\Contact\Message\Enums\ContactPreference;
+use App\Domain\Core\Shared\Concerns\EnumHelpers;
 use App\Domain\Patients\Patient\Enums\ConsultationTopic;
 use App\Domain\Patients\Patient\Enums\PatientStatus;
-use App\Domain\Shared\Concerns\EnumHelpers;
 
 /** @return list<class-string> */
 function domainEnums(): array

@@ -14,7 +14,7 @@ final class UpdateWeeklySchedule
         private readonly SettingsServiceInterface $settings,
     ) {}
 
-    public function execute(UpdateWeeklyScheduleData $data): void
+    public function handle(UpdateWeeklyScheduleData $data): void
     {
         DB::transaction(function () use ($data): void {
             $this->availability->replaceSchedule($data);

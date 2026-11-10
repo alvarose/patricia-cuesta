@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin AvailabilityWindow */
-class AvailabilityWindowResource extends JsonResource
+final class AvailabilityWindowResource extends JsonResource
 {
     /** @return array<string, mixed> */
     public function toArray(Request $request): array

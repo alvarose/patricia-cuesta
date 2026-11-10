@@ -14,6 +14,6 @@ return [
 
     'admin_email' => env('ADMIN_EMAIL', 'patricia@patriciacuesta.es'),
 
-    'admin_password' => env('ADMIN_PASSWORD', 'password'),
+    'admin_password' => env('ADMIN_PASSWORD'),
 
 ];

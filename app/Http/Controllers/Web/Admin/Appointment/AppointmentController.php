@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Web\Admin\Appointment;
 use App\Domain\Booking\Appointment\Contracts\AppointmentServiceInterface;
 use App\Domain\Booking\Appointment\UseCases\ChangeAppointmentStatus;
 use App\Domain\Booking\Appointment\UseCases\DeleteAppointment;
-use App\Domain\Booking\Appointment\UseCases\LinkPatientToAppointment;
 use App\Domain\Booking\Appointment\UseCases\ScheduleAppointment;
 use App\Domain\Booking\Calendar\Contracts\MonthCalendarServiceInterface;
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Appointment\IndexAppointmentRequest;
 use App\Http\Requests\Booking\Appointment\StoreAppointmentRequest;
@@ -25,7 +25,6 @@ class AppointmentController extends WebController
     public function __construct(
         private readonly AppointmentServiceInterface $appointments,
         private readonly ChangeAppointmentStatus $changeStatus,
-        private readonly LinkPatientToAppointment $linkPatient,
         private readonly DeleteAppointment $deleteAppointment,
         private readonly ScheduleAppointment $scheduleAppointment,
         private readonly MonthCalendarServiceInterface $calendar,
@@ -49,7 +48,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('create', Appointment::class);
 
-        $this->scheduleAppointment->execute($patient, $request->toData());
+        $this->scheduleAppointment->handle($patient, $request->toData());
 
         return back();
     }
@@ -58,7 +57,12 @@ class AppointmentController extends WebController
     {
         $this->authorize('update', $appointment);
 
-        $this->changeStatus->execute($appointment, $request->target());
+        $this->changeStatus->handle(
+            $appointment,
+            $request->target(),
+            ActionSource::Admin,
+            $request->user(),
+        );
 
         return back();
     }
@@ -67,16 +71,7 @@ class AppointmentController extends WebController
     {
         $this->authorize('delete', $appointment);
 
-        $this->deleteAppointment->execute($appointment);
-
-        return back();
-    }
-
-    public function patient(Appointment $appointment): RedirectResponse
-    {
-        $this->authorize('create', Patient::class);
-
-        $this->linkPatient->execute($appointment);
+        $this->deleteAppointment->handle($appointment);
 
         return back();
     }

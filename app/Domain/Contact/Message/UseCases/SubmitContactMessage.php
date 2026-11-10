@@ -17,7 +17,7 @@ final class SubmitContactMessage
         private readonly SettingsServiceInterface $settings,
     ) {}
 
-    public function execute(CreateContactMessageData $data): ContactMessage
+    public function handle(CreateContactMessageData $data): ContactMessage
     {
         $message = DB::transaction(fn (): ContactMessage => $this->messages->create($data));
 

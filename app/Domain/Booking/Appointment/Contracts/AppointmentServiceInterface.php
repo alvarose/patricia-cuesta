@@ -6,19 +6,31 @@ use App\Domain\Booking\Appointment\DTO\AppointmentFilterParams;
 use App\Domain\Booking\Appointment\DTO\CreateAppointmentData;
 use App\Domain\Booking\Appointment\DTO\UpdateAppointmentData;
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
+use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Models\Booking\Appointment;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 interface AppointmentServiceInterface
 {
     public function create(CreateAppointmentData $data): Appointment;
 
-    public function update(Appointment $appointment, UpdateAppointmentData $data): Appointment;
+    public function update(
+        Appointment $appointment,
+        UpdateAppointmentData $data,
+        ActionSource $source,
+        ?Model $actor = null,
+    ): Appointment;
 
     public function delete(Appointment $appointment): bool;
 
-    public function transitionTo(Appointment $appointment, AppointmentStatus $target): Appointment;
+    public function transitionTo(
+        Appointment $appointment,
+        AppointmentStatus $target,
+        ActionSource $source,
+        ?Model $actor = null,
+    ): Appointment;
 
     /** @return Collection<int, Appointment> */
     public function forDay(CarbonImmutable $day): Collection;
