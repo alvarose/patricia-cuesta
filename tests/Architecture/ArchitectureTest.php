@@ -15,8 +15,6 @@ arch()->preset()->laravel()
         'App\Domain\Patients\PatientHistory\Enums',
         'App\Http\Controllers\Settings\ProfileController',
         'App\Http\Controllers\Settings\SecurityController',
-        'App\Http\Controllers\Web\Admin\Appointment\AppointmentController',
-        'App\Http\Controllers\Web\Admin\Message\MessageController',
         'App\Models',
     ]);
 

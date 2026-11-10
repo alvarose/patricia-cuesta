@@ -2,9 +2,11 @@
 
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
 use App\Domain\Booking\AppointmentHistory\Enums\AppointmentHistoryField;
+use App\Domain\Contact\Message\Enums\ContactPreference;
 use App\Domain\Core\Shared\Enums\ActionSource;
 use App\Domain\Patients\PatientHistory\Enums\PatientHistoryField;
 use App\Mail\AppointmentConfirmed;
+use App\Mail\ContactMessageReply;
 use App\Models\Booking\Appointment;
 use App\Models\Booking\AppointmentHistory;
 use App\Models\Contact\ContactMessage;
@@ -102,6 +104,39 @@ it('marca como leído solo al abrir el mensaje explícitamente', function () {
         ->assertRedirect("/admin/mensajes?message={$message->id}");
 
     expect($message->refresh()->read_at)->not->toBeNull();
+});
+
+it('responde a un mensaje y avisa por email a quien lo pidio asi', function () {
+    Mail::fake();
+
+    $message = ContactMessage::factory()->create([
+        ContactMessage::CONTACT_PREFERENCE => ContactPreference::Email,
+        ContactMessage::EMAIL => 'lucia@example.com',
+    ]);
+
+    $this->post("/admin/mensajes/{$message->id}/respuesta", ['body' => 'Te escribo el lunes.'])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect($message->refresh()->replied_at)->not->toBeNull();
+    Mail::assertQueued(
+        ContactMessageReply::class,
+        fn (ContactMessageReply $mail) => $mail->hasTo('lucia@example.com'),
+    );
+});
+
+it('crea la ficha de paciente desde el mensaje y la vincula', function () {
+    $message = ContactMessage::factory()->create([
+        ContactMessage::NAME => 'Marta Ruiz',
+        ContactMessage::EMAIL => 'marta@example.com',
+    ]);
+
+    $this->post("/admin/mensajes/{$message->id}/paciente")->assertRedirect();
+
+    $patient = Patient::query()->sole();
+
+    expect($message->refresh()->patient_id)->toBe($patient->id)
+        ->and($patient->email)->toBe('marta@example.com');
 });
 
 it('rechaza franjas de disponibilidad solapadas', function () {

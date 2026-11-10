@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Admin\Appointment;
 use App\Domain\Booking\Appointment\Contracts\AppointmentServiceInterface;
 use App\Domain\Booking\Appointment\UseCases\ChangeAppointmentStatus;
 use App\Domain\Booking\Appointment\UseCases\DeleteAppointment;
-use App\Domain\Booking\Appointment\UseCases\LinkPatientToAppointment;
 use App\Domain\Booking\Appointment\UseCases\ScheduleAppointment;
 use App\Domain\Booking\Calendar\Contracts\MonthCalendarServiceInterface;
 use App\Domain\Core\Shared\Enums\ActionSource;
@@ -18,7 +17,6 @@ use App\Http\Resources\Booking\Appointment\PendingAppointmentResource;
 use App\Models\Booking\Appointment;
 use App\Models\Patients\Patient;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -27,7 +25,6 @@ class AppointmentController extends WebController
     public function __construct(
         private readonly AppointmentServiceInterface $appointments,
         private readonly ChangeAppointmentStatus $changeStatus,
-        private readonly LinkPatientToAppointment $linkPatient,
         private readonly DeleteAppointment $deleteAppointment,
         private readonly ScheduleAppointment $scheduleAppointment,
         private readonly MonthCalendarServiceInterface $calendar,
@@ -75,15 +72,6 @@ class AppointmentController extends WebController
         $this->authorize('delete', $appointment);
 
         $this->deleteAppointment->handle($appointment);
-
-        return back();
-    }
-
-    public function patient(Request $request, Appointment $appointment): RedirectResponse
-    {
-        $this->authorize('create', Patient::class);
-
-        $this->linkPatient->handle($appointment, ActionSource::Admin, $request->user());
 
         return back();
     }
