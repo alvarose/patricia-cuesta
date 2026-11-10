@@ -301,7 +301,7 @@ const STEPS = [
                     </a>
                     <button class="btn btn--secondary" @click="mailOpen = true">
                         <Icon name="mail" :size="19" />
-                        Enviar email
+                        Contactar
                     </button>
                 </div>
             </div>
