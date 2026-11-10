@@ -56,8 +56,8 @@ const modalOpen = ref(false);
 const editing = ref<Patient | null>(null);
 
 const form = useForm({
-    first_name: '',
-    last_name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     topic: '',
@@ -87,8 +87,8 @@ const openEdit = (patient: Patient) => {
     scheduling.value = false;
     form.clearErrors();
     const [first, ...rest] = patient.name.split(' ');
-    form.first_name = first;
-    form.last_name = rest.join(' ');
+    form.firstName = first;
+    form.lastName = rest.join(' ');
     form.email = patient.email ?? '';
     form.phone = patient.phone ?? '';
     form.topic = patient.topicValue ?? '';
@@ -130,7 +130,7 @@ const submitAppointment = () => {
 const submit = () => {
     const transform = (data: Record<string, unknown>) => ({
         ...data,
-        last_name: data.last_name || null,
+        lastName: data.lastName || null,
         email: data.email || null,
         phone: data.phone || null,
         topic: data.topic || null,
@@ -305,18 +305,18 @@ const submit = () => {
                     <div class="fld">
                         <label>Nombre</label>
                         <input
-                            v-model="form.first_name"
+                            v-model="form.firstName"
                             type="text"
                             placeholder="¿Cómo se llama?"
                         />
-                        <p v-if="form.errors.first_name" class="err">
-                            {{ form.errors.first_name }}
+                        <p v-if="form.errors.firstName" class="err">
+                            {{ form.errors.firstName }}
                         </p>
                     </div>
                     <div class="fld">
                         <label>Apellidos</label>
                         <input
-                            v-model="form.last_name"
+                            v-model="form.lastName"
                             type="text"
                             placeholder="Opcional"
                         />
@@ -387,7 +387,7 @@ const submit = () => {
                 >
                     <button
                         class="a-btn a-btn--lg"
-                        :disabled="form.processing || !form.first_name"
+                        :disabled="form.processing || !form.firstName"
                         @click="submit"
                     >
                         {{ editing ? 'Guardar cambios' : 'Crear paciente' }}

@@ -24,7 +24,18 @@ it('traduce todas las reglas de validación del framework', function () {
 
 it('nombra en castellano los campos de los formularios', function (string $field) {
     expect(trans("validation.attributes.{$field}"))->not->toBe("validation.attributes.{$field}");
-})->with(['first_name', 'email', 'phone', 'body', 'topic', 'privacy', 'date', 'time', 'notes']);
+})->with([
+    'firstName', 'lastName', 'email', 'phone', 'body', 'topic', 'privacy', 'date', 'time', 'notes',
+    'contactPreference', 'preferredTime', 'startsOn', 'endsOn', 'licenseNumber',
+]);
+
+it('nombra los campos de los formularios en camelCase', function () {
+    $snake = collect(array_keys(trans('validation.attributes')))
+        ->filter(fn (string $field): bool => str_contains($field, '_'))
+        ->reject(fn (string $field): bool => $field === 'current_password');
+
+    expect($snake->all())->toBe([]);
+});
 
 it('cae al inglés del framework si falta una clave, nunca a la clave cruda', function () {
     expect(config('app.fallback_locale'))->toBe('en');

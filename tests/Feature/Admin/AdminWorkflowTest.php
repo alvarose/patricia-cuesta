@@ -71,15 +71,15 @@ it('cuenta el día con agenda aunque las sesiones estén completadas', function 
 
 it('crea y actualiza un paciente por HTTP', function () {
     $this->post('/admin/pacientes', [
-        'first_name' => 'Marta',
-        'last_name' => 'Ruiz',
+        'firstName' => 'Marta',
+        'lastName' => 'Ruiz',
         'email' => 'marta@example.com',
     ])->assertRedirect();
 
     $patient = Patient::sole();
 
     $this->patch("/admin/pacientes/{$patient->id}", [
-        'first_name' => 'Marta',
+        'firstName' => 'Marta',
         'status' => 'discharged',
     ])->assertRedirect();
 
@@ -149,8 +149,8 @@ it('anota en el historial del paciente quien edito la ficha desde el panel', fun
 
     $this->actingAs($user)
         ->patch("/admin/pacientes/{$patient->id}", [
-            'first_name' => $patient->first_name,
-            'last_name' => $patient->last_name,
+            'firstName' => $patient->first_name,
+            'lastName' => $patient->last_name,
             'email' => $patient->email,
             'phone' => $patient->phone,
             'topic' => $patient->topic?->value,

@@ -15,11 +15,11 @@ final class ClinicProfileResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'license_number' => $this->licenseNumber,
+            'licenseNumber' => $this->licenseNumber,
             'email' => $this->email,
             'phone' => $this->phone,
             'whatsapp' => $this->whatsapp,
-            'photo_url' => $this->photoPath !== null
+            'photoUrl' => $this->photoPath !== null
                 ? Storage::disk('public')->url($this->photoPath)
                 : null,
         ];

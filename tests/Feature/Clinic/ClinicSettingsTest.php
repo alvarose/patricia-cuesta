@@ -4,6 +4,7 @@ use App\Domain\Booking\Slot\Support\BookingSettings;
 use App\Domain\Clinic\Settings\Contracts\SettingsServiceInterface;
 use App\Domain\Clinic\Settings\DTO\UpdateClinicProfileData;
 use App\Domain\Clinic\Settings\UseCases\UpdateClinicProfile;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -60,3 +61,31 @@ it('conserva la foto anterior si no se sube ninguna nueva', function () {
 it('ofrece un catálogo de opciones coherente con los valores por defecto', function (string $key) {
     expect(BookingSettings::OPTIONS[$key])->toContain(BookingSettings::defaults()[$key]);
 })->with(array_keys(BookingSettings::OPTIONS));
+
+it('guarda el perfil desde el formulario del panel', function () {
+    $this->actingAs(User::factory()->create())
+        ->post('/admin/ajustes', [
+            'name' => 'Patricia Cuesta',
+            'licenseNumber' => 'M-54321',
+            'email' => 'patricia@example.com',
+            'phone' => '600111222',
+            'whatsapp' => '34600111222',
+        ])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect($this->settings->profile()->licenseNumber)->toBe('M-54321');
+});
+
+it('devuelve el perfil al frontend en camelCase', function () {
+    app(UpdateClinicProfile::class)->handle(profileData(UploadedFile::fake()->image('foto.jpg')));
+
+    $this->actingAs(User::factory()->create())
+        ->get('/admin/ajustes')
+        ->assertInertia(fn ($page) => $page
+            ->where('profile.licenseNumber', 'M-12345')
+            ->has('profile.photoUrl')
+            ->missing('profile.license_number')
+            ->missing('profile.photo_url'),
+        );
+});

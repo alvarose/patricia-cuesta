@@ -117,7 +117,7 @@ it('sirve el perfil de la consulta', function () {
         fn (AssertableInertia $page) => $page
             ->component('admin/Settings')
             ->has('profile', fn (AssertableInertia $profile) => $profile->hasAll([
-                'name', 'license_number', 'email', 'phone', 'whatsapp', 'photo_url',
+                'name', 'licenseNumber', 'email', 'phone', 'whatsapp', 'photoUrl',
             ]))
             ->missing('booking'),
     );

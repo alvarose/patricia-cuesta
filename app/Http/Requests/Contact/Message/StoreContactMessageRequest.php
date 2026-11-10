@@ -22,8 +22,8 @@ class StoreContactMessageRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:40'],
-            'contact_preference' => ['required', Rule::enum(ContactPreference::class)],
-            'preferred_time' => ['nullable', 'string', 'max:60'],
+            'contactPreference' => ['required', Rule::enum(ContactPreference::class)],
+            'preferredTime' => ['nullable', 'string', 'max:60'],
             'body' => ['required', 'string', 'max:5000'],
             'privacy' => ['accepted'],
         ];
@@ -47,8 +47,8 @@ class StoreContactMessageRequest extends FormRequest
             name: $this->string('name')->toString(),
             email: $this->string('email')->toString(),
             phone: $this->filled('phone') ? $this->string('phone')->toString() : null,
-            contactPreference: ContactPreference::from($this->string('contact_preference')->toString()),
-            preferredTime: $this->filled('preferred_time') ? $this->string('preferred_time')->toString() : null,
+            contactPreference: ContactPreference::from($this->string('contactPreference')->toString()),
+            preferredTime: $this->filled('preferredTime') ? $this->string('preferredTime')->toString() : null,
             body: $this->string('body')->toString(),
         );
     }

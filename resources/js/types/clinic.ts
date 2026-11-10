@@ -14,11 +14,11 @@ export interface AdminCounts {
 /** Perfil editable en Ajustes. */
 export interface ClinicProfile {
     name: string;
-    license_number: string;
+    licenseNumber: string;
     email: string;
     phone: string;
     whatsapp: string;
-    photo_url: string | null;
+    photoUrl: string | null;
 }
 
 /** Motivo de consulta, tal y como lo sirve ConsultationTopic::options(). */

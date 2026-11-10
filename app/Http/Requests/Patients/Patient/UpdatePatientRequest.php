@@ -21,8 +21,8 @@ class UpdatePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['nullable', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['nullable', 'string', 'max:255'],
             'email' => [
                 'nullable',
                 'email',
@@ -41,8 +41,8 @@ class UpdatePatientRequest extends FormRequest
     public function toData(): UpdatePatientData
     {
         return new UpdatePatientData(
-            firstName: $this->string('first_name')->toString(),
-            lastName: $this->filled('last_name') ? $this->string('last_name')->toString() : null,
+            firstName: $this->string('firstName')->toString(),
+            lastName: $this->filled('lastName') ? $this->string('lastName')->toString() : null,
             email: $this->filled('email') ? $this->string('email')->toString() : null,
             phone: $this->filled('phone') ? $this->string('phone')->toString() : null,
             topic: $this->filled('topic') ? ConsultationTopic::from($this->string('topic')->toString()) : null,
