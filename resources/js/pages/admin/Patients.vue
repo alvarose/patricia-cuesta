@@ -10,6 +10,7 @@ import {
 import type {
     Patient,
     PatientFilters,
+    PatientHistoryEntry,
     StatusOption,
     TopicOption,
 } from '@/types';
@@ -19,6 +20,7 @@ const props = defineProps<{
     topics: TopicOption[];
     statuses: StatusOption[];
     patients: Patient[];
+    history?: PatientHistoryEntry[];
 }>();
 
 const search = ref(props.filters.search);
@@ -67,6 +69,24 @@ const form = useForm({
 
 const scheduling = ref(false);
 
+const historyOpen = ref(false);
+const historyLoading = ref(false);
+
+const openHistory = () => {
+    if (!editing.value) {
+        return;
+    }
+
+    historyOpen.value = true;
+    historyLoading.value = true;
+
+    router.reload({
+        only: ['history'],
+        data: { patient: editing.value.id },
+        onFinish: () => (historyLoading.value = false),
+    });
+};
+
 const appointmentForm = useForm({
     date: '',
     time: '',
@@ -77,6 +97,7 @@ const appointmentForm = useForm({
 const openNew = () => {
     editing.value = null;
     scheduling.value = false;
+    historyOpen.value = false;
     form.reset();
     form.clearErrors();
     modalOpen.value = true;
@@ -85,6 +106,7 @@ const openNew = () => {
 const openEdit = (patient: Patient) => {
     editing.value = patient;
     scheduling.value = false;
+    historyOpen.value = false;
     form.clearErrors();
     const [first, ...rest] = patient.name.split(' ');
     form.firstName = first;
@@ -400,11 +422,82 @@ const submit = () => {
                         + Citar
                     </button>
                     <button
+                        v-if="editing && !historyOpen"
+                        class="a-btn a-btn--ghost a-btn--lg"
+                        @click="openHistory"
+                    >
+                        Historial
+                    </button>
+                    <button
                         class="a-btn a-btn--ghost a-btn--lg"
                         @click="modalOpen = false"
                     >
                         Cancelar
                     </button>
+                </div>
+                <div
+                    v-if="historyOpen"
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        gap: 14px;
+                        border-top: 1px solid var(--color-sand);
+                        padding-top: 18px;
+                    "
+                >
+                    <span class="eyebrow-sm">Historial de cambios</span>
+                    <p v-if="historyLoading" class="sub">Cargando…</p>
+                    <p v-else-if="!history?.length" class="sub">
+                        Esta ficha no ha cambiado desde que se creó.
+                    </p>
+                    <ul
+                        v-else
+                        style="
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                            list-style: none;
+                            margin: 0;
+                            padding: 0;
+                        "
+                    >
+                        <li
+                            v-for="entry in history"
+                            :key="entry.id"
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                gap: 2px;
+                            "
+                        >
+                            <span style="font-weight: 600">
+                                {{ entry.field }}
+                            </span>
+                            <span>
+                                <template v-if="entry.from">
+                                    {{ entry.from }}
+                                </template>
+                                <em v-else class="sub">sin valor</em>
+                                →
+                                <template v-if="entry.to">
+                                    {{ entry.to }}
+                                </template>
+                                <em v-else class="sub">sin valor</em>
+                            </span>
+                            <span class="sub">
+                                {{ entry.at }} ·
+                                {{ entry.actor ?? entry.source }}
+                            </span>
+                        </li>
+                    </ul>
+                    <div>
+                        <button
+                            class="a-btn a-btn--ghost a-btn--lg"
+                            @click="historyOpen = false"
+                        >
+                            Cerrar historial
+                        </button>
+                    </div>
                 </div>
                 <div
                     v-if="scheduling"

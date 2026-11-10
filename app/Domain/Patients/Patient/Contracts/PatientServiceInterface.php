@@ -16,6 +16,8 @@ interface PatientServiceInterface
 {
     public function create(CreatePatientData $data): Patient;
 
+    public function findById(int $id): ?Patient;
+
     public function update(
         Patient $patient,
         UpdatePatientData $data,

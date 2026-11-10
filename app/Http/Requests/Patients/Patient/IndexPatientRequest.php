@@ -22,7 +22,15 @@ class IndexPatientRequest extends FormRequest
         return [
             'search' => ['nullable', 'string', 'max:100'],
             'status' => ['nullable', Rule::in([...array_column(PatientStatus::cases(), 'value'), 'all'])],
+            'patient' => ['nullable', 'integer', 'min:1'],
         ];
+    }
+
+    public function patientId(): ?int
+    {
+        $id = $this->integer('patient');
+
+        return $id > 0 ? $id : null;
     }
 
     public function toData(): PatientFilterParams

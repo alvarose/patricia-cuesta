@@ -2,10 +2,13 @@
 
 namespace App\Models\Patients;
 
+use App\Http\Resources\Patients\PatientHistory\PatientHistoryResource;
 use App\Models\Core\HistoryModel;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /** @property int $patient_id */
+#[UseResource(PatientHistoryResource::class)]
 class PatientHistory extends HistoryModel
 {
     const TABLE = 'patient_history';

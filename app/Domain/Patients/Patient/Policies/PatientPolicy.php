@@ -19,6 +19,11 @@ final class PatientPolicy extends BasePolicy
         return $this->allowClinicStaff($user, 'Solo la consulta puede dar de alta a un paciente.');
     }
 
+    public function view(User $user, Patient $patient): Response
+    {
+        return $this->allowClinicStaff($user, 'Solo la consulta puede ver la ficha de un paciente.');
+    }
+
     public function update(User $user, Patient $patient): Response
     {
         return $this->allowClinicStaff($user, 'Solo la consulta puede editar la ficha de un paciente.');
