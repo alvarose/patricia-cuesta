@@ -30,10 +30,10 @@ class UpdateAvailabilityRequest extends FormRequest
             'days.*.windows' => ['array'],
             'days.*.windows.*.start' => ['required', 'date_format:H:i'],
             'days.*.windows.*.end' => ['required', 'date_format:H:i', 'after:days.*.windows.*.start'],
-            'settings.sessionMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['session_minutes'])],
-            'settings.bufferMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['buffer_minutes'])],
-            'settings.minNoticeHours' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['min_notice_hours'])],
-            'settings.maxAdvanceDays' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['max_advance_days'])],
+            'settings.sessionMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['sessionMinutes'])],
+            'settings.bufferMinutes' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['bufferMinutes'])],
+            'settings.minNoticeHours' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['minNoticeHours'])],
+            'settings.maxAdvanceDays' => ['required', 'integer', Rule::in(BookingSettings::OPTIONS['maxAdvanceDays'])],
         ];
     }
 

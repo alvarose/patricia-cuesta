@@ -24,3 +24,9 @@ export interface AbsenceItem {
     range: string;
     note: string | null;
 }
+
+/** Valores que el panel puede ofrecer para cada ajuste de sesion. */
+export type SessionOptions = Record<
+    keyof BookingSettingsPayload,
+    readonly number[]
+>;

@@ -10,12 +10,14 @@ import type {
     AbsenceItem,
     AvailabilityDay,
     BookingSettingsPayload,
+    SessionOptions,
     Stat,
 } from '@/types';
 
 const props = defineProps<{
     days: AvailabilityDay[];
     settings: BookingSettingsPayload;
+    sessionOptions: SessionOptions;
     absences: AbsenceItem[];
     stats: Stat[];
 }>();
@@ -97,13 +99,6 @@ const addWindow = (dayIndex: number) => {
 const removeWindow = (dayIndex: number, windowIndex: number) => {
     form.days[dayIndex].windows.splice(windowIndex, 1);
 };
-
-const OPTIONS = {
-    sessionMinutes: [30, 45, 50, 60],
-    bufferMinutes: [0, 10, 15, 30],
-    minNoticeHours: [0, 12, 24, 48],
-    maxAdvanceDays: [30, 60, 90],
-} as const;
 
 const OPTION_LABELS: Record<string, string> = {
     sessionMinutes: 'Duración de la sesión',
@@ -301,7 +296,7 @@ const removeAbsence = (id: number) => {
             >
                 <h2 class="card-title-sm">Sesiones</h2>
                 <div
-                    v-for="(options, key) in OPTIONS"
+                    v-for="(options, key) in props.sessionOptions"
                     :key="key"
                     class="opt-group"
                 >

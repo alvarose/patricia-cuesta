@@ -59,7 +59,9 @@ it('conserva la foto anterior si no se sube ninguna nueva', function () {
 });
 
 it('ofrece un catálogo de opciones coherente con los valores por defecto', function (string $key) {
-    expect(BookingSettings::OPTIONS[$key])->toContain(BookingSettings::defaults()[$key]);
+    $column = BookingSettings::COLUMNS[$key];
+
+    expect(BookingSettings::OPTIONS[$key])->toContain(BookingSettings::defaults()[$column]);
 })->with(array_keys(BookingSettings::OPTIONS));
 
 it('guarda el perfil desde el formulario del panel', function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin\Availability;
 use App\Domain\Booking\Absence\Contracts\AbsenceServiceInterface;
 use App\Domain\Booking\Availability\Contracts\AvailabilityServiceInterface;
 use App\Domain\Booking\Availability\UseCases\UpdateWeeklySchedule;
+use App\Domain\Booking\Slot\Support\BookingSettings;
 use App\Domain\Clinic\Settings\Contracts\SettingsServiceInterface;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Booking\Availability\UpdateAvailabilityRequest;
@@ -37,6 +38,7 @@ class AvailabilityController extends WebController
         return Inertia::render('admin/Availability', [
             'days' => AvailabilityDayResource::collection($days),
             'settings' => new BookingSettingsResource($booking),
+            'sessionOptions' => BookingSettings::OPTIONS,
             'absences' => AbsenceResource::collection($this->absences->currentOrUpcoming()),
             'stats' => [
                 [

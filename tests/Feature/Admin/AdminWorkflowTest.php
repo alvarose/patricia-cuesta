@@ -2,6 +2,7 @@
 
 use App\Domain\Booking\Appointment\Enums\AppointmentStatus;
 use App\Domain\Booking\AppointmentHistory\Enums\AppointmentHistoryField;
+use App\Domain\Booking\Slot\Support\BookingSettings;
 use App\Domain\Clinic\Settings\Contracts\SettingsServiceInterface;
 use App\Domain\Contact\Message\Enums\ContactPreference;
 use App\Domain\Core\Shared\Enums\ActionSource;
@@ -184,6 +185,30 @@ it('guarda los ajustes de sesión desde el formulario del panel', function () {
         ->and($booking->bufferMinutes)->toBe(0)
         ->and($booking->minNoticeHours)->toBe(12)
         ->and($booking->maxAdvanceDays)->toBe(90);
+});
+
+it('solo ofrece en el panel valores que la validación acepta', function () {
+    $this->get('/admin/disponibilidad')->assertInertia(fn (AssertableInertia $page) => $page
+        ->where('sessionOptions', BookingSettings::OPTIONS)
+        ->etc());
+});
+
+it('rechaza un valor de sesión que el panel no ofrece', function () {
+    $days = collect(range(1, 7))->map(fn (int $weekday) => [
+        'weekday' => $weekday,
+        'enabled' => false,
+        'windows' => [],
+    ])->all();
+
+    $this->put('/admin/disponibilidad', [
+        'days' => $days,
+        'settings' => [
+            'sessionMinutes' => 37,
+            'bufferMinutes' => 0,
+            'minNoticeHours' => 12,
+            'maxAdvanceDays' => 90,
+        ],
+    ])->assertSessionHasErrors('settings.sessionMinutes');
 });
 
 it('devuelve los ajustes de sesión al frontend en camelCase', function () {

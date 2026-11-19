@@ -7,12 +7,20 @@ use Carbon\CarbonInterface;
 
 final readonly class BookingSettings
 {
+    /** @var array<string, string> */
+    public const COLUMNS = [
+        'sessionMinutes' => 'session_minutes',
+        'bufferMinutes' => 'buffer_minutes',
+        'minNoticeHours' => 'min_notice_hours',
+        'maxAdvanceDays' => 'max_advance_days',
+    ];
+
     /** @var array<string, array<int>> */
     public const OPTIONS = [
-        'session_minutes' => [30, 45, 50, 60],
-        'buffer_minutes' => [0, 10, 15, 30],
-        'min_notice_hours' => [0, 12, 24, 48],
-        'max_advance_days' => [30, 60, 90],
+        'sessionMinutes' => [30, 45, 50, 60],
+        'bufferMinutes' => [0, 10, 15, 30],
+        'minNoticeHours' => [0, 12, 24, 48],
+        'maxAdvanceDays' => [30, 60, 90],
     ];
 
     public function __construct(
@@ -26,10 +34,10 @@ final readonly class BookingSettings
     public static function defaults(): array
     {
         return [
-            'session_minutes' => 50,
-            'buffer_minutes' => 10,
-            'min_notice_hours' => 24,
-            'max_advance_days' => 60,
+            self::COLUMNS['sessionMinutes'] => 50,
+            self::COLUMNS['bufferMinutes'] => 10,
+            self::COLUMNS['minNoticeHours'] => 24,
+            self::COLUMNS['maxAdvanceDays'] => 60,
         ];
     }
 
@@ -62,10 +70,10 @@ final readonly class BookingSettings
     public function toArray(): array
     {
         return [
-            'session_minutes' => $this->sessionMinutes,
-            'buffer_minutes' => $this->bufferMinutes,
-            'min_notice_hours' => $this->minNoticeHours,
-            'max_advance_days' => $this->maxAdvanceDays,
+            self::COLUMNS['sessionMinutes'] => $this->sessionMinutes,
+            self::COLUMNS['bufferMinutes'] => $this->bufferMinutes,
+            self::COLUMNS['minNoticeHours'] => $this->minNoticeHours,
+            self::COLUMNS['maxAdvanceDays'] => $this->maxAdvanceDays,
         ];
     }
 }
