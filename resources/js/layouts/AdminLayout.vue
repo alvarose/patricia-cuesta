@@ -110,7 +110,7 @@ const todayLabel = new Date().toLocaleDateString('es-ES', {
                 >Ver la web →</a
             >
             <div class="sb-user">
-                <img src="/images/patricia.png" alt="" />
+                <img src="/images/patricia.webp" alt="" />
                 <span
                     style="display: flex; flex-direction: column; min-width: 0"
                 >

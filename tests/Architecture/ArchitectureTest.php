@@ -74,7 +74,10 @@ arch('los modelos no invocan UseCases')
 
 arch('el historial de pacientes solo se usa desde su dominio')
     ->expect('App\Models\Patients\PatientHistory')
-    ->toOnlyBeUsedIn('App\Domain\Patients\PatientHistory');
+    ->toOnlyBeUsedIn([
+        'App\Domain\Patients\PatientHistory',
+        'App\Http\Resources\Patients\PatientHistory',
+    ]);
 
 arch('el historial de citas solo se usa desde su dominio')
     ->expect('App\Models\Booking\AppointmentHistory')

@@ -9,13 +9,16 @@ use App\Domain\Patients\Patient\Enums\PatientStatus;
 use App\Domain\Patients\Patient\UseCases\CreatePatient;
 use App\Domain\Patients\Patient\UseCases\DeletePatient;
 use App\Domain\Patients\Patient\UseCases\UpdatePatient;
+use App\Domain\Patients\PatientHistory\Contracts\PatientHistoryServiceInterface;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Requests\Patients\Patient\IndexPatientRequest;
 use App\Http\Requests\Patients\Patient\StorePatientRequest;
 use App\Http\Requests\Patients\Patient\UpdatePatientRequest;
 use App\Http\Resources\Patients\Patient\PatientResource;
+use App\Http\Resources\Patients\PatientHistory\PatientHistoryResource;
 use App\Models\Patients\Patient;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,6 +26,7 @@ class PatientController extends WebController
 {
     public function __construct(
         private readonly PatientServiceInterface $patients,
+        private readonly PatientHistoryServiceInterface $history,
         private readonly CreatePatient $createPatient,
         private readonly UpdatePatient $updatePatient,
         private readonly DeletePatient $deletePatient,
@@ -39,7 +43,26 @@ class PatientController extends WebController
             'topics' => ConsultationTopic::options(),
             'statuses' => PatientStatus::options(),
             'patients' => PatientResource::collection($this->patients->matching($filters)),
+            'history' => Inertia::optional(fn (): ?AnonymousResourceCollection => $this->historyFor($request->patientId())),
         ]);
+    }
+
+    /** @return AnonymousResourceCollection<int, PatientHistoryResource>|null */
+    private function historyFor(?int $patientId): ?AnonymousResourceCollection
+    {
+        if ($patientId === null) {
+            return null;
+        }
+
+        $patient = $this->patients->findById($patientId);
+
+        if ($patient === null) {
+            return null;
+        }
+
+        $this->authorize('view', $patient);
+
+        return PatientHistoryResource::collection($this->history->forPatient($patient));
     }
 
     public function store(StorePatientRequest $request): RedirectResponse

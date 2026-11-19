@@ -892,6 +892,8 @@
     gap: 9px;
     overflow: auto;
     max-height: 300px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sand) transparent;
 }
 .pc-public .cal-slot {
     padding: 12px;
@@ -957,6 +959,8 @@
     flex-direction: column;
     gap: 12px;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sand) transparent;
 }
 .pc-public .cal-form .field {
     margin-bottom: 0;

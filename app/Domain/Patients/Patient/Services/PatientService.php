@@ -31,6 +31,11 @@ final class PatientService implements PatientServiceInterface
         return $this->patients->create($data->toArray());
     }
 
+    public function findById(int $id): ?Patient
+    {
+        return $this->patients->findById($id);
+    }
+
     public function update(
         Patient $patient,
         UpdatePatientData $data,

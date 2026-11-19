@@ -27,3 +27,14 @@ export interface StatusOption {
     value: PatientStatusValue;
     label: string;
 }
+
+/** Una fila del historial de cambios de una ficha. */
+export interface PatientHistoryEntry {
+    id: number;
+    field: string;
+    from: string | null;
+    to: string | null;
+    source: string;
+    actor: string | null;
+    at: string;
+}

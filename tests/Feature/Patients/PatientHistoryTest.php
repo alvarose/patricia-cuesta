@@ -8,10 +8,14 @@ use App\Domain\Patients\Patient\UseCases\UpdatePatient;
 use App\Domain\Patients\PatientHistory\Contracts\PatientHistoryServiceInterface;
 use App\Domain\Patients\PatientHistory\DTO\RecordPatientHistoryData;
 use App\Domain\Patients\PatientHistory\Enums\PatientHistoryField;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Patients\Patient;
 use App\Models\Patients\PatientHistory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Testing\TestResponse;
+use Inertia\Testing\AssertableInertia;
+use Tests\TestCase;
 
 function patientWith(ConsultationTopic $topic, ?string $notes, PatientStatus $status): Patient
 {
@@ -152,4 +156,93 @@ it('deshace el cambio si su historial no se puede escribir', function () {
 
     expect(Patient::query()->sole()->status)->toBe(PatientStatus::Active)
         ->and(PatientHistory::query()->count())->toBe(0);
+});
+
+function patientsPartial(TestCase $case, int $patientId): TestResponse
+{
+    $case->get('/admin/pacientes');
+
+    return $case
+        ->withHeaders([
+            'X-Inertia' => 'true',
+            'X-Inertia-Version' => (string) app(HandleInertiaRequests::class)->version(request()),
+            'X-Inertia-Partial-Component' => 'admin/Patients',
+            'X-Inertia-Partial-Data' => 'history',
+        ])
+        ->get("/admin/pacientes?patient={$patientId}")
+        ->assertOk();
+}
+
+it('no manda el historial al panel si nadie lo pide', function () {
+    $patient = patientWith(ConsultationTopic::Grief, null, PatientStatus::Active);
+
+    $this->actingAs(User::factory()->create())
+        ->get('/admin/pacientes')
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('admin/Patients')
+            ->has('patients', 1)
+            ->missing('history'));
+
+    expect($patient->exists)->toBeTrue();
+});
+
+it('sirve el historial de la ficha que se pide, legible y en castellano', function () {
+    $patient = patientWith(ConsultationTopic::Grief, null, PatientStatus::Active);
+    $user = User::factory()->create(['name' => 'Patricia']);
+
+    $this->actingAs($user);
+
+    app(UpdatePatient::class)->handle(
+        $patient,
+        sameDataWith($patient, topic: ConsultationTopic::Anxiety),
+        ActionSource::Admin,
+        $user,
+    );
+
+    patientsPartial($this, $patient->id)
+        ->assertJsonCount(1, 'props.history')
+        ->assertJsonStructure(['props' => ['history' => [['id', 'field', 'from', 'to', 'source', 'actor', 'at']]]])
+        ->assertJsonPath('props.history.0.field', 'Motivo de consulta')
+        ->assertJsonPath('props.history.0.from', 'Duelo')
+        ->assertJsonPath('props.history.0.to', 'Ansiedad y estrés')
+        ->assertJsonPath('props.history.0.source', 'Desde el panel')
+        ->assertJsonPath('props.history.0.actor', 'Patricia');
+});
+
+it('no filtra el historial de otra ficha', function () {
+    $mine = patientWith(ConsultationTopic::Grief, null, PatientStatus::Active);
+    $other = patientWith(ConsultationTopic::Abuse, null, PatientStatus::Active);
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    app(UpdatePatient::class)->handle(
+        $other,
+        sameDataWith($other, status: PatientStatus::Discharged),
+        ActionSource::Admin,
+        $user,
+    );
+
+    patientsPartial($this, $mine->id)->assertJsonCount(0, 'props.history');
+});
+
+it('muestra el valor crudo si el enum guardado ya no existe', function () {
+    $patient = patientWith(ConsultationTopic::Grief, null, PatientStatus::Active);
+
+    PatientHistory::query()->create([
+        PatientHistory::PATIENT_ID => $patient->id,
+        PatientHistory::FIELD => PatientHistoryField::Topic->value,
+        PatientHistory::OLD_VALUE => 'relaciones_toxicas',
+        PatientHistory::VALUE => ConsultationTopic::Grief->value,
+        PatientHistory::SOURCE => ActionSource::System,
+        PatientHistory::EFFECTIVE_AT => now(),
+    ]);
+
+    $this->actingAs(User::factory()->create());
+
+    patientsPartial($this, $patient->id)
+        ->assertJsonPath('props.history.0.from', 'relaciones_toxicas')
+        ->assertJsonPath('props.history.0.to', 'Duelo')
+        ->assertJsonPath('props.history.0.actor', null)
+        ->assertJsonPath('props.history.0.source', 'Automático');
 });
