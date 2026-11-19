@@ -57,7 +57,7 @@ const save = () => {
                         :src="
                             photoPreview ??
                             profile.photoUrl ??
-                            '/images/patricia.png'
+                            '/images/patricia.webp'
                         "
                         alt=""
                         style="

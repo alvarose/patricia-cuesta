@@ -95,7 +95,7 @@ const STEPS = [
                 <div class="hero-photo">
                     <img
                         class="photo-img"
-                        src="/images/patricia.png"
+                        src="/images/patricia.webp"
                         alt="Patricia Cuesta"
                     />
                 </div>
@@ -113,7 +113,7 @@ const STEPS = [
             <div class="about-photo reveal">
                 <img
                     class="photo-img"
-                    src="/images/patricia.png"
+                    src="/images/patricia.webp"
                     alt="Patricia Cuesta"
                     style="object-position: 50% 20%"
                 />
@@ -207,9 +207,15 @@ const STEPS = [
     <section id="online" class="section tinted">
         <div class="wrap online-grid">
             <div class="online-photo reveal">
-                <div class="photo-ph">
-                    <span>Espacio de terapia online</span>
-                </div>
+                <img
+                    class="photo-img"
+                    src="/images/terapia-online.webp"
+                    alt="Escritorio preparado para una sesión de terapia online"
+                    width="1536"
+                    height="1024"
+                    loading="lazy"
+                    decoding="async"
+                />
             </div>
             <div class="reveal">
                 <p class="eyebrow">Terapia online</p>
